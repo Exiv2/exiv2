@@ -2,9 +2,12 @@
 
 #include <image.hpp>  // Unit under test
 
+#include <basicio.hpp>
 #include <error.hpp>  // Need to include this header for the Exiv2::Error exception
+#include <xmpsidecar.hpp>
 
 #include <filesystem>
+#include <fstream>
 
 #include <gtest/gtest.h>
 
@@ -141,6 +144,68 @@ TEST(TheImageFactory, loadInstancesDifferentImageTypes) {
   imagePath = (testData / "Reagan.jp2").string();
   EXPECT_EQ(ImageType::jp2, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+}
+
+namespace {
+// isXmpType reads up to 80 bytes. These small images are shorter than that,
+// and their formats are registered after XMP, so they must still be found.
+// 2x2 GIF, 43 bytes
+const byte smallGif[] = {
+    0x47, 0x49, 0x46, 0x38, 0x39, 0x61, 0x02, 0x00, 0x02, 0x00, 0xf0, 0x00, 0x00, 0xff, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x21, 0xf9, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2c, 0x00, 0x00,
+    0x00, 0x00, 0x02, 0x00, 0x02, 0x00, 0x00, 0x02, 0x02, 0x84, 0x51, 0x00, 0x3b,
+};
+// 1x1 BMP, 58 bytes
+const byte smallBmp[] = {
+    0x42, 0x4d, 0x3a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x36, 0x00, 0x00, 0x00, 0x28,
+    0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x18, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00,
+};
+
+void checkSize(Image& image, uint32_t width, uint32_t height) {
+  image.readMetadata();
+  EXPECT_EQ(width, image.pixelWidth());
+  EXPECT_EQ(height, image.pixelHeight());
+}
+}  // namespace
+
+TEST(TheImageFactory, detectsImagesShorterThanAnXmpPacketHeaderInMemory) {
+  EXPECT_EQ(ImageType::gif, ImageFactory::getType(smallGif, sizeof(smallGif)));
+  EXPECT_EQ(ImageType::bmp, ImageFactory::getType(smallBmp, sizeof(smallBmp)));
+  checkSize(*ImageFactory::open(smallGif, sizeof(smallGif)), 2, 2);
+  checkSize(*ImageFactory::open(smallBmp, sizeof(smallBmp)), 1, 1);
+}
+
+TEST(TheImageFactory, detectsImagesShorterThanAnXmpPacketHeaderInFiles) {
+  const auto gifPath = fs::temp_directory_path() / "exiv2-unittest-small.gif";
+  const auto bmpPath = fs::temp_directory_path() / "exiv2-unittest-small.bmp";
+  std::ofstream(gifPath, std::ios::binary).write(reinterpret_cast<const char*>(smallGif), sizeof(smallGif));
+  std::ofstream(bmpPath, std::ios::binary).write(reinterpret_cast<const char*>(smallBmp), sizeof(smallBmp));
+
+  EXPECT_EQ(ImageType::gif, ImageFactory::getType(gifPath.string()));
+  EXPECT_EQ(ImageType::bmp, ImageFactory::getType(bmpPath.string()));
+  EXPECT_NO_THROW(checkSize(*ImageFactory::open(gifPath.string()), 2, 2));
+  EXPECT_NO_THROW(checkSize(*ImageFactory::open(bmpPath.string()), 1, 1));
+
+  fs::remove(gifPath);
+  fs::remove(bmpPath);
+}
+
+TEST(TheImageFactory, isXmpTypeKeepsPositionForEmptySidecar) {
+  // An empty sidecar, as written by ImageFactory::create, holds only the XMP
+  // packet header and takes isXmpType's early return.
+  const auto xmpPath = fs::temp_directory_path() / "exiv2-unittest-empty.xmp";
+  ImageFactory::create(ImageType::xmp, xmpPath.string());
+
+  FileIo io(xmpPath.string());
+  ASSERT_EQ(0, io.open());
+  EXPECT_TRUE(isXmpType(io, false));
+  EXPECT_EQ(0u, io.tell());
+  EXPECT_FALSE(io.eof());
+  io.close();
+
+  fs::remove(xmpPath);
 }
 
 TEST(TheImageFactory, getsExpectedModesForJp2Images) {
