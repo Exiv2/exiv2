@@ -1064,7 +1064,7 @@ You can run them individually with the commands such as:
 
 ```bash
 $ cd <exiv2dir>/tests
-$ python3 -m pytest --verbose bugfixes/redmine/test_issue_841.py  # or -k issue_841
+$ python3 -m pytest --verbose bugfixes/redmine/test_issue_1058.py  # or -k issue_1058
 ```
 
 You may wish to get a brief summary of failures with commands such as:
