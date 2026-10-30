@@ -17,7 +17,7 @@ COMMANDS = [
 @system_tests.CopyFiles("$data_path/exiv2-empty.jpg")
 class LittleEndianORFFilesFromE_PL1Corrupted(metaclass=system_tests.CaseMeta):
 
-    filename = "$data_path/exiv2-empty_copy.jpg"
+    filename = "$tmp_path/exiv2-empty_copy.jpg"
 
     commands = COMMANDS
 
@@ -56,7 +56,7 @@ Exif.Image.ImageDescription                  Double      1  0.987654321
 @system_tests.CopyFiles("$data_path/exiv2-kodak-dc210.jpg")
 class BigEndianORFFilesFromE_PL1Corrupted(metaclass=system_tests.CaseMeta):
 
-    filename = "$data_path/exiv2-kodak-dc210_copy.jpg"
+    filename = "$tmp_path/exiv2-kodak-dc210_copy.jpg"
 
     commands = COMMANDS
 

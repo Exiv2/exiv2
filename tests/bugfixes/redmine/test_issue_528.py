@@ -8,7 +8,7 @@ class TypeSizeForExifOnly(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/528"
 
-    filename = "$data_path/exiv2-bug528_copy.jpg"
+    filename = "$tmp_path/exiv2-bug528_copy.jpg"
 
     commands = [
         "$exiv2 -u -b -pt $filename",

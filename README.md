@@ -895,7 +895,7 @@ $ ctest --test-dir build -R bugfix                   # run only bugfixTests and 
 $ ctest --test-dir build -R bugfix --verbose         # run only bugfixTests and display all output
 ```
 
-Except for the `unitTests`,  CMake needs to find a python3 interpreter in the system to be able to run the rest of the test targets with CTest:
+Except for the `unitTests`,  CMake needs to find `pytest` on the PATH to be able to run the rest of the test targets with CTest:
 
 | Name               | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
 |:--                 |:--        |:--                      |:--                    |:--                             |
@@ -1057,15 +1057,14 @@ The bugfix tests are stored in directory tests/ and you can run them all with th
 
 ```bash
 $ cd <exiv2dir>/tests
-$ export LD_LIBRARY_PATH="$PWD/../build/lib:$LD_LIBRARY_PATH"
-$ python3 runner.py
+$ python3 -m pytest
 ```
 
 You can run them individually with the commands such as:
 
 ```bash
 $ cd <exiv2dir>/tests
-$ python3 runner.py --verbose bugfixes/redmine/test_issue_841.py  # or $(find . -name "*841*.py")
+$ python3 -m pytest --verbose bugfixes/redmine/test_issue_841.py  # or -k issue_841
 ```
 
 You may wish to get a brief summary of failures with commands such as:

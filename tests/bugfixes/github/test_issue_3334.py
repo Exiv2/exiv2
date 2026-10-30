@@ -18,7 +18,7 @@ class test_issue_3334Test(metaclass=CaseMeta):
 
     # Work on a private copy and remove the extracted sidecar afterwards, so that the
     # test neither shares nor leaves behind files that other tests use in test/tmp.
-    filename_common = path("$data_path/exiv2-empty_copy")
+    filename_common = path("$tmp_path/exiv2-empty_copy")
     filename = "$filename_common.jpg"
     exvname = "$filename_common.exv"
     commands = [

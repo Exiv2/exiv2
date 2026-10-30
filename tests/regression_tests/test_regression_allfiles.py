@@ -1,5 +1,6 @@
 import os
-import unittest
+
+import pytest
 
 from system_tests import BT
 
@@ -185,32 +186,12 @@ def get_valid_files(data_dir):
     ]
 
 
-# create an empty TestCase to which we will programmatically add one test for
-# each discovered file in exiv_dir/test/data/
-class TestAllFiles(unittest.TestCase):
-    def setUp(self):
-        BT.Config.init()
-
-    def tearDown(self):
-        pass
-
-
-all_files = get_valid_files(BT.Config.data_dir)
-
-
-def make_test_function(filename):
-    """given a filename, create a function which runs an exiv2 test against a reference file"""
-
-    def test_func(self):
-        out = BT.Output()
-        out += BT.Executer(f"exiv2 -Pkycvt {filename}")
-        BT.reportTest(os.path.basename(filename), out)
-
-    return test_func
-
-
-# for each file we create a test function with `make_test_function` and then
-# assign it as a member function to our TestCase
-for f in all_files:
-    testname = os.path.basename(f)
-    setattr(TestAllFiles, f"{testname}_test", make_test_function(f))
+@pytest.mark.parametrize(
+    "filename", sorted(get_valid_files(BT.Config.data_dir)), ids=os.path.basename
+)
+def test_regression(filename):
+    """run exiv2 over a file in exiv_dir/test/data/ and compare against its reference file"""
+    BT.Config.init()
+    out = BT.Output()
+    out += BT.Executer(f"exiv2 -Pkycvt {filename}")
+    BT.reportTest(os.path.basename(filename), out)

@@ -17,7 +17,7 @@ def make_commands(filename):
 
 
 def make_filename(irb_type, img_format):
-    return "$data_path/exiv2-bug800-" + irb_type + "_copy." + img_format
+    return "$tmp_path/exiv2-bug800-" + irb_type + "_copy." + img_format
 
 
 def make_stdout(irb_type, img_format):
