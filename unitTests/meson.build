@@ -37,6 +37,8 @@ test_sources = files(
   'test_utils.cpp',
   'test_xmp_concurrent.cpp',
   'test_xmp_concurrent_registry.cpp',
+  'test_xmp_lifecycle.cpp',
+  'test_xmp_ns_leak.cpp',
   'test_xmp_race_encode_decode.cpp',
   'unittest_utils.cpp',
 )
