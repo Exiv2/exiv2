@@ -587,16 +587,20 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         try:
             server.start()
             server_url  = f'{exiv2_http}:{server.port}'
-            out          = BT.Output()
-            for img in ['table.jpg', 'Reagan.tiff', 'exiv2-bug922a.jpg']:
-                files    = ['s0', 's1', 's2', f'{server_url}/{img}']
-                out     += BT.Executer(f"iotest {' '.join(files)}")
-                for f in files:
-                    out += BT.Executer('exiv2 -g City -g DateTime {f}', vars())
+            # Download once with libcurl (if built in) and once with the built-in HttpIo
+            for iotest in ['iotest', 'iotest --nocurl']:
+                out          = BT.Output()
+                for img in ['table.jpg', 'Reagan.tiff', 'exiv2-bug922a.jpg']:
+                    files    = ['s0', 's1', 's2', f'{server_url}/{img}']
+                    out     += BT.Executer(f"{iotest} {' '.join(files)}")
+                    for f in files:
+                        out += BT.Executer('exiv2 -g City -g DateTime {f}', vars())
 
-            for num in ['0', '10', '1000']:
-                out     += BT.Executer('iotest s0 s1 s2 {server_url}/table.jpg {num}', vars())
-                out     += sniff('s0', 's1', 's2', os.path.join(BT.Config.data_dir, 'table.jpg'))
+                for num in ['0', '10', '1000']:
+                    out     += BT.Executer('{iotest} s0 s1 s2 {server_url}/table.jpg {num}', vars())
+                    out     += sniff('s0', 's1', 's2', os.path.join(BT.Config.data_dir, 'table.jpg'))
+
+                BT.reportTest('iotest', out)
 
         except Exception as e:
             BT.log.error(e)
@@ -604,8 +608,6 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         finally:
             server.stop()   # While you're debugging, you can comment this line to keep the server running
-
-        BT.reportTest('iotest', out)
 
 
     def test_iptc(self):
