@@ -232,8 +232,8 @@ uint16_t Image::byteSwap(uint16_t value, bool bSwap) {
   return bSwap ? _byteswap_ushort(value) : value;
 #else
   uint16_t result = 0;
-  result |= (value & 0x00FFU) << 8;
-  result |= (value & 0xFF00U) >> 8;
+  result |= static_cast<uint16_t>((value & 0x00FFU) << 8);
+  result |= static_cast<uint16_t>((value & 0xFF00U) >> 8);
   return bSwap ? result : value;
 #endif
 }
@@ -321,9 +321,9 @@ static bool typeValid(uint16_t type) {
   return type >= 1 && type <= 13;
 }
 
-static std::set<size_t> visits;  // #547
+static std::set<uint64_t> visits;  // #547
 
-void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t start,
+void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint64_t start,
                               bool bSwap, char c, size_t depth) {
   if (depth == 1)
     visits.clear();
@@ -408,22 +408,22 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       if (allocate64 > io.size()) {
         throw Error(ErrorCode::kerInvalidMalloc);
       }
-      DataBuf buf(allocate64);                       // allocate a buffer
-      std::copy_n(dir.begin() + 8, 4, buf.begin());  // copy dir[8:11] into buffer (short strings)
+      DataBuf buf(Internal::checkedCast<size_t>(allocate64));  // allocate a buffer
+      std::copy_n(dir.begin() + 8, 4, buf.begin());            // copy dir[8:11] into buffer (short strings)
 
       // We have already checked that this multiplication cannot overflow.
       const size_t count_x_size = static_cast<size_t>(count) * size;
       const bool bOffsetIsPointer = count_x_size > 4;
 
       if (bOffsetIsPointer) {                                                       // read into buffer
-        const size_t restore = io.tell();                                           // save
+        const uint64_t restore = io.tell();                                         // save
         io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);      // position
         io.readOrThrow(buf.data(), count_x_size, ErrorCode::kerCorruptedMetadata);  // read
         io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);     // restore
       }
 
       if (bPrint) {
-        const size_t address = start + 2 + (i * 12);
+        const uint64_t address = start + 2 + (i * 12);
         const std::string offsetString = bOffsetIsPointer ? stringFormat("{:9}", offset) : "";
         std::string sp;  // output spacer
 
@@ -457,7 +457,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
         if (option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a /*SubIFDs*/ || type == tiffIfd)) {
           for (size_t k = 0; k < count; k++) {
-            const size_t restore = io.tell();
+            const uint64_t restore = io.tell();
             const uint32_t offset_inner = byteSwap4(buf, k * size, bSwap);
             printIFDStructure(io, out, option, offset_inner, bSwap, c, depth + 1);
             io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
@@ -468,7 +468,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
               throw Error(ErrorCode::kerCorruptedMetadata);
             }
 
-            const size_t restore = io.tell();
+            const uint64_t restore = io.tell();
             io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
             auto bytes = std::make_unique<byte[]>(count);                           // allocate memory
             io.readOrThrow(bytes.get(), count, ErrorCode::kerCorruptedMetadata);
@@ -476,7 +476,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
             IptcData::printStructure(out, makeSliceUntil(bytes.get(), count), depth);
           }
         } else if (option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
-          const size_t restore = io.tell();  // save
+          const uint64_t restore = io.tell();  // save
 
           const uint32_t jump = 10;
           byte bytes[20];
@@ -527,7 +527,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 }
 
 void Image::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t depth,
-                               size_t offset /*=0*/) {
+                               uint64_t offset /*=0*/) {
   if (option == kpsBasic || option == kpsXMP || option == kpsRecursive || option == kpsIccProfile) {
     // buffer
     const size_t dirSize = 32;

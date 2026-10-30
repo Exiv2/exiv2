@@ -23,6 +23,8 @@
 
 #include "error.hpp"
 
+#include <utility>
+
 namespace Exiv2::Internal {
 /*!
  * @brief Ensure that condition is true, otherwise throw an exception of the
@@ -45,6 +47,13 @@ constexpr void enforce(bool condition, T&&... args) {
 template <typename... T>
 constexpr void enforce(bool condition, Exiv2::ErrorCode err_code, T&&... args) {
   enforce<Exiv2::Error>(condition, err_code, std::forward<T>(args)...);
+}
+
+//! Convert an integer only when its value fits the destination type.
+template <typename T, typename U>
+constexpr T checkedCast(U value, Exiv2::ErrorCode err = Exiv2::ErrorCode::kerCorruptedMetadata) {
+  enforce(std::in_range<T>(value), err);
+  return static_cast<T>(value);
 }
 }  // namespace Exiv2::Internal
 #endif  // EXIV2_ENFORCE_HPP

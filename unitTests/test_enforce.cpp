@@ -5,6 +5,7 @@
 
 #include <gtest/gtest.h>
 
+#include <limits>
 #include <stdexcept>
 
 TEST(enforce, errMessageCanBeRetrievedFromErrorException) {
@@ -28,4 +29,13 @@ TEST(enforce, withFalseConditionThrows) {
                Exiv2::Error);
   ASSERT_THROW(Exiv2::Internal::enforce(false, Exiv2::ErrorCode::kerMallocFailed), Exiv2::Error);
   ASSERT_THROW(Exiv2::Internal::enforce<std::overflow_error>(false, "error message"), std::overflow_error);
+}
+
+TEST(checkedCast, rejectsValuesOutsideTheDestinationRange) {
+  using Exiv2::Internal::checkedCast;
+  constexpr auto max32 = std::numeric_limits<uint32_t>::max();
+  EXPECT_EQ(max32, checkedCast<uint32_t>(uint64_t{max32}));
+  EXPECT_THROW(checkedCast<uint32_t>(uint64_t{max32} + 1), Exiv2::Error);
+  EXPECT_THROW(checkedCast<uint64_t>(int64_t{-1}), Exiv2::Error);
+  EXPECT_THROW(checkedCast<int64_t>(std::numeric_limits<uint64_t>::max()), Exiv2::Error);
 }

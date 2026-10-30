@@ -132,7 +132,7 @@ void ExpatAdapter::ParseBuffer ( const void * buffer, size_t length, bool last /
 		length = 1;
 	}
 	
-	status = XML_Parse ( this->parser, (const char *)buffer, length, last );
+	status = XML_Parse ( this->parser, (const char *)buffer, XMP_CheckedCast<int>(length), last );
 	
 	#if BanAllEntityUsage
 		if ( this->isAborted ) XMP_Throw ( "DOCTYPE is not allowed", kXMPErr_BadXML );

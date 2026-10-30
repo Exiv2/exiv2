@@ -710,13 +710,13 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursi
 }  // QuickTimeVideo::tagDecoder
 
 void QuickTimeVideo::discard(size_t size) {
-  size_t cur_pos = io_->tell();
+  uint64_t cur_pos = io_->tell();
   io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::discard
 
 void QuickTimeVideo::previewTagDecoder(size_t size) {
   DataBuf buf(5);
-  size_t cur_pos = io_->tell();
+  uint64_t cur_pos = io_->tell();
   io_->readOrThrow(buf.data(), 4);
   xmpData_["Xmp.video.PreviewDate"] = buf.read_uint32(0, bigEndian);
   io_->readOrThrow(buf.data(), 2);
@@ -734,7 +734,7 @@ void QuickTimeVideo::previewTagDecoder(size_t size) {
 
 void QuickTimeVideo::keysTagDecoder(size_t size) {
   DataBuf buf(5);
-  size_t cur_pos = io_->tell();
+  uint64_t cur_pos = io_->tell();
   io_->readOrThrow(buf.data(), 4);
   xmpData_["Xmp.video.PreviewDate"] = buf.read_uint32(0, bigEndian);
   io_->readOrThrow(buf.data(), 2);
@@ -753,7 +753,7 @@ void QuickTimeVideo::keysTagDecoder(size_t size) {
 void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
   DataBuf buf(4);
   DataBuf buf2(2);
-  size_t cur_pos = io_->tell();
+  uint64_t cur_pos = io_->tell();
   byte n = 3;
 
   while (n--) {
@@ -800,7 +800,7 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
 }  // QuickTimeVideo::trackApertureTagDecoder
 
 void QuickTimeVideo::CameraTagsDecoder(size_t size) {
-  size_t cur_pos = io_->tell();
+  uint64_t cur_pos = io_->tell();
   DataBuf buf(49);
   DataBuf buf2(4);
 
@@ -845,7 +845,7 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
 
 void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) {
   enforce(recursion_depth < max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
-  const size_t start_pos = io_->tell();
+  const uint64_t start_pos = io_->tell();
   const TagVocabulary* td;
   const TagVocabulary* tv;
   const TagVocabulary* tv_internal;
@@ -856,7 +856,7 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
   std::memset(buf.data(), 0x0, buf.size());
 
   while ((size_internal / 4 != 0) && (size_internal > 0)) {
-    const size_t loop_start_pos = io_->tell();
+    const uint64_t loop_start_pos = io_->tell();
     buf.data()[4] = '\0';
     io_->readOrThrow(buf.data(), 4);
     const size_t size = buf.read_uint32(0, bigEndian);
@@ -916,7 +916,7 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
 }  // QuickTimeVideo::userDataDecoder
 
 void QuickTimeVideo::NikonTagsDecoder(size_t size) {
-  size_t cur_pos = io_->tell();
+  uint64_t cur_pos = io_->tell();
   DataBuf buf(201);
   DataBuf buf2(4 + 1);
   uint32_t TagID = 0;
@@ -937,7 +937,7 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
     io_->readOrThrow(buf.data(), 2);
 
     if (TagID == 0x2000023) {
-      size_t local_pos = io_->tell();
+      uint64_t local_pos = io_->tell();
       dataLength = buf.read_uint16(0, bigEndian);
       std::memset(buf.data(), 0x0, buf.size());
 
@@ -1014,7 +1014,7 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
     }
 
     else if (TagID == 0x2000024) {
-      size_t local_pos = io_->tell();
+      uint64_t local_pos = io_->tell();
       dataLength = buf.read_uint16(0, bigEndian);
       std::memset(buf.data(), 0x0, buf.size());
 
@@ -1127,16 +1127,16 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
 }  // QuickTimeVideo::NikonTagsDecoder
 
 void QuickTimeVideo::setMediaStream(size_t atom_size) {
-  size_t current_position = io_->tell();
-  size_t search_end = Safe::add(current_position, atom_size);
+  uint64_t current_position = io_->tell();
+  uint64_t search_end = Safe::add(current_position, uint64_t{atom_size});
   if (search_end > io_->size())
     search_end = io_->size();
   DataBuf buf(4 + 1);
 
-  while (!io_->eof() && Safe::add(io_->tell(), size_t{4}) <= search_end) {
+  while (!io_->eof() && Safe::add(io_->tell(), uint64_t{4}) <= search_end) {
     io_->readOrThrow(buf.data(), 4);
     if (equalsQTimeTag(buf, "hdlr")) {
-      if (Safe::add(io_->tell(), size_t{12}) > search_end)
+      if (Safe::add(io_->tell(), uint64_t{12}) > search_end)
         break;
       io_->readOrThrow(buf.data(), 4);
       io_->readOrThrow(buf.data(), 4);
@@ -1182,7 +1182,7 @@ void QuickTimeVideo::timeToSampleDecoder() {
 
 void QuickTimeVideo::sampleDesc(size_t size) {
   DataBuf buf(100);
-  size_t cur_pos = io_->tell();
+  uint64_t cur_pos = io_->tell();
   io_->readOrThrow(buf.data(), 4);
   io_->readOrThrow(buf.data(), 4);
   const uint32_t noOfEntries = buf.read_uint32(0, bigEndian);
@@ -1195,7 +1195,7 @@ void QuickTimeVideo::sampleDesc(size_t size) {
     else
       break;
   }
-  io_->seek(Safe::add(cur_pos, size), BasicIo::beg);
+  io_->seek(Safe::add(cur_pos, uint64_t{size}), BasicIo::beg);
 }  // QuickTimeVideo::sampleDesc
 
 void QuickTimeVideo::audioDescDecoder() {
@@ -1332,7 +1332,7 @@ void QuickTimeVideo::videoHeaderDecoder(size_t size) {
 }  // QuickTimeVideo::videoHeaderDecoder
 
 void QuickTimeVideo::handlerDecoder(size_t size) {
-  size_t cur_pos = io_->tell();
+  uint64_t cur_pos = io_->tell();
   DataBuf buf(5);
   std::memset(buf.data(), 0x0, buf.size());
   buf.data()[4] = '\0';

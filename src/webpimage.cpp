@@ -251,8 +251,8 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
 
       // Fetch height - 14 bits wide
       std::copy_n(payload.begin() + 2, 3, size_buf_h.begin());
-      size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3FU) << 0x2);
-      size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2);
+      size_buf_h[0] = static_cast<byte>(((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3FU) << 0x2));
+      size_buf_h[1] = static_cast<byte>(((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2));
       height = Exiv2::getUShort(size_buf_h.data(), littleEndian) + 1;
     }
 
@@ -402,7 +402,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
   outIo.seek(0, BasicIo::beg);
   filesize = outIo.size() - 8;
   outIo.seek(4, BasicIo::beg);
-  ul2Data(data, static_cast<uint32_t>(filesize), littleEndian);
+  ul2Data(data, Internal::checkedCast<uint32_t>(filesize, ErrorCode::kerImageWriteFailed), littleEndian);
   if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
     throw Error(ErrorCode::kerImageWriteFailed);
 
@@ -571,8 +571,8 @@ void WebPImage::decodeChunks(uint32_t filesize) {
 
       // Fetch height
       std::copy_n(payload.begin() + 2, 3, size_buf_h.begin());
-      size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3FU) << 0x2);
-      size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2);
+      size_buf_h[0] = static_cast<byte>(((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3FU) << 0x2));
+      size_buf_h[1] = static_cast<byte>(((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2));
       pixelHeight_ = Exiv2::getUShort(size_buf_h.data(), littleEndian) + 1;
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_canvas_data) {
       Internal::enforce(size >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);

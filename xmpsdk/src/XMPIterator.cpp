@@ -641,7 +641,7 @@ XMPIterator::Next ( XMP_StringPtr *	 schemaNS,
 	}
 	
 	*schemaNS = info.currSchema.c_str();
-	*nsSize   = info.currSchema.size();
+	*nsSize   = XMP_CheckedCast<XMP_StringLen>(info.currSchema.size());
 
 	*propOptions = info.currPos->options;
 
@@ -653,15 +653,15 @@ XMPIterator::Next ( XMP_StringPtr *	 schemaNS,
 	if ( ! (*propOptions & kXMP_SchemaNode) ) {
 
 		*propPath = info.currPos->fullPath.c_str();
-		*pathSize = info.currPos->fullPath.size();
+		*pathSize = XMP_CheckedCast<XMP_StringLen>(info.currPos->fullPath.size());
 		if ( info.options & kXMP_IterJustLeafName ) {
 			*propPath += info.currPos->leafOffset;
-			*pathSize -= info.currPos->leafOffset;
+			*pathSize -= static_cast<XMP_StringLen>(info.currPos->leafOffset);
 		}
 		
 		if ( ! (*propOptions & kXMP_PropCompositeMask) ) {
 			*propValue = xmpNode->value.c_str();
-			*valueSize = xmpNode->value.size();
+			*valueSize = XMP_CheckedCast<XMP_StringLen>(xmpNode->value.size());
 		}
 
 	}

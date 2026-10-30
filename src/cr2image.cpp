@@ -6,6 +6,7 @@
 #include "basicio.hpp"
 #include "config.h"
 #include "cr2header_int.hpp"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
@@ -72,7 +73,9 @@ void Cr2Image::readMetadata() {
   }
   clearMetadata();
   const DecodeParams dp(max_recursion_depth_);
-  ByteOrder bo = Cr2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
+  const uint64_t fileSize = io_->size();
+  ByteOrder bo =
+      Cr2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), Internal::checkedCast<size_t>(fileSize), dp);
   setByteOrder(bo);
 }  // Cr2Image::readMetadata
 
@@ -82,12 +85,12 @@ void Cr2Image::writeMetadata() {
 #endif
   ByteOrder bo = byteOrder();
   const byte* pData = nullptr;
-  size_t size = 0;
+  uint64_t fileSize = 0;
   IoCloser closer(*io_);
   // Ensure that this is the correct image type
   if (io_->open() == 0 && isCr2Type(*io_, false)) {
     pData = io_->mmap(true);
-    size = io_->size();
+    fileSize = io_->size();
     Internal::Cr2Header cr2Header;
     if (0 == cr2Header.read(pData, 16)) {
       bo = cr2Header.byteOrder();
@@ -97,7 +100,8 @@ void Cr2Image::writeMetadata() {
     bo = littleEndian;
   }
   setByteOrder(bo);
-  Cr2Parser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_);  // may throw
+  Cr2Parser::encode(*io_, pData, Internal::checkedCast<size_t>(fileSize), bo, exifData_, iptcData_,
+                    xmpData_);  // may throw
 }  // Cr2Image::writeMetadata
 
 ByteOrder Cr2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,

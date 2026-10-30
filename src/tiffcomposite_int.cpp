@@ -1110,13 +1110,13 @@ size_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_
     if (cryptFct == &sonyTagDecipher) {
       cryptFct = sonyTagEncipher;
     }
-    DataBuf buf = cryptFct(tag(), mio.mmap(), mio.size(), pRoot_);
+    DataBuf buf = cryptFct(tag(), mio.mmap(), Exiv2::Internal::checkedCast<size_t>(mio.size()), pRoot_);
     if (!buf.empty()) {
       mio.seek(0, Exiv2::BasicIo::beg);
       mio.write(buf.c_data(), buf.size());
     }
   }
-  ioWrapper.write(mio.mmap(), mio.size());
+  ioWrapper.write(mio.mmap(), Exiv2::Internal::checkedCast<size_t>(mio.size()));
 
   return idx;
 }  // TiffBinaryArray::doWrite

@@ -129,7 +129,7 @@ class EXIV2API BmffImage : public Image {
   uint64_t boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, uint64_t pbox_end, size_t depth);
 
   uint32_t fileType_{0};
-  std::set<size_t> visits_;
+  std::set<uint64_t> visits_;
   uint64_t visits_max_{0};
   uint16_t unknownID_{0xffff};
   uint16_t exifID_{0xffff};

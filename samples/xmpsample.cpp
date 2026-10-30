@@ -63,7 +63,7 @@ int main() try {
   assert(getv2.ok());
   [[maybe_unused]] Exiv2::Rational R = getv2.toRational();
   assert(getv2.ok());
-  assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415f));
+  assert(isEqual(static_cast<float>(R.first) / static_cast<float>(R.second), 3.1415f));
 
   [[maybe_unused]] const Exiv2::Value& getv3 = xmpData["Xmp.dc.three"].value();
   assert(isEqual(getv3.toFloat(), 5.0f / 7.0f));
