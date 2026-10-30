@@ -1,5 +1,6 @@
 import os
 import re
+import socket
 import unittest
 
 from importlib.util import find_spec
@@ -608,6 +609,15 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         finally:
             server.stop()   # While you're debugging, you can comment this line to keep the server running
+
+        # HttpIo must give up on a server that accepts the connection but never answers
+        with socket.create_server((exiv2_http.removeprefix('http://'), 0)) as silent:
+            port = silent.getsockname()[1]
+            e = BT.Executer('iotest --nocurl s0 s1 s2 {exiv2_http}:{port}/table.jpg', vars(),
+                              extra_env={'EXIV2_TIMEOUT': '1'}, assert_returncode=[1],
+                              redirect_stderr_to_stdout=False)
+            # On Windows a process killed by the 10 s Executer timeout also exits with 1, but prints nothing
+            self.assertIn('Failed to open file', e.stderr or '')
 
 
     def test_iptc(self):
