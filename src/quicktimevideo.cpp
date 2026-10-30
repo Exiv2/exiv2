@@ -34,6 +34,8 @@
 // + standard includes
 #include <array>
 #include <cmath>
+#include <limits>
+#include <sstream>
 #include <string>
 // *****************************************************************************
 // class member definitions
@@ -536,6 +538,76 @@ namespace Exiv2 {
 
 using namespace Exiv2::Internal;
 
+namespace {
+
+// Read a fixed-width Nikon text field without depending on a following terminator.
+std::string nikonText(const DataBuf& data, size_t offset, size_t width) {
+  enforce(offset <= data.size() && width <= data.size() - offset, ErrorCode::kerCorruptedMetadata);
+  const auto begin = data.c_data(offset);
+  const auto end = std::find(begin, begin + width, byte{0});
+  return {reinterpret_cast<const char*>(begin), static_cast<size_t>(end - begin)};
+}
+
+// Apply the existing Nikon choice table, optionally retaining an unknown numeric value.
+template <size_t N>
+void setNikonChoice(XmpData& xmp, const char* key, int value, const TagDetails (&choices)[N], bool numeric = true) {
+  if (const auto choice = Exiv2::find(choices, value))
+    xmp[std::string("Xmp.video.") + key] = _(choice->label_);
+  else if (numeric)
+    xmp[std::string("Xmp.video.") + key] = value;
+}
+
+// Select Nikon's versioned subrecord layout without borrowing bytes from another record.
+void decodeNikonPictureControl(const DataBuf& data, XmpData& xmp) {
+  enforce(data.size() >= 4, ErrorCode::kerCorruptedMetadata);
+  const auto version = nikonText(data, 0, 4);
+  enforce(
+      version.size() == 4 && std::all_of(version.begin(), version.end(), [](char c) { return c >= '0' && c <= '9'; }),
+      ErrorCode::kerCorruptedMetadata);
+  const bool legacy = version.compare(0, 2, "01") == 0;
+  const bool second = version.compare(0, 2, "02") == 0;
+  const bool third = version.compare(0, 2, "03") == 0;
+  if (legacy || second || third)
+    enforce(data.size() >= (legacy ? 58U : second ? 49U : 55U), ErrorCode::kerCorruptedMetadata);
+
+  // A later record owns the whole Picture Control view, including omitted controls.
+  for (const auto key : {"PictureControlVersion", "PictureControlName", "PictureControlBase", "PictureControlAdjust",
+                         "PictureControlQuickAdjust", "Sharpness", "Contrast", "Brightness", "Saturation",
+                         "HueAdjustment", "FilterEffect", "ToningEffect", "ToningSaturation"}) {
+    const auto entry = xmp.findKey(XmpKey(std::string("Xmp.video.") + key));
+    if (entry != xmp.end())
+      xmp.erase(entry);
+  }
+
+  xmp["Xmp.video.PictureControlVersion"] = version;
+  if (!legacy && !second && !third)
+    return;
+
+  const size_t name = third ? 8 : 4;
+  xmp["Xmp.video.PictureControlName"] = nikonText(data, name, 20);
+  xmp["Xmp.video.PictureControlBase"] = nikonText(data, name + 20, 20);
+
+  // Modern controls use different offsets and biased encodings; only Adjust is verified here.
+  if (!legacy) {
+    setNikonChoice(xmp, "PictureControlAdjust", data.read_uint8(third ? 54 : 48), PictureControlAdjust);
+    return;
+  }
+
+  // Preserve the established legacy 01 control presentation.
+  setNikonChoice(xmp, "PictureControlAdjust", data.read_uint8(48) & 7, PictureControlAdjust);
+  setNikonChoice(xmp, "PictureControlQuickAdjust", data.read_uint8(49) & 7, NormalSoftHard, false);
+  setNikonChoice(xmp, "Sharpness", data.read_uint8(50) & 7, NormalSoftHard);
+  setNikonChoice(xmp, "Contrast", data.read_uint8(51) & 7, NormalSoftHard);
+  setNikonChoice(xmp, "Brightness", data.read_uint8(52) & 7, NormalSoftHard);
+  setNikonChoice(xmp, "Saturation", data.read_uint8(53) & 7, Saturation);
+  xmp["Xmp.video.HueAdjustment"] = data.read_uint8(54) & 7;
+  setNikonChoice(xmp, "FilterEffect", data.read_uint8(55), FilterEffect);
+  setNikonChoice(xmp, "ToningEffect", data.read_uint8(56), ToningEffect);
+  xmp["Xmp.video.ToningSaturation"] = static_cast<int>(data.read_uint8(57));
+}
+
+}  // namespace
+
 QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io, const ImageCtorParams& params) :
     Image(ImageType::qtime, mdNone, std::move(io), params), mvhdTimeScale_(1), mdhdTimeScale_(1), currentStream_(Null) {
 }  // QuickTimeVideo::QuickTimeVideo
@@ -871,14 +943,16 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
 
     tv = Exiv2::find(userDataReferencetags, Exiv2::toString(buf.data()));
 
-    if (size <= 12)
+    if (size <= 12 && !equalsQTimeTag(buf, "NCTG"))
       break;
 
     if (equalsQTimeTag(buf, "DcMD") || equalsQTimeTag(buf, "NCDT"))
       userDataDecoder(size - 8, recursion_depth + 1);
 
-    else if (equalsQTimeTag(buf, "NCTG"))
+    else if (equalsQTimeTag(buf, "NCTG")) {
+      enforce(size >= 8, ErrorCode::kerCorruptedMetadata);
       NikonTagsDecoder(size - 8);
+    }
 
     else if (equalsQTimeTag(buf, "TAGS"))
       CameraTagsDecoder(size - 8);
@@ -916,214 +990,70 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
 }  // QuickTimeVideo::userDataDecoder
 
 void QuickTimeVideo::NikonTagsDecoder(size_t size) {
-  size_t cur_pos = io_->tell();
-  DataBuf buf(201);
-  DataBuf buf2(4 + 1);
-  uint32_t TagID = 0;
-  uint16_t dataLength = 0;
-  uint16_t dataType = 2;
-  const TagDetails* td;
-  const TagDetails* td2;
+  const auto start = io_->tell();
+  const auto fileSize = io_->size();
+  enforce(start <= fileSize && size <= fileSize - start, ErrorCode::kerCorruptedMetadata);
+  enforce(fileSize <= static_cast<uint64_t>(std::numeric_limits<int64_t>::max()), ErrorCode::kerCorruptedMetadata);
+  const auto end = start + size;
 
-  for (int i = 0; i < 100; i++) {
-    io_->readOrThrow(buf.data(), 4);
-    TagID = buf.read_uint32(0, bigEndian);
-    td = Exiv2::find(NikonNCTGTags, TagID);
+  // Nikon uses EXIF field widths inside its own tag/type/count records, not child boxes.
+  constexpr std::array<size_t, 14> widths{0, 1, 1, 2, 4, 8, 1, 1, 2, 4, 8, 4, 8, 4};
+  while (io_->tell() < end) {
+    enforce(end - io_->tell() >= 8, ErrorCode::kerCorruptedMetadata);
+    DataBuf header(8);
+    io_->readOrThrow(header.data(), header.size(), ErrorCode::kerCorruptedMetadata);
+    const auto tag = header.read_uint32(0, bigEndian);
+    const auto type = header.read_uint16(4, bigEndian);
+    const auto count = header.read_uint16(6, bigEndian);
+    enforce(type < widths.size() && widths[type] != 0, ErrorCode::kerCorruptedMetadata);
+    enforce(count <= (end - io_->tell()) / widths[type], ErrorCode::kerCorruptedMetadata);
+    const auto length = static_cast<size_t>(count) * widths[type];
+    const auto next = io_->tell() + length;
 
-    io_->readOrThrow(buf.data(), 2);
-    dataType = buf.read_uint16(0, bigEndian);
-
-    std::memset(buf.data(), 0x0, buf.size());
-    io_->readOrThrow(buf.data(), 2);
-
-    if (TagID == 0x2000023) {
-      size_t local_pos = io_->tell();
-      dataLength = buf.read_uint16(0, bigEndian);
-      std::memset(buf.data(), 0x0, buf.size());
-
-      io_->readOrThrow(buf.data(), 4);
-      xmpData_["Xmp.video.PictureControlVersion"] = buf.data();
-      io_->readOrThrow(buf.data(), 20);
-      xmpData_["Xmp.video.PictureControlName"] = buf.data();
-      io_->readOrThrow(buf.data(), 20);
-      xmpData_["Xmp.video.PictureControlBase"] = buf.data();
-      io_->readOrThrow(buf.data(), 4);
-      std::memset(buf.data(), 0x0, buf.size());
-
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(PictureControlAdjust, static_cast<int>(buf.data()[0]) & 7);
-      if (td2)
-        xmpData_["Xmp.video.PictureControlAdjust"] = _(td2->label_);
-      else
-        xmpData_["Xmp.video.PictureControlAdjust"] = static_cast<int>(buf.data()[0]) & 7;
-
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(NormalSoftHard, static_cast<int>(buf.data()[0]) & 7);
-      if (td2)
-        xmpData_["Xmp.video.PictureControlQuickAdjust"] = _(td2->label_);
-
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(NormalSoftHard, static_cast<int>(buf.data()[0]) & 7);
-      if (td2)
-        xmpData_["Xmp.video.Sharpness"] = _(td2->label_);
-      else
-        xmpData_["Xmp.video.Sharpness"] = static_cast<int>(buf.data()[0]) & 7;
-
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(NormalSoftHard, static_cast<int>(buf.data()[0]) & 7);
-      if (td2)
-        xmpData_["Xmp.video.Contrast"] = _(td2->label_);
-      else
-        xmpData_["Xmp.video.Contrast"] = static_cast<int>(buf.data()[0]) & 7;
-
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(NormalSoftHard, static_cast<int>(buf.data()[0]) & 7);
-      if (td2)
-        xmpData_["Xmp.video.Brightness"] = _(td2->label_);
-      else
-        xmpData_["Xmp.video.Brightness"] = static_cast<int>(buf.data()[0]) & 7;
-
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(Saturation, static_cast<int>(buf.data()[0]) & 7);
-      if (td2)
-        xmpData_["Xmp.video.Saturation"] = _(td2->label_);
-      else
-        xmpData_["Xmp.video.Saturation"] = static_cast<int>(buf.data()[0]) & 7;
-
-      io_->readOrThrow(buf.data(), 1);
-      xmpData_["Xmp.video.HueAdjustment"] = static_cast<int>(buf.data()[0]) & 7;
-
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(FilterEffect, static_cast<int>(buf.data()[0]));
-      if (td2)
-        xmpData_["Xmp.video.FilterEffect"] = _(td2->label_);
-      else
-        xmpData_["Xmp.video.FilterEffect"] = static_cast<int>(buf.data()[0]);
-
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(ToningEffect, static_cast<int>(buf.data()[0]));
-      if (td2)
-        xmpData_["Xmp.video.ToningEffect"] = _(td2->label_);
-      else
-        xmpData_["Xmp.video.ToningEffect"] = static_cast<int>(buf.data()[0]);
-
-      io_->readOrThrow(buf.data(), 1);
-      xmpData_["Xmp.video.ToningSaturation"] = static_cast<int>(buf.data()[0]);
-
-      io_->seek(local_pos + dataLength, BasicIo::beg);
+    // Unknown IDs and unmapped field types still own their entire validated extent.
+    const auto details = Exiv2::find(NikonNCTGTags, tag);
+    const bool picture = tag == 0x02000023;
+    const bool worldTime = tag == 0x02000024;
+    if (length == 0 || (!details && !picture && !worldTime) ||
+        (type != 2 && type != 3 && type != 4 && type != 5 && type != 7 && type != 8)) {
+      io_->seekOrThrow(static_cast<int64_t>(next), BasicIo::beg, ErrorCode::kerCorruptedMetadata);
+      continue;
     }
 
-    else if (TagID == 0x2000024) {
-      size_t local_pos = io_->tell();
-      dataLength = buf.read_uint16(0, bigEndian);
-      std::memset(buf.data(), 0x0, buf.size());
-
-      io_->readOrThrow(buf.data(), 2);
-      xmpData_["Xmp.video.TimeZone"] = Exiv2::getShort(buf.data(), bigEndian);
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(YesNo, static_cast<int>(buf.data()[0]));
-      if (td2)
-        xmpData_["Xmp.video.DayLightSavings"] = _(td2->label_);
-
-      io_->readOrThrow(buf.data(), 1);
-      td2 = Exiv2::find(DateDisplayFormat, static_cast<int>(buf.data()[0]));
-      if (td2)
-        xmpData_["Xmp.video.DateDisplayFormat"] = _(td2->label_);
-
-      io_->seek(local_pos + dataLength, BasicIo::beg);
-    }
-
-    else if (dataType == 2 || dataType == 7) {
-      dataLength = buf.read_uint16(0, bigEndian);
-      std::memset(buf.data(), 0x0, buf.size());
-
-      // Sanity check with an "unreasonably" large number
-      if (dataLength >= buf.size()) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be larger than 200."
-                  << " Entries considered invalid. Not Processed.\n";
-#endif
-        io_->seek(io_->tell() + dataLength, BasicIo::beg);
-        buf.data()[0] = '\0';
-      } else {
-        io_->readOrThrow(buf.data(), dataLength);
-        buf.data()[dataLength] = '\0';
+    // Read only a complete, recognized record; all field decoders stay inside this buffer.
+    DataBuf data(length);
+    io_->readOrThrow(data.data(), data.size(), ErrorCode::kerCorruptedMetadata);
+    if (picture) {
+      enforce(type == 7, ErrorCode::kerCorruptedMetadata);
+      decodeNikonPictureControl(data, xmpData_);
+    } else if (worldTime) {
+      enforce(data.size() >= 4, ErrorCode::kerCorruptedMetadata);
+      xmpData_["Xmp.video.TimeZone"] = getShort(data.c_data(), bigEndian);
+      setNikonChoice(xmpData_, "DayLightSavings", data.read_uint8(2), YesNo, false);
+      setNikonChoice(xmpData_, "DateDisplayFormat", data.read_uint8(3), DateDisplayFormat, false);
+    } else if (type == 2 || type == 7) {
+      xmpData_[_(details->label_)] = nikonText(data, 0, data.size());
+    } else if (type == 3) {
+      xmpData_[_(details->label_)] = data.read_uint16(0, bigEndian);
+    } else if (type == 4) {
+      xmpData_[_(details->label_)] = data.read_uint32(0, bigEndian);
+    } else if (type == 5) {
+      // LensInfo shares this old mapping; a descriptive lens name takes precedence.
+      if (tag == 0x02000084 && xmpData_.findKey(XmpKey("Xmp.video.LensModel")) != xmpData_.end())
+        continue;
+      xmpData_[_(details->label_)] =
+          static_cast<double>(data.read_uint32(0, bigEndian)) / data.read_uint32(4, bigEndian);
+    } else if (type == 8) {
+      // Signed SHORT arrays are ordered integer components, never a decimal fraction.
+      std::ostringstream values;
+      for (size_t offset = 0; offset < data.size(); offset += 2) {
+        if (offset != 0)
+          values << ' ';
+        values << getShort(data.c_data(offset), bigEndian);
       }
-
-      if (td) {
-        xmpData_[_(td->label_)] = buf.data();
-      }
-    } else if (dataType == 4) {
-      dataLength = buf.read_uint16(0, bigEndian) * 4;
-      std::memset(buf.data(), 0x0, buf.size());
-      io_->readOrThrow(buf.data(), 4);
-      if (td)
-        xmpData_[_(td->label_)] = buf.read_uint32(0, bigEndian);
-
-      // Sanity check with an "unreasonably" large number
-      if (dataLength > 200 || dataLength < 4) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be of inappropriate size."
-                  << " Entries considered invalid. Not Processed.\n";
-#endif
-        io_->seek(io_->tell() + dataLength - 4, BasicIo::beg);
-      } else
-        io_->readOrThrow(buf.data(), dataLength - 4);
-    } else if (dataType == 3) {
-      dataLength = buf.read_uint16(0, bigEndian) * 2;
-      std::memset(buf.data(), 0x0, buf.size());
-      io_->readOrThrow(buf.data(), 2);
-      if (td)
-        xmpData_[_(td->label_)] = buf.read_uint16(0, bigEndian);
-
-      // Sanity check with an "unreasonably" large number
-      if (dataLength > 200 || dataLength < 2) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be of inappropriate size."
-                  << " Entries considered invalid. Not Processed.\n";
-#endif
-        io_->seek(io_->tell() + dataLength - 2, BasicIo::beg);
-      } else
-        io_->readOrThrow(buf.data(), dataLength - 2);
-    } else if (dataType == 5) {
-      dataLength = buf.read_uint16(0, bigEndian) * 8;
-      std::memset(buf.data(), 0x0, buf.size());
-      io_->readOrThrow(buf.data(), 4);
-      io_->readOrThrow(buf2.data(), 4);
-      if (td)
-        xmpData_[_(td->label_)] =
-            static_cast<double>(buf.read_uint32(0, bigEndian)) / static_cast<double>(buf2.read_uint32(0, bigEndian));
-
-      // Sanity check with an "unreasonably" large number
-      if (dataLength > 200 || dataLength < 8) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be of inappropriate size."
-                  << " Entries considered invalid. Not Processed.\n";
-#endif
-        io_->seek(io_->tell() + dataLength - 8, BasicIo::beg);
-      } else
-        io_->readOrThrow(buf.data(), dataLength - 8);
-    } else if (dataType == 8) {
-      dataLength = buf.read_uint16(0, bigEndian) * 2;
-      std::memset(buf.data(), 0x0, buf.size());
-      io_->readOrThrow(buf.data(), 2);
-      io_->readOrThrow(buf2.data(), 2);
-      if (td)
-        xmpData_[_(td->label_)] = stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
-
-      // Sanity check with an "unreasonably" large number
-      if (dataLength > 200 || dataLength < 4) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Xmp.video Nikon Tags, dataLength was found to be of inappropriate size."
-                  << " Entries considered invalid. Not Processed.\n";
-#endif
-        io_->seek(io_->tell() + dataLength - 4, BasicIo::beg);
-      } else
-        io_->readOrThrow(buf.data(), dataLength - 4);
+      xmpData_[_(details->label_)] = values.str();
     }
   }
-
-  io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::NikonTagsDecoder
 
 void QuickTimeVideo::setMediaStream(size_t atom_size) {
