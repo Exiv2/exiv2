@@ -2,22 +2,18 @@
 
 set(SAMPLES
     addmoddel.cpp
-    convert-test.cpp
     easyaccess-test.cpp
     exifcomment.cpp
     exifdata-test.cpp
     exifdata.cpp
     exifprint.cpp
     exifvalue.cpp
-    ini-test.cpp
     iotest.cpp
     iptceasy.cpp
     iptcprint.cpp
     iptctest.cpp
     jpegparsetest.cpp
-    key-test.cpp
     largeiptc-test.cpp
-    mmap-test.cpp
     mrwthumb.cpp
     prevtest.cpp
     stringto-test.cpp
@@ -51,10 +47,6 @@ if(MSVC)
   link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 endif()
 
-add_executable(getopt-test getopt-test.cpp ../app/getopt.cpp)
-list(APPEND APPLICATIONS getopt-test)
-target_include_directories(getopt-test PRIVATE ${PROJECT_SOURCE_DIR}/app) # To find getopt.hpp
-
 add_executable(metacopy metacopy.cpp metacopy.hpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS metacopy)
 target_include_directories(metacopy PRIVATE ${PROJECT_SOURCE_DIR}/app) # To find getopt.hpp
@@ -65,11 +57,6 @@ set_target_properties(path-test PROPERTIES OUTPUT_NAME path-test)
 target_include_directories(path-test PRIVATE ${PROJECT_SOURCE_DIR}/app) # To find getopt.hpp
 
 install(TARGETS metacopy RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-if(EXIV2_ENABLE_INIH)
-  target_link_libraries(ini-test PRIVATE inih::libinih)
-  target_link_libraries(ini-test PRIVATE inih::inireader)
-endif()
 
 if(EXPAT_FOUND)
   add_executable(geotag geotag.cpp)

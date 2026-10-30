@@ -2,6 +2,11 @@
 
 #include <gtest/gtest.h>
 #include "basicio.hpp"
+
+#include <algorithm>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 using namespace Exiv2;
 
 namespace {
@@ -76,4 +81,29 @@ TEST(AFileIO, canSeekBeyondEOF) {
   ASSERT_EQ(0, file.seek(200000, BasicIo::beg));
   ASSERT_FALSE(file.error());
   ASSERT_FALSE(file.eof());
+}
+
+TEST(AFileIO, mappedRegionStaysReadableWhileTheFileIsWritten) {
+#ifdef _WIN32
+  // write() reopens the file with _wfopen_s, which opens files without
+  // sharing, while mmap() holds a duplicate of the read handle. Exiv2 itself
+  // only writes to a mapped file after mmap(true).
+  GTEST_SKIP() << "FileIo can't reopen a read-only mapped file for writing on Windows";
+#endif
+  const auto path = fs::path(::testing::TempDir()) / "mmap-test.jpg";
+  fs::copy_file(imagePath, path, fs::copy_options::overwrite_existing);
+  {
+    FileIo file(path.string());
+    ASSERT_EQ(0, file.open("rb"));
+    const byte* pData = file.mmap();
+    ASSERT_NE(nullptr, pData);
+    Blob buf(pData, pData + file.size());
+
+    // Switches the file to write mode while it is mapped
+    ASSERT_EQ(buf.size(), file.write(buf.data(), buf.size()));
+
+    EXPECT_TRUE(std::equal(buf.begin(), buf.end(), pData));
+    file.close();
+  }
+  fs::remove(path);
 }
