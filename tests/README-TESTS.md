@@ -36,8 +36,10 @@ of new features where unit testing is not feasible, e.g. to test new command
 line parameters.
 
 Files from bug reports or fuzzing that only need to be rejected with a certain
-error (e.g. `kerCorruptedMetadata`) don't need a system test: add them to the
-table in `unitTests/test_poc_files.cpp` instead.
+error (e.g. `kerCorruptedMetadata`) or must simply not crash don't need a system
+test: add them to the table in `unitTests/test_poc_files.cpp` instead. Its
+actions cover reading the metadata, printing all values (`-pa`), listing the
+previews (`-pp`) and printing the structure (`-pS`, `-pR`, `-pX`, `-pC`).
 
 <div id="running-the-test-suite"/>
 
