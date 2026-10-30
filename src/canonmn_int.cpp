@@ -2833,6 +2833,10 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
 
   auto exifAperMax = fnumber(canonEv(static_cast<int16_t>(pos->value().toInt64(0))));
 
+  return printCanonLensType(os, lensType, exifFlMin, exifFlMax, exifAperMax);
+}
+
+std::ostream& printCanonLensType(std::ostream& os, int64_t lensType, int exifFlMin, int exifFlMax, float exifAperMax) {
   // regex to extract short and tele focal length, max aperture at short and tele position
   // and the teleconverter factor from the lens label
   std::regex const lens_regex(
