@@ -17,6 +17,7 @@ tests = {
   'bashTests': ['bash_tests'],
   'bugfixTests': ['bugfixes'],
   'lensTests': ['lens_tests'],
+  'regressionTests': ['regression_tests'],
   'tiffTests': ['tiff_test'],
   # -s so that the version information ends up in the test log
   'versionTests': ['-s', 'bash_tests/version_test.py'],
@@ -32,13 +33,3 @@ foreach n, t : tests
     workdir: meson.current_source_dir(),
   )
 endforeach
-
-test(
-  'regressionTests',
-  pytest,
-  env: bindir,
-  args: ['--verbose', 'regression_tests'],
-  timeout: 1200,
-  is_parallel: false,
-  workdir: meson.current_source_dir(),
-)
