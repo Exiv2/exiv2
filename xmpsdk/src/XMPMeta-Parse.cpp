@@ -871,7 +871,7 @@ CountUTF8 ( const XMP_Uns8 * charStart, const XMP_Uns8 * bufEnd )
 	
 	int byteCount = 2;
 	XMP_Uns8 firstByte = *charStart;
-	for ( firstByte = firstByte << 2; (firstByte & 0x80) != 0; firstByte = firstByte << 1 ) ++byteCount;
+	for ( firstByte = static_cast<XMP_Uns8>(firstByte << 2); (firstByte & 0x80) != 0; firstByte = static_cast<XMP_Uns8>(firstByte << 1) ) ++byteCount;
 	
 	if ( (charStart + byteCount) > bufEnd ) return -byteCount;
 

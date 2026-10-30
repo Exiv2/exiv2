@@ -1859,7 +1859,7 @@ std::ostream& Nikon3MakerNote::printAfPointsInFocus(std::ostream& os, const Valu
 
   auto val = static_cast<uint16_t>(value.toInt64());
   if (dModel)
-    val = (val >> 8) | ((val & 0x00ffU) << 8);
+    val = static_cast<uint16_t>((val >> 8) | ((val & 0x00ffU) << 8));
 
   if (val == 0x07ff)
     return os << _("All 11 Points");

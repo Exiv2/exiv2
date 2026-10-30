@@ -338,7 +338,7 @@ CodePointToUTF8 ( UniCodePoint uniChar, XMP_VarString & utf8Str )
 		
 		i = 8 - byteCount;	// First byte index and mask shift count.
 		XMP_Assert ( (0 <= i) && (i <= 6) );
-		buffer[i] |= (UnsByte(0xFF) << i) & UnsByte(0xFF);	// AUDIT: Safe, i is between 0 and 6.
+		buffer[i] = static_cast<XMP_Uns8>(buffer[i] | ((UnsByte(0xFF) << i) & UnsByte(0xFF)));	// AUDIT: Safe, i is between 0 and 6.
 	
 	}
 	
