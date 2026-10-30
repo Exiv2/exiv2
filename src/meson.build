@@ -63,6 +63,7 @@ int_lib = files(
   'rw2image_int.cpp',
   'samsungmn_int.cpp',
   'sigmamn_int.cpp',
+  'sonydng_int.cpp',
   'sonymn_int.cpp',
   'tags_int.cpp',
   'tiffcomposite_int.cpp',

@@ -11,6 +11,7 @@
 #include "makernote_int.hpp"
 #include "photoshop.hpp"
 #include "safe_op.hpp"
+#include "sonydng_int.hpp"
 #include "sonymn_int.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
@@ -216,6 +217,9 @@ TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpDat
 
 void TiffDecoder::visitEntry(TiffEntry* object) {
   decodeTiffEntry(object);
+
+  // The encrypted parent remains opaque; coefficient fields are a read-only view.
+  decodeSony9405b(exifData_, object, pRoot_);
 }
 
 void TiffDecoder::visitDataEntry(TiffDataEntry* object) {
@@ -241,6 +245,39 @@ void TiffDecoder::visitSubIfd(TiffSubIfd* object) {
 void TiffDecoder::visitMnEntry(TiffMnEntry* object) {
   // Always decode binary makernote tag
   decodeTiffEntry(object);
+
+  if (object->tag() != 0xc634 || object->group() != IfdId::ifd0Id || !make_.starts_with("SONY") ||
+      !isAdobeDngPrivateData(object->pData(), object->size()))
+    return;
+
+  // A native MakerNote remains authoritative when both representations exist.
+  TiffFinder nativeFinder(0x927c, IfdId::exifId);
+  pRoot_->accept(nativeFinder);
+  const auto native = dynamic_cast<const TiffEntryBase*>(nativeFinder.result());
+  if (native && native->size() != 0)
+    return;
+
+  ExifData context;
+  for (const auto* key : {"Exif.Image.Make", "Exif.Image.Model"}) {
+    const ExifKey exifKey(key);
+    TiffFinder finder(exifKey.tag(), IfdId::ifd0Id);
+    pRoot_->accept(finder);
+    const auto entry = dynamic_cast<const TiffEntryBase*>(finder.result());
+    if (entry && entry->pValue())
+      context.add(exifKey, entry->pValue());
+  }
+
+  // Keep optional malformed private data opaque without losing ordinary Exif.
+  try {
+    const auto decoded =
+        decodeSonyDngPrivateData(object->pData(), object->size(), context, DecodeParams{max_recursion_depth_});
+    for (const auto& datum : decoded)
+      exifData_.add(datum);
+  } catch (const Error&) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "Invalid Adobe Sony MakerNote; not decoded.\n";
+#endif
+  }
 }
 
 void TiffDecoder::visitIfdMakernote(TiffIfdMakernote* object) {
@@ -975,8 +1012,15 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent::UniquePtr pSourceD
 
 }  // TiffEncoder::add
 
-TiffReader::TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state) :
-    pData_(pData), size_(size), pLast_(pData + size), pRoot_(pRoot), origState_(state), mnState_(state) {
+TiffReader::TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state,
+                       std::optional<uint32_t> originalOffset) :
+    pData_(pData),
+    size_(size),
+    pLast_(pData + size),
+    pRoot_(pRoot),
+    origState_(state),
+    mnState_(state),
+    originalOffset_(originalOffset) {
   pState_ = &origState_;
 
 }  // TiffReader::TiffReader
@@ -1006,6 +1050,8 @@ size_t TiffReader::baseOffset() const {
 }
 
 void TiffReader::readDataEntryBase(TiffDataEntryBase* object) {
+  // Relocated Sony2 records contain values, not separately owned image streams.
+  enforce(!originalOffset_, ErrorCode::kerCorruptedMetadata);
   readTiffEntry(object);
   TiffFinder finder(object->szTag(), object->szGroup());
   pRoot_->accept(finder);
@@ -1138,6 +1184,8 @@ void TiffReader::visitDirectory(TiffDirectory* object) {
 }  // TiffReader::visitDirectory
 
 void TiffReader::visitSubIfd(TiffSubIfd* object) {
+  // Isolated Sony2 decoding does not admit nested pointer layouts.
+  enforce(!originalOffset_, ErrorCode::kerCorruptedMetadata);
   readTiffEntry(object);
   if ((object->tiffType() == ttUnsignedLong || object->tiffType() == ttSignedLong || object->tiffType() == ttTiffIfd) &&
       object->count() >= 1) {
@@ -1178,6 +1226,7 @@ void TiffReader::visitSubIfd(TiffSubIfd* object) {
 }  // TiffReader::visitSubIfd
 
 void TiffReader::visitMnEntry(TiffMnEntry* object) {
+  enforce(!originalOffset_, ErrorCode::kerCorruptedMetadata);
   readTiffEntry(object);
   // Find camera make
   TiffFinder finder(0x010f, IfdId::ifd0Id);
@@ -1269,8 +1318,12 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     }
     size_t size = typeSize * count;
     size_t offset = getULong(p, byteOrder());
+    // Adobe retains source-file offsets although the payload moved into MakN.
+    const auto origin = originalOffset_.value_or(0);
+    const bool beforeOrigin = offset < origin;
+    const size_t relativeOffset = beforeOrigin ? 0 : offset - origin;
     byte* pData = p;
-    if (size > 4 && Safe::add<size_t>(baseOffset(), offset) >= size_) {
+    if (size > 4 && (beforeOrigin || Safe::add<size_t>(baseOffset(), relativeOffset) >= size_)) {
       // #1143
       if (object->tag() == 0x2001 && std::string(groupName(object->group())) == "Sony1") {
         // This tag is Exif.Sony1.PreviewImage, which refers to a preview image which is
@@ -1298,10 +1351,10 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     if (size > 4) {
       // setting pData to pData_ + baseOffset() + offset can result in pData pointing to invalid memory,
       // as offset can be arbitrarily large
-      if (Safe::add<size_t>(baseOffset(), offset) > static_cast<size_t>(pLast_ - pData_)) {
+      if (Safe::add<size_t>(baseOffset(), relativeOffset) > static_cast<size_t>(pLast_ - pData_)) {
         throw Error(ErrorCode::kerCorruptedMetadata);
       }
-      pData = const_cast<byte*>(pData_) + baseOffset() + offset;
+      pData = const_cast<byte*>(pData_) + baseOffset() + relativeOffset;
 
       // check for size being invalid
       if (size > static_cast<size_t>(pLast_ - pData)) {
@@ -1377,6 +1430,10 @@ void TiffReader::visitBinaryArray(TiffBinaryArray* object) {
   ArrayDef gap = *def;
 
   for (size_t idx = 0; idx < object->TiffEntryBase::doSize();) {
+    // Limit expansion for the isolated Adobe path without changing native reads.
+    if (originalOffset_)
+      enforce(decodedElements_++ < 65536, ErrorCode::kerCorruptedMetadata);
+
     if (defs) {
       def = std::find(defs, defsEnd, idx);
       if (def == defsEnd) {
