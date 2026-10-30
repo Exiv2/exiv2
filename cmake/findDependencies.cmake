@@ -5,9 +5,9 @@ list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 
 if(BUILD_TESTING)
-    find_package(Python3 COMPONENTS Interpreter)
-    if(NOT Python3_Interpreter_FOUND)
-        message(WARNING "Python3 was not found. Python tests under the 'tests' folder will not be executed.")
+    find_program(PYTEST_EXECUTABLE NAMES pytest pytest-3)
+    if(NOT PYTEST_EXECUTABLE)
+        message(WARNING "pytest was not found. Python tests under the 'tests' folder will not be executed.")
     endif()
 endif()
 

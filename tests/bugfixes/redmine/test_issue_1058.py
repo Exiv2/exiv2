@@ -7,7 +7,7 @@ class CheckXmlLang(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1058"
 
-    filename = system_tests.path("$data_path/exiv2-empty_copy.jpg")
+    filename = system_tests.path("$tmp_path/exiv2-empty_copy.jpg")
     commands = [
         ## Add titles in 2 languages and one default
         """$exiv2 -M"set Xmp.dc.title lang=de-DE GERMAN"  $filename""",

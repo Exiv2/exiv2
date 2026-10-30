@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml gcovr
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml python3-pytest gcovr
 
       - name: Build
         run: |

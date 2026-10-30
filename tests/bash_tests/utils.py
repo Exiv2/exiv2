@@ -15,12 +15,23 @@ from   urllib import request
 import system_tests
 
 # Run `exiv2 --verbose --version` to find out if the Exiv2 binary is 32-bit or 64-bit.
+def library_path_env():
+    """ Return the environment variables that let the dynamic loader find the exiv2 library of the build """
+    paths = {'DYLD_LIBRARY_PATH': Config.dyld_library_path,
+             'LD_LIBRARY_PATH': Config.ld_library_path}
+    return {key: os.pathsep.join(filter(None, [path, os.environ.get(key)]))
+            for key, path in paths.items()}
+
+
 def exiv2_is_64bit(bin_dir):
+    env = os.environ.copy()
+    env.update(library_path_env())
     proc = subprocess.run(
         [os.path.join(bin_dir, 'exiv2'), '--verbose', '--version'],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        cwd=bin_dir
+        cwd=bin_dir,
+        env=env
     )
     proc.check_returncode()
     m = re.search(r'^bits=([0-9]+)\s*$', proc.stdout.decode('utf-8'), re.MULTILINE)
@@ -36,7 +47,7 @@ Here is the configuration part of test cases.
 
 class Config:
     # The configuration parameters for bash test
-    # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
+    # When you run the test cases through pytest, the function configure_suite() in system_tests.py will override these parameters.
     exiv2_dir           = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
     bin_dir             = os.path.join(exiv2_dir, 'build/bin')
     if 'EXIV2_BINDIR' in os.environ:
@@ -54,7 +65,8 @@ class Config:
     if 'VALGRIND' in os.environ:
         valgrind        = os.environ['VALGRIND']
 
-    is_64bit = exiv2_is_64bit(bin_dir)
+    # Set by configure_suite(), running exiv2 at import time breaks test collection
+    is_64bit            = None
 
     @classmethod
     def init(cls):
@@ -473,8 +485,7 @@ class Executer:
 
         # set environment variables
         self.env            = os.environ.copy()
-        self.env.update({'DYLD_LIBRARY_PATH': Config.dyld_library_path})
-        self.env.update({'LD_LIBRARY_PATH': Config.ld_library_path})
+        self.env.update(library_path_env())
         self.env.update({'TZ': 'GMT-8'})
         self.env.update(extra_env)
 
@@ -737,28 +748,19 @@ def runTest(cmd,raw=False):
     else:
         args = shlex.split(cmd)
 
-    # Update PATH, LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
-    key = "PATH"
+    # Set PATH, LD_LIBRARY_PATH and DYLD_LIBRARY_PATH for the child only
+    env = os.environ.copy()
     bin_dir = os.path.dirname(system_tests.exiv2)
-    if key in os.environ:
-        os.environ[key] = os.path.join(bin_dir, os.environ[key])
-    else:
-        os.environ[key] = bin_dir
-
-    for key in ["LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH"]:
-        lib_dir = os.path.join(os.path.dirname(os.path.dirname(system_tests.exiv2)), 'lib')
-        if key in os.environ:
-            os.environ[key] = lib_dir + os.pathsep + os.environ[key]
-        else:
-            os.environ[key] = lib_dir
+    env["PATH"] = os.pathsep.join(filter(None, [bin_dir, env.get("PATH")]))
+    env.update(library_path_env())
 
     # Execute the command
     if raw:
-        subprocess.Popen(args)
+        subprocess.Popen(args, env=env)
         out=None
     else:
         try:
-            p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=False)
+            p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=False, env=env)
             stdout, stderr   = p.communicate()
             if p.returncode != 0:
                 print(f'{cmd} returncode = {p.returncode}')

@@ -16,7 +16,7 @@ class TestCases(unittest.TestCase):
         pass
 
 
-    def addmoddel_test(self):
+    def test_addmoddel(self):
         # Test driver to run the addmoddel sample program
         jpg      = 'exiv2-empty.jpg'
         BT.copyTestFile(jpg)
@@ -26,7 +26,7 @@ class TestCases(unittest.TestCase):
         BT.reportTest('addmoddel', out)
 
 
-    def conversions_test(self):
+    def test_conversions(self):
         # XMP parser test driver
         jpg      = 'exiv2-empty.jpg'
         out      = BT.Output()
@@ -243,7 +243,7 @@ class TestCases(unittest.TestCase):
         BT.reportTest('conversions', out)
 
 
-    def crw_test(self):
+    def test_crw(self):
         # Test driver for CRW file operations
         crwfile  = 'exiv2-canon-powershot-s40.crw'
 
@@ -279,7 +279,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('crw-test', out)
 
 
-    def exifdata_test(self):
+    def test_exifdata(self):
         # Test driver for exifdata copy construction and assignment unit tests
         out      = BT.Output()
         for jpg in ['exiv2-gc.jpg', 'exiv2-canon-powershot-s40.jpg', 'exiv2-nikon-d70.jpg']:
@@ -288,7 +288,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('exifdata-test', out)
 
 
-    def exiv2_test(self):
+    def test_exiv2(self):
         # Add each image to the following three lists.
         # The image basename in the second and third lists
         # is the Exif timestamp adjusted by -12:01:01.
@@ -413,7 +413,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('exiv2-test', out)
 
 
-    def geotag_test(self):
+    def test_geotag(self):
         # Test driver for geotag
         jpg      = 'FurnaceCreekInn.jpg'
         gpx      = 'FurnaceCreekInn.gpx'
@@ -440,7 +440,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('geotag-test', out)
 
 
-    def icc_test(self):
+    def test_icc(self):
         return # temporarily disable
         # Test driver for exiv2.exe ICC support (-pS, -pC, -eC, -iC)
 
@@ -508,7 +508,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('icc-test', out)
 
 
-    def image_test(self):
+    def test_image(self):
         test_files = ['table.jpg', 'smiley1.jpg', 'smiley2.jpg']
         erase_test_files = [
             'glider.exv'
@@ -564,7 +564,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             raise RuntimeError(f"{str(out)}\n{BT.log.to_str()}")
 
 
-    def io_test(self):
+    def test_io(self):
         # Test driver for file i/o
         test_files  = ['table.jpg', 'smiley2.jpg', 'ext.dat']
         for f in test_files:
@@ -608,7 +608,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('iotest', out)
 
 
-    def iptc_test(self):
+    def test_iptc(self):
         # Test driver for Iptc metadata
         test_files = [
             'glider.exv'
@@ -673,7 +673,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             raise RuntimeError(f"{str(out)}\n{BT.log.to_str()}")
 
 
-    def iso65k_test(self):
+    def test_iso65k(self):
         # test for ISOs which follow Annex G of EXIF 2.3 spec, i.e. ISOs,
         # which cannot be represented by Exif.Photo.ISOSpeedRatings due to
         # being larger than 65k
@@ -855,7 +855,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('iso65k-test', out)
 
 
-    def modify_test(self):
+    def test_modify(self):
         # Test driver for write unit tests to build Exif metadata from scratch
         for i in ['exiv2-empty.jpg', 'exiv2-gc.jpg', 'modifycmd1.txt', 'modifycmd2.txt']:
             BT.copyTestFile(i)
@@ -867,7 +867,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('modify-test', out)
 
 
-    def nls_test(self):
+    def test_nls(self):
         # Test driver for exiv2.exe nls support
         nls          = BT.Executer('exiv2 -vVg nls').stdout.split('\n')[1]
         if nls      != 'enable_nls=1':
@@ -875,7 +875,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             return
 
         if BT.Config.system_name == 'Windows':
-            print('Skipped. Because nls_test is not supported on Windows.')
+            print('Skipped. Because test_nls is not supported on Windows.')
             return
 
         if BT.Config.system_name == 'Linux':
@@ -899,7 +899,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('nls-test', out,forgive=True)
 
 
-    def path_test(self):
+    def test_path(self):
         # Mini test-driver for path utility functions
         BT.copyTestFile('path-test.txt')
         out      = BT.Output()
@@ -907,7 +907,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # print(out)
 
 
-    def png_test(self):
+    def test_png(self):
         # Test PNG support (-pS, -pc, -c, -pa)
         out   = BT.Output()
         files = ['1343_empty.png'
@@ -927,7 +927,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('png-test', out) # skip!  blank lines from -pc are in the wrong order!
 
 
-    def preview_test(self):
+    def test_preview(self):
         # Test driver for previews
         images = [
             'exiv2-bug443.jpg'
@@ -1007,7 +1007,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('preview-test', out)
 
 
-    def stdin_test(self):
+    def test_stdin(self):
         # Test driver for stdin
         if find_spec('lxml') is None:
             print('Skipped. Because it misses module lxml. Please install: `pip install lxml`')
@@ -1088,14 +1088,14 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('stdin-test', out)
 
 
-    def stringto_test(self):
+    def test_stringto(self):
         # Test driver for tests of stringToLong/Float/Rational
         out      = BT.Output()
         out     += BT.Executer('stringto-test')
         BT.reportTest('stringto-test', out)
 
 
-    def tiff_test(self):
+    def test_tiff(self):
         # TIFF parser test driver
 
         def exifprobe(img):
@@ -1175,13 +1175,13 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('tiff-test', out)
 
 
-    def version_test(self):
+    def test_version(self):
         # Test driver for exiv2 --verbose --version
         out      = BT.Output()
         out     += BT.Executer('exiv2 --verbose --version')
 
 
-    def webp_test(self):
+    def test_webp(self):
         # Test driver for webp
         if find_spec('lxml') is None:
             print('Skipped. Because it misses module lxml. Please install: `pip install lxml`')
@@ -1266,7 +1266,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('webp-test', out)
 
 
-    def write_test(self):
+    def test_write(self):
         # Test driver for the write unit tests
         images = [
             'exiv2-canon-powershot-s40.jpg'
@@ -1310,7 +1310,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('write-test', out)
 
 
-    def write2_test(self):
+    def test_write2(self):
         # Test driver for write unit tests to build Exif metadata from scratch
         img      = 'exiv2-empty.jpg'
         BT.copyTestFile(img)
@@ -1319,7 +1319,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('write2-test', out)
 
 
-    def xmpparser_test(self):
+    def test_xmpparser(self):
         # XMP parser test driver
         images = ['BlueSquare.xmp', 'StaffPhotographer-Example.xmp', 'xmpsdk.xmp']
         out      = BT.Output()

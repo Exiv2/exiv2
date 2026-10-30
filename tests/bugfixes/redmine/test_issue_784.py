@@ -9,7 +9,7 @@ class WritingXmpLrHierarchicalSubjectWritesWrongDatatype(
 
     url = "http://dev.exiv2.org/issues/784"
 
-    filename = "$data_path/exiv2-bug784_copy.jpg"
+    filename = "$tmp_path/exiv2-bug784_copy.jpg"
 
     commands = [
         "$exiv2 -px $filename",

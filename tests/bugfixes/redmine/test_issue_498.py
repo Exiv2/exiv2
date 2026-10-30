@@ -8,7 +8,7 @@ class ReadDataAfterTagDelete(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/498"
 
-    filename = "$data_path/exiv2-empty_copy.jpg"
+    filename = "$tmp_path/exiv2-empty_copy.jpg"
 
     commands = [
         """$exiv2 -u -v -M"set Exif.GPSInfo.GPSLatitude 0/1 1/1 2/1" $filename""",

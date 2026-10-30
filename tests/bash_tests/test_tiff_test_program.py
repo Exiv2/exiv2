@@ -6,7 +6,7 @@ import system_tests
 @system_tests.CopyFiles("$data_path/mini9.tif")
 class TestTiffTestProg(metaclass=system_tests.CaseMeta):
 
-    commands = ["$tiff_test $data_path/mini9_copy.tif"]
+    commands = ["$tiff_test $tmp_path/mini9_copy.tif"]
 
     stdout = [
         """Test 1: Writing empty Exif data without original binary data: ok.

@@ -8,7 +8,7 @@ class AssertionSvEqualsDFailedRegression(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/769"
 
-    filename = "$data_path/exiv2-empty_copy.jpg"
+    filename = "$tmp_path/exiv2-empty_copy.jpg"
 
     commands = [
         """$exiv2 -u -v -M"add Exif.Image.Make Canon" -M"add Exif.CanonCs.0x0001 Short 1" -M"add Exif.CanonCs.0x0000 Short 2" $filename""",
