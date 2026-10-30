@@ -40,6 +40,11 @@ class EXIV2API XmpSidecar : public Image {
   //! @name Manipulators
   //@{
   void readMetadata() override;
+  /*!
+    @brief Write buffered metadata as an XMP sidecar.
+    @throw Error(ErrorCode::kerImageWriteFailed) if structured XMP encoding fails.
+           Encoding failure leaves the bytes present before this call unchanged.
+   */
   void writeMetadata() override;
   /*!
     @brief Not supported. XMP sidecar files do not contain a comment.

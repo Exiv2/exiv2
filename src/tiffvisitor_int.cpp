@@ -4,6 +4,7 @@
 #include "tiffvisitor_int.hpp"  // see bug #487
 
 #include "config.h"
+#include "devicesettings_int.hpp"
 #include "enforce.hpp"
 #include "exif.hpp"
 #include "image_int.hpp"
@@ -1318,6 +1319,9 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
       }
     }
     auto v = Value::create(typeId);
+    // DeviceSettings contains SHORT dimensions inside UNDEFINED bytes; retain their TIFF order.
+    if (typeId == undefined && object->tag() == 0xa40b && object->group() == IfdId::exifId)
+      v = std::make_unique<DeviceSettingsValue>();
     enforce(v != nullptr, ErrorCode::kerCorruptedMetadata);
     v->read(pData, size, byteOrder());
 

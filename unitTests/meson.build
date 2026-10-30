@@ -16,6 +16,7 @@ test_sources = files(
   'test_basicio.cpp',
   'test_bmpimage.cpp',
   'test_cr2header_int.cpp',
+  'test_convert.cpp',
   'test_datasets.cpp',
   'test_enforce.cpp',
   'test_futils.cpp',
@@ -31,6 +32,7 @@ test_sources = files(
   'test_xmp_concurrent.cpp',
   'test_xmp_concurrent_registry.cpp',
   'test_xmp_race_encode_decode.cpp',
+  'test_xmpsidecar.cpp',
   'unittest_utils.cpp',
 )
 
