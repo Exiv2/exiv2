@@ -1173,7 +1173,7 @@ constexpr TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
      unsignedShort, 1, EXV_PRINT_TAG(sonyFlashTypeA100)},
     {0x005A, "Rotation", N_("Rotation"), N_("Rotation"), IfdId::sony1MltCsA100Id, SectionId::makerTags, unsignedShort,
      1, printMinoltaSonyRotation},
-    {0x004B, "AELock", N_("AE Lock"), N_("AE lock"), IfdId::sony1MltCsA100Id, SectionId::makerTags, unsignedShort, 1,
+    {0x005B, "AELock", N_("AE Lock"), N_("AE lock"), IfdId::sony1MltCsA100Id, SectionId::makerTags, unsignedShort, 1,
      printMinoltaSonyBoolValue},
     {0x005E, "ColorTemperature2", N_("Color Temperature 2"), N_("Color temperature 2"), IfdId::sony1MltCsA100Id,
      SectionId::makerTags, unsignedLong, 1, printValue},
