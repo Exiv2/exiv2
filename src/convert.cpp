@@ -1320,7 +1320,6 @@ void copyExifToXmp(const ExifData& exifData, XmpData& xmpData) {
   converter.cnvToXmp();
 }
 
-/// \todo not used internally. We should at least have unit tests for this.
 void moveExifToXmp(ExifData& exifData, XmpData& xmpData) {
   Converter converter(exifData, xmpData);
   converter.setErase();
@@ -1332,7 +1331,6 @@ void copyXmpToExif(const XmpData& xmpData, ExifData& exifData) {
   converter.cnvFromXmp();
 }
 
-/// \todo not used internally. We should at least have unit tests for this.
 void moveXmpToExif(XmpData& xmpData, ExifData& exifData) {
   Converter converter(exifData, xmpData);
   converter.setErase();
@@ -1354,7 +1352,6 @@ void copyIptcToXmp(const IptcData& iptcData, XmpData& xmpData, const char* iptcC
   converter.cnvToXmp();
 }
 
-/// \todo not used internally. We should at least have unit tests for this.
 void moveIptcToXmp(IptcData& iptcData, XmpData& xmpData, const char* iptcCharset) {
   if (!iptcCharset)
     iptcCharset = iptcData.detectCharset();
@@ -1370,7 +1367,6 @@ void copyXmpToIptc(const XmpData& xmpData, IptcData& iptcData) {
   converter.cnvFromXmp();
 }
 
-/// \todo not used internally. We should at least have unit tests for this.
 void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData) {
   Converter converter(iptcData, xmpData);
   converter.setErase();
