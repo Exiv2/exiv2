@@ -8,7 +8,7 @@ class FixMetadataDifferenceToExiftool(metaclass=CaseMeta):
 
     url = "http://dev.exiv2.org/issues/935"
 
-    filename = path("$data_path/exiv2-empty_copy.jpg")
+    filename = path("$tmp_path/exiv2-empty_copy.jpg")
 
     commands = [
         """$exiv2 -u -v -M"set Exif.Photo.ExposureTime 605/10" $filename""",

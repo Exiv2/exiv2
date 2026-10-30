@@ -7,7 +7,7 @@ class CheckXmpTimeZoneInformation(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1112"
 
-    filename = system_tests.path("$data_path/exiv2-bug1112_copy.xmp")
+    filename = system_tests.path("$tmp_path/exiv2-bug1112_copy.xmp")
     commands = [ """$exiv2 -M "del Xmp.dc.title" $filename""" ]
 
     stdout = [ "" ]

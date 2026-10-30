@@ -169,7 +169,6 @@ if get_option('app')
   samples = {
     'addmoddel': declare_dependency(),
     'conntest': web_dep,
-    'convert-test': declare_dependency(),
     'easyaccess-test': declare_dependency(),
     'exifcomment': declare_dependency(),
     'exifdata-test': declare_dependency(),
@@ -177,15 +176,12 @@ if get_option('app')
     'exifprint': declare_dependency(),
     'exifvalue': declare_dependency(),
     'geotag': expat_dep,
-    'ini-test': inih_dep,
     'iotest': declare_dependency(),
     'iptceasy': declare_dependency(),
     'iptcprint': declare_dependency(),
     'iptctest': declare_dependency(),
     'jpegparsetest': declare_dependency(),
-    'key-test': declare_dependency(),
     'largeiptc-test': declare_dependency(),
-    'mmap-test': declare_dependency(),
     'mrwthumb': declare_dependency(),
     'prevtest': declare_dependency(),
     'remotetest': declare_dependency(),
@@ -208,7 +204,6 @@ if get_option('app')
   endforeach
 
   gopt = [
-   'getopt-test',
    'metacopy',
    'path-test',
   ]

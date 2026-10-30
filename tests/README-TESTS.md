@@ -35,35 +35,48 @@ especially useful for a regression test suite, but can be also used for testing
 of new features where unit testing is not feasible, e.g. to test new command
 line parameters.
 
+Files from bug reports or fuzzing that only need to be rejected with a certain
+error (e.g. `kerCorruptedMetadata`) or must simply not crash don't need a system
+test: add them to the table in `unitTests/test_poc_files.cpp` instead. Its
+actions cover reading the metadata, printing all values (`-pa`), listing the
+previews (`-pp`) and printing the structure (`-pS`, `-pR`, `-pX`, `-pC`).
+
 <div id="running-the-test-suite"/>
 
 ## Running the test suite
 
-The test suite is written for Python 3 and is not compatible with Python 2, thus
-it must be run with `python3` and not with `python` (which is usually an alias
-for Python 2).
-
-Then navigate to the `tests/` subdirectory and run:
+The test suite is written for Python 3 and runs with
+[pytest](https://docs.pytest.org/). Navigate to the `tests/` subdirectory and
+run:
 
 ```bash
 python3 -m pip install -r requirements.txt
-python3 runner.py
+python3 -m pytest
 ```
 
-One can supply the script with a directory where the suite should look for the
-tests (it will search the directory recursively). If omitted, the runner will
-look in the directory where the configuration file is located. It is also
-possible to instead pass a file as the parameter, the test suite will then only
-run the tests from this file.
+By default all test directories are searched recursively. One can instead pass
+directories, files or single tests, e.g.:
 
-The runner script also supports the optional arguments `--config_file` which
-allows to provide a different test suite configuration file than the default
-`suite.conf`. It also forwards the verbosity setting via the `-v`/`--verbose`
-flags to Python's unittest module.
+```bash
+python3 -m pytest bugfixes
+python3 -m pytest bugfixes/redmine/test_issue_1058.py
+python3 -m pytest -k issue_1058
+```
 
-Optionally one can provide the `--debug` flag which will instruct test suite to
-print all command invocations and all expected and obtained outputs to the
-standard output.
+The location of the exiv2 binaries is taken from the `EXIV2_BINDIR` environment
+variable (default: `../build/bin`). All the usual pytest options work, e.g.
+`-v` for verbose output, `-x` to stop at the first failure or `--lf` to rerun
+only the tests that failed last time. With
+[pytest-xdist](https://pypi.org/project/pytest-xdist/) installed, `-n auto`
+runs the tests in parallel. Every pytest process uses its own subdirectory of
+`$tmp_path`, which is removed after a successful run.
+
+The option `--suite-config` allows to provide a different test suite
+configuration file than the default `suite.conf`.
+
+Optionally one can provide the `--exiv2-debug` flag which will instruct the test
+suite to print all command invocations and all expected and obtained outputs
+(add `-s` to see them for passing tests too).
 
 [TOC](#TOC)
 
@@ -109,7 +122,7 @@ When creating new tests, follow roughly these steps:
 2. Create a new file with a name matching `test_*.py`. Copy the class definition
    from the above example and choose an appropriate class name.
 
-3. Run the test suite via `python3 runner.py` and ensure that your test case is
+3. Run the test suite via `python3 -m pytest` and ensure that your test case is
    actually run! Either run the suite with the `-v` option which will output all
    test cases that were run or simply add an error and check if errors occur.
 
@@ -133,14 +146,13 @@ directory.
 
 ## Test suite
 
-The test suite itself uses the builtin `unittest` module of Python to discover
-and run the individual test cases. The test cases themselves are implemented in
+The test suite uses pytest to discover and run the individual test cases. The test cases themselves are implemented in
 Python source files, but the required Python knowledge is minimal.
 
 The test suite is configured via one configuration file whose location
-automatically sets the root directory of the test suite. The `unittest` module
-then recursively searches all sub-directories with a `__init__.py` file for
-files of the form `test_*.py`, which it automatically interprets as test cases
+automatically sets the root directory of the test suite. pytest then
+recursively searches the test directories listed in `pytest.ini` for files of
+the form `test*.py`, which it automatically interprets as test cases
 (more about these in the next section). Python will automatically interpret each
 directory as a module and use this to format the output, e.g. the test case
 `regression/crashes/test_bug_15.py` will be interpreted as the module
@@ -302,9 +314,9 @@ variable names in Python.
 
 The test cases are defined in Python source files utilizing the unittest module,
 thus every file must also be a valid Python file. Each file defining a test case
-must start with `test_` and have the file extension `py`. To be discovered by
-the unittest module it must reside in a directory with a (empty) `__init__.py`
-file.
+must start with `test_` and have the file extension `py`. It should reside in a
+directory with a (empty) `__init__.py` file, so that test files in different
+directories may share a name.
 
 A test case should test one logical unit, e.g. test for regressions of a certain
 bug or check if a command line option works. Each test case can run multiple

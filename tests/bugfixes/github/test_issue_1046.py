@@ -5,7 +5,7 @@ from system_tests import CaseMeta, CopyFiles, path
 
 @CopyFiles("$data_path/IMG_0246.exv")
 class test_issue_1046Test(metaclass=CaseMeta):
-    filename = path("$data_path/IMG_0246_copy.exv")
+    filename = path("$tmp_path/IMG_0246_copy.exv")
     # Use the """ string syntax for -M"set Bla.Dee.Bla" commands to ensure they run on Windows!
     commands = [
         "$exiv2 -pt -b -g GPSInfo -g UserCom    $filename",

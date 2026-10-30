@@ -42,15 +42,10 @@ As Exiv2 is open source, we publish all our materials.  The following programs a
 | Name | Kind | More information |
 |:---  |:---  |:---              |
 | _**conntest**_ | Test http/https/ftp/ssh/sftp connection | [conntest](#conntest) |
-| _**convert-test**_ | Conversion test driver | [convert-test](#convert-test) |
 | _**easyaccess-test**_ | Sample program using high-level metadata access functions | [easyaccess-test](#easyaccess-test) |
-| _**getopt-test**_ | Sample program to test getopt() | [getopt-test](#getopt-test) |
-| _**ini-test**_ | Shows simple usage of the INIReader class | [ini-test](#ini-test) |
 | _**iotest**_ | Test programs for BasicIo functions. | [iotest](#iotest) |
 | _**iptctest**_ | Sample program test Iptc reading and writing. | [iptctest](#iptctest) |
-| _**key-test**_ | Key unit tests | [key-test](#key-test) |
 | _**largeiptc-test**_ | Test for large (>65535 bytes) IPTC buffer | [largeiptc-test](#largeiptc-test) |
-| _**mmap-test**_ | Simple mmap tests | [mmap-test](#mmap-test) |
 | _**path-test**_ | Test path IO | [path-test](#path-test) |
 | _**prevtest**_ | Test access to preview images | [prevtest](#prevtest) |
 | _**remotetest**_ | Tester application for testing remote i/o. | [remotetest](#remotetest) |
@@ -270,18 +265,6 @@ Test http/https/ftp/ssh/sftp connection
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
-<div id="convert-test">
-
-#### convert-test
-
-```
-Usage: convert-test file
-```
-
-Conversion test driver
-
-[Sample](#TOC1) Programs [Test](#TOC2) Programs
-
 <div id="easyaccess-test">
 
 #### easyaccess-test
@@ -300,40 +283,18 @@ Sample program using high-level metadata access functions. Without specification
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
-<div id="getopt-test">
-
-#### getopt-test
-
-```
-Usage: getopt-test
-```
-This program is used to test the function **getopt()**.  Prior to Exiv2 v0.27, the sample programs used the platform's C Runtime Library function **getopt()**.  Visual Studio builds used code in src/getopt.cpp.  Due to differences in the platform **getopt()**, the code in src/getopt.cpp was modified and adopted on every platforms.  This test program was added for test and debug purpose.  Please note that src/getopt.cpp is compiled and linked into the sample application and is not part of the Exiv2 library.
-
-[Sample](#TOC1) Programs [Test](#TOC2) Programs
-
-<div id="ini-test">
-
-#### ini-test
-
-```
-Usage: ini-test
-```
-
-This program is used to test reading the file ini-test.  This program was added in Exiv2 v0.26 when the ~/.exiv2 file was added to the Exiv2 architecture.
-
-[Sample](#TOC1) Programs [Test](#TOC2) Programs
-
 <div id="iotest">
 
 #### iotest
 
 ```
-Usage: iotest filein fileout1 fileout2 [remote [blocksize]]
+Usage: iotest [--nocurl] filein fileout1 fileout2 [remote [blocksize]]
 copy filein to fileout1 and copy filein to fileout2
 fileout1 and fileout2 are overwritten and should match filein exactly
 
 You may optionally provide the URL of a remote file to be copied to filein
 If you use `remote`, you may optionally provide a blocksize for the copy buffer (default 10k)
+--nocurl reads an http:// remote with exiv2's built-in HttpIo instead of libcurl
 ```
 
 Test programs for BasicIo functions.
@@ -353,18 +314,6 @@ Sample program test Iptc reading and writing.
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
-<div id="key-test">
-
-#### key-test
-
-```
-Usage: key-test
-```
-
-Key unit tests
-
-[Sample](#TOC1) Programs [Test](#TOC2) Programs
-
 <div id="largeiptc-test">
 
 #### largeiptc-test
@@ -374,18 +323,6 @@ Usage: largeiptc-test image datafile
 ```
 
 Test for large (>65535 bytes) IPTC buffer
-
-[Sample](#TOC1) Programs [Test](#TOC2) Programs
-
-<div id="mmap-test">
-
-#### mmap-test
-
-```
-Usage: mmap-test file
-```
-
-Simple mmap tests
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 

@@ -17,9 +17,14 @@ add_executable(
   test_datasets.cpp
   test_Error.cpp
   test_DateValue.cpp
+  test_easyaccess.cpp
   test_enforce.cpp
+  test_ExifKey.cpp
+  test_convert.cpp
   test_FileIo.cpp
   test_futils.cpp
+  test_getopt.cpp
+  ${PROJECT_SOURCE_DIR}/app/getopt.cpp
   test_helper_functions.cpp
   test_image_int.cpp
   test_ImageFactory.cpp
@@ -27,8 +32,10 @@ add_executable(
   test_jp2image_int.cpp
   test_IptcKey.cpp
   test_LangAltValueRead.cpp
+  test_makernote_int.cpp
   test_Photoshop.cpp
   test_pngimage.cpp
+  test_poc_files.cpp
   test_safe_op.cpp
   test_slice.cpp
   test_tiffheader.cpp
@@ -64,7 +71,7 @@ if(EXIV2_ENABLE_PNG)
   target_link_libraries(unit_tests PRIVATE ${ZLIB_LIBRARIES})
 endif()
 
-target_include_directories(unit_tests PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(unit_tests PRIVATE ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/app)
 
 set_target_properties(unit_tests PROPERTIES COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS})
 

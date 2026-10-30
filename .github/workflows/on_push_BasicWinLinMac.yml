@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml python3-pytest
 
       - name: Build
         run: |
@@ -65,7 +65,7 @@ jobs:
       - name: Install dependencies
         run: |
           brew update --quiet
-          brew install inih googletest
+          brew install inih googletest pytest
 
       - name: Build
         run: |
@@ -105,7 +105,7 @@ jobs:
 
       - name: Install Conan & common config
         run: |
-          python -m pip install conan lxml
+          python -m pip install conan lxml pytest
           conan profile detect --name default --force
 
       - name: Run Conan
