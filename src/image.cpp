@@ -232,8 +232,8 @@ uint16_t Image::byteSwap(uint16_t value, bool bSwap) {
   return bSwap ? _byteswap_ushort(value) : value;
 #else
   uint16_t result = 0;
-  result |= (value & 0x00FFU) << 8;
-  result |= (value & 0xFF00U) >> 8;
+  result |= static_cast<uint16_t>((value & 0x00FFU) << 8);
+  result |= static_cast<uint16_t>((value & 0xFF00U) >> 8);
   return bSwap ? result : value;
 #endif
 }

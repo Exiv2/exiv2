@@ -234,7 +234,7 @@ void InitializeUnicodeConversions()
 	static inline UTF16Unit UTF16InSwap ( const UTF16Unit * inPtr )
 	{
 		UTF16Unit inUnit = *inPtr;
-		return (inUnit << 8) | (inUnit >> 8);
+		return static_cast<UTF16Unit>((inUnit << 8) | (inUnit >> 8));
 	}
 
 	static inline UTF32Unit UTF32InSwap ( const UTF32Unit * inPtr )
@@ -532,7 +532,7 @@ static void CodePoint_from_UTF8_Multi ( const UTF8Unit * utf8In, const size_t ut
 	#endif
 
 	size_t bytesNeeded = 0;	// Count the leading 1 bits in the first byte.
-	for ( UTF8Unit temp = inUnit; temp > 0x7F; temp = temp << 1 ) ++bytesNeeded;
+	for ( UTF8Unit temp = inUnit; temp > 0x7F; temp = static_cast<UTF8Unit>(temp << 1) ) ++bytesNeeded;
 		// *** Consider CPU-specific assembly inline, e.g. cntlzw on PowerPC.
 	
 	if ( (bytesNeeded < 2) || (bytesNeeded > 4) ) UC_Throw ( "Invalid UTF-8 sequence length", kXMPErr_BadParam );
@@ -1144,7 +1144,7 @@ static void UTF8_to_UTF16Swp ( const UTF8Unit * utf8In,   const size_t utf8Len,
 		for ( i = 0; i < limit; ++i ) {
 			UTF8Unit inUnit = *utf8Pos;
 			if ( inUnit > 0x7F ) break;
-			*utf16Pos = UTF16Unit(inUnit) << 8;	// Better than: UTF16OutSwap ( utf16Pos, inUnit );
+			*utf16Pos = static_cast<UTF16Unit>(inUnit << 8);	// Better than: UTF16OutSwap ( utf16Pos, inUnit );
 			++utf8Pos;
 			++utf16Pos;
 		}

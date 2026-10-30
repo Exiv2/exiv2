@@ -449,9 +449,9 @@ DecodeBase64Char ( XMP_Uns8 ch )
 	if ( ('A' <= ch) && (ch <= 'Z') ) {
 		ch = ch - 'A';
 	} else if ( ('a' <= ch) && (ch <= 'z') ) {
-		ch = ch - 'a' + 26;
+		ch = static_cast<XMP_Uns8>(ch - 'a' + 26);
 	} else if ( ('0' <= ch) && (ch <= '9') ) {
-		ch = ch - '0' + 52;
+		ch = static_cast<XMP_Uns8>(ch - '0' + 52);
 	} else if ( ch == '+' ) {
 		ch = 62;
 	} else if ( ch == '/' ) {

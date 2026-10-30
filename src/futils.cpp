@@ -133,7 +133,7 @@ void urldecode(std::string& str) {
   while (idxIn < sizeStr) {
     if (str[idxIn] == '%') {
       if (str[idxIn + 1] && str[idxIn + 2]) {
-        str[idxOut++] = from_hex(str[idxIn + 1]) << 4 | from_hex(str[idxIn + 2]);
+        str[idxOut++] = static_cast<char>(from_hex(str[idxIn + 1]) << 4 | from_hex(str[idxIn + 2]));
         idxIn += 2;
       }
     } else if (str[idxIn] == '+') {

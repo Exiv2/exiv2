@@ -1052,7 +1052,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   if (pos != xmpData_->end() && pos->count() > 0) {
     auto ret = pos->toUint32();
     if (pos->value().ok())
-      value |= (ret & 3) << 1;
+      value |= static_cast<unsigned short>((ret & 3) << 1);
 #ifndef SUPPRESS_WARNINGS
     else
       EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Return"
@@ -1063,7 +1063,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   if (pos != xmpData_->end() && pos->count() > 0) {
     auto mode = pos->toUint32();
     if (pos->value().ok())
-      value |= (mode & 3) << 3;
+      value |= static_cast<unsigned short>((mode & 3) << 3);
 #ifndef SUPPRESS_WARNINGS
     else
       EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Mode"
@@ -1074,7 +1074,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   if (pos != xmpData_->end() && pos->count() > 0) {
     auto function = pos->toUint32();
     if (pos->value().ok())
-      value |= (function & 1) << 5;
+      value |= static_cast<unsigned short>((function & 1) << 5);
 #ifndef SUPPRESS_WARNINGS
     else
       EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Function"
@@ -1086,7 +1086,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
     if (pos->count() > 0) {
       auto red = pos->toUint32();
       if (pos->value().ok())
-        value |= (red & 1) << 6;
+        value |= static_cast<unsigned short>((red & 1) << 6);
 #ifndef SUPPRESS_WARNINGS
       else
         EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:RedEyeMode"

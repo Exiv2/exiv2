@@ -874,7 +874,7 @@ DataBuf decodeHex(const byte* src, size_t srcSize) {
       byte srcValue = decodeHexTable[src[srcPos]];
       if (srcValue == invalid)
         continue;
-      buffer |= srcValue << (bufferPos * 4);
+      buffer |= static_cast<byte>(srcValue << (bufferPos * 4));
       bufferPos--;
     }
     dest.write_uint8(destPos, buffer);
