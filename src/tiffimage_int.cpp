@@ -405,11 +405,66 @@ constexpr ArrayDef nikonAf22Def[] = {
     {82, ttUnsignedByte, 1},   // ContrastDetectAFInFocus
 };
 
+// AFInfo2 03xx: offsets from Image::ExifTool::Nikon::AFInfo2V0300.
+// Unencrypted; multi-byte fields use the Nikon MakerNote TIFF byte order.
+constexpr ArrayCfg nikonAf23Cfg = {
+    IfdId::nikonAf23Id,  // Group for the elements
+    invalidByteOrder,    // Use byte order from parent
+    ttUndefined,         // Type for array entry
+    notEncrypted,        // Not encrypted
+    false,               // No size element
+    true,                // Write all tags
+    true,                // Concatenate gaps to preserve unknown bytes
+    {0, ttUnsignedByte, 1},
+};
+constexpr ArrayDef nikonAf23Def[] = {
+    {0, ttUndefined, 4},       // Version
+    {4, ttUnsignedByte, 1},    // AFDetectionMethod
+    {5, ttUnsignedByte, 1},    // AFAreaMode
+    {6, ttUnsignedByte, 1},    // FocusPointSchema
+    {7, ttUnsignedByte, 1},    // AFCoordinatesAvailable
+    {42, ttUnsignedShort, 1},  // AFImageWidth
+    {44, ttUnsignedShort, 1},  // AFImageHeight
+    {46, ttUnsignedShort, 1},  // AFAreaXPosition
+    {48, ttUnsignedShort, 1},  // AFAreaYPosition
+    {50, ttUnsignedShort, 1},  // AFAreaWidth
+    {52, ttUnsignedShort, 1},  // AFAreaHeight
+    {56, ttUnsignedByte, 1},   // PrimaryAFPoint
+};
+
+// AFInfo2 04xx: offsets from Image::ExifTool::Nikon::AFInfo2V0400.
+// Unencrypted; multi-byte fields use the Nikon MakerNote TIFF byte order.
+constexpr ArrayCfg nikonAf24Cfg = {
+    IfdId::nikonAf24Id,  // Group for the elements
+    invalidByteOrder,    // Use byte order from parent
+    ttUndefined,         // Type for array entry
+    notEncrypted,        // Not encrypted
+    false,               // No size element
+    true,                // Write all tags
+    true,                // Concatenate gaps to preserve unknown bytes
+    {0, ttUnsignedByte, 1},
+};
+constexpr ArrayDef nikonAf24Def[] = {
+    {0, ttUndefined, 4},       // Version
+    {4, ttUnsignedByte, 1},    // AFDetectionMethod
+    {5, ttUnsignedByte, 1},    // AFAreaMode
+    {7, ttUnsignedByte, 1},    // AFCoordinatesAvailable
+    {62, ttUnsignedShort, 1},  // AFImageWidth
+    {64, ttUnsignedShort, 1},  // AFImageHeight
+    {66, ttUnsignedShort, 1},  // AFAreaXPosition
+    {68, ttUnsignedShort, 1},  // AFAreaYPosition
+    {70, ttUnsignedShort, 1},  // AFAreaWidth
+    {72, ttUnsignedShort, 1},  // AFAreaHeight
+    {74, ttUnsignedByte, 1},   // FocusResult
+};
+
 //! Nikon AF2 configuration and definitions
 //  https://github.com/Exiv2/exiv2/issues/646
 constexpr ArraySet nikonAf2Set[] = {
     {nikonAf21Cfg, nikonAf21Def, std::size(nikonAf21Def)},
     {nikonAf22Cfg, nikonAf22Def, std::size(nikonAf22Def)},
+    {nikonAf23Cfg, nikonAf23Def, std::size(nikonAf23Def)},
+    {nikonAf24Cfg, nikonAf24Def, std::size(nikonAf24Def)},
 };
 
 //! Nikon AF Fine Tune binary array - configuration
@@ -1367,6 +1422,8 @@ const TiffTreeTable TiffCreator::tiffTreeTable_ = {
     {{Tag::root, IfdId::nikonMeId}, {IfdId::nikon3Id, 0x00b0}},
     {{Tag::root, IfdId::nikonAf21Id}, {IfdId::nikon3Id, 0x00b7}},
     {{Tag::root, IfdId::nikonAf22Id}, {IfdId::nikon3Id, 0x00b7}},
+    {{Tag::root, IfdId::nikonAf23Id}, {IfdId::nikon3Id, 0x00b7}},
+    {{Tag::root, IfdId::nikonAf24Id}, {IfdId::nikon3Id, 0x00b7}},
     {{Tag::root, IfdId::nikonFiId}, {IfdId::nikon3Id, 0x00b8}},
     {{Tag::root, IfdId::nikonAFTId}, {IfdId::nikon3Id, 0x00b9}},
     {{Tag::root, IfdId::nikonFl1Id}, {IfdId::nikon3Id, 0x00a8}},
@@ -1782,6 +1839,8 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     // Nikon3 auto focus 2
     {{Tag::all, IfdId::nikonAf21Id}, &newTiffBinaryElement},
     {{Tag::all, IfdId::nikonAf22Id}, &newTiffBinaryElement},
+    {{Tag::all, IfdId::nikonAf23Id}, &newTiffBinaryElement},
+    {{Tag::all, IfdId::nikonAf24Id}, &newTiffBinaryElement},
 
     // Nikon3 AF Fine Tune
     {{Tag::all, IfdId::nikonAFTId}, &newTiffBinaryElement},
