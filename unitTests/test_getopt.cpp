@@ -74,13 +74,8 @@ TEST(Getopt, optionArgumentsAttachedOrSeparate) {
   Args args{"exiv2", "-Pkv", "-g", "Model", "-qb", "print", "file"};
   RecordingGetopt getopt;
   EXPECT_EQ(0, getopt.getopt(args.argc(), args.argv(), optstring));
-  // optarg is only meaningful for options that take an argument, it is not
-  // reset for the others
-  ASSERT_EQ(4u, getopt.options.size());
-  EXPECT_EQ(std::make_pair(int('P'), std::string("kv")), getopt.options[0]);
-  EXPECT_EQ(std::make_pair(int('g'), std::string("Model")), getopt.options[1]);
-  EXPECT_EQ('q', getopt.options[2].first);
-  EXPECT_EQ('b', getopt.options[3].first);
+  using Opt = std::pair<int, std::string>;
+  EXPECT_EQ((std::vector<Opt>{{'P', "kv"}, {'g', "Model"}, {'q', ""}, {'b', ""}}), getopt.options);
   EXPECT_EQ((std::vector<std::string>{"print", "file"}), getopt.nonoptions);
 }
 
