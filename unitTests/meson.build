@@ -23,6 +23,7 @@ test_sources = files(
   'test_image_int.cpp',
   'test_jp2image.cpp',
   'test_jp2image_int.cpp',
+  'test_poc_files.cpp',
   'test_safe_op.cpp',
   'test_slice.cpp',
   'test_tiffheader.cpp',

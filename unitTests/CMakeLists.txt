@@ -29,6 +29,7 @@ add_executable(
   test_LangAltValueRead.cpp
   test_Photoshop.cpp
   test_pngimage.cpp
+  test_poc_files.cpp
   test_safe_op.cpp
   test_slice.cpp
   test_tiffheader.cpp

@@ -35,6 +35,10 @@ especially useful for a regression test suite, but can be also used for testing
 of new features where unit testing is not feasible, e.g. to test new command
 line parameters.
 
+Files from bug reports or fuzzing that only need to be rejected with a certain
+error (e.g. `kerCorruptedMetadata`) don't need a system test: add them to the
+table in `unitTests/test_poc_files.cpp` instead.
+
 <div id="running-the-test-suite"/>
 
 ## Running the test suite
@@ -53,8 +57,8 @@ directories, files or single tests, e.g.:
 
 ```bash
 python3 -m pytest bugfixes
-python3 -m pytest bugfixes/redmine/test_issue_841.py
-python3 -m pytest -k issue_841
+python3 -m pytest bugfixes/redmine/test_issue_1058.py
+python3 -m pytest -k issue_1058
 ```
 
 The location of the exiv2 binaries is taken from the `EXIV2_BINDIR` environment
