@@ -1446,7 +1446,7 @@ void HttpIo::HttpImpl::getDataByRange(size_t startBlock, size_t stopBlock, std::
   request["verb"] = "GET";
   std::string errors;
   if (startBlock != std::numeric_limits<size_t>::max() && stopBlock != std::numeric_limits<size_t>::max()) {
-    request["header"] = stringFormat("Range: bytes={}-{}", startBlock * blockSize_, stopBlock * blockSize_ - 1);
+    request["header"] = stringFormat("Range: bytes={}-{}\r\n", startBlock * blockSize_, stopBlock * blockSize_ - 1);
   }
 
   int serverCode = http(request, responseDic, errors);
