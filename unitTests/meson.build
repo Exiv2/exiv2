@@ -10,6 +10,7 @@ test_sources = files(
   'test_ImageFactory.cpp',
   'test_IptcKey.cpp',
   'test_LangAltValueRead.cpp',
+  'test_makernote_int.cpp',
   'test_Photoshop.cpp',
   'test_TimeValue.cpp',
   'test_XmpKey.cpp',
@@ -18,7 +19,11 @@ test_sources = files(
   'test_cr2header_int.cpp',
   'test_datasets.cpp',
   'test_enforce.cpp',
+  'test_ExifKey.cpp',
+  'test_convert.cpp',
   'test_futils.cpp',
+  'test_getopt.cpp',
+  '../app/getopt.cpp',
   'test_helper_functions.cpp',
   'test_image_int.cpp',
   'test_jp2image.cpp',
@@ -60,7 +65,7 @@ unit_tests = executable(
   test_sources,
   cpp_args: t_args,
   dependencies: [exiv2_dep, gtest_dep],
-  include_directories: exiv2inc,
+  include_directories: [exiv2inc, include_directories('../app')],
 )
 
 test('Unit Tests', unit_tests)
