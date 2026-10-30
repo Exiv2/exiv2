@@ -11,6 +11,7 @@ test_sources = files(
   'test_IptcKey.cpp',
   'test_LangAltValueRead.cpp',
   'test_Photoshop.cpp',
+  'test_panasonicmn.cpp',
   'test_TimeValue.cpp',
   'test_XmpKey.cpp',
   'test_basicio.cpp',
