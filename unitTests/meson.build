@@ -18,6 +18,7 @@ test_sources = files(
   'test_bmpimage.cpp',
   'test_cr2header_int.cpp',
   'test_datasets.cpp',
+  'test_easyaccess.cpp',
   'test_enforce.cpp',
   'test_ExifKey.cpp',
   'test_convert.cpp',

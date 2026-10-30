@@ -17,6 +17,7 @@ add_executable(
   test_datasets.cpp
   test_Error.cpp
   test_DateValue.cpp
+  test_easyaccess.cpp
   test_enforce.cpp
   test_ExifKey.cpp
   test_convert.cpp
