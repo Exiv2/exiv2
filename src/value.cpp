@@ -115,7 +115,7 @@ int DataValue::read(const std::string& buf) {
   while (is >> std::ws && !is.eof()) {
     if (!(is >> tmp))
       return 1;
-    if (!std::in_range<byte>(tmp) && !(typeId() == signedByte && std::in_range<int8_t>(tmp)))
+    if (!std::in_range<byte>(tmp) && !(typeId() == signedByte && std::in_range<signed char>(tmp)))
       return 1;
     val.push_back(static_cast<byte>(tmp));
   }
