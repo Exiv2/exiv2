@@ -101,24 +101,49 @@ class HeifMetadataWriting(unittest.TestCase):
                 self.assertEqual(hashlib.sha256(target.read_bytes()).digest(), before)
                 self.assertFalse(list(self.root.glob(".exiv2-heif-*")))
 
-    # Verify staging and destination-open failures preserve the source and clean temporary files.
+    # Verify staging failures preserve the source and clean temporary files.
     @unittest.skipUnless(os.name == "posix" and getattr(os, "geteuid", lambda: 0)() != 0,
                          "requires an unprivileged POSIX process")
-    def test_staging_and_destination_open_failures_preserve_source(self):
+    def test_staging_failure_preserves_source(self):
         target = self.copy("Stonehenge.heic")
         before = target.read_bytes()
 
         # Prevent staging-file creation by making the containing directory read-only.
         self.root.chmod(0o500)
         try:
+            try:
+                with (self.root / "permission-probe").open("xb"):
+                    pass
+            except PermissionError:
+                pass
+            else:
+                self.skipTest("filesystem does not enforce read-only directory permissions")
+
             self.run_exiv2("-M", "set Exif.Image.Artist pending", target, success=False)
             self.assertEqual(target.read_bytes(), before)
         finally:
             self.root.chmod(0o700)
 
-        # Allow staging again but prevent the final destination from opening for writing.
+        self.assertFalse(list(self.root.glob(".exiv2-heif-*")))
+
+    # Verify destination-open failures preserve the source and clean temporary files.
+    @unittest.skipUnless(os.name == "posix" and getattr(os, "geteuid", lambda: 0)() != 0,
+                         "requires an unprivileged POSIX process")
+    def test_destination_open_failure_preserves_source(self):
+        target = self.copy("Stonehenge.heic")
+        before = target.read_bytes()
+
+        # Prevent the final destination from opening for writing.
         target.chmod(0o400)
         try:
+            try:
+                with target.open("r+b"):
+                    pass
+            except PermissionError:
+                pass
+            else:
+                self.skipTest("filesystem does not enforce read-only file permissions")
+
             self.run_exiv2("-M", "set Exif.Image.Artist pending", target, success=False)
             self.assertEqual(target.read_bytes(), before)
         finally:
