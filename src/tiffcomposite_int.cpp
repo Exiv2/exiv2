@@ -877,10 +877,10 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
     }
   }
 
-  size_t idx = 0;                 // Current IFD index / bytes written
-  valueIdx = sizeDir;             // Offset to the current IFD value
+  size_t idx = 0;                             // Current IFD index / bytes written
+  valueIdx = sizeDir;                         // Offset to the current IFD value
   dataIdx = addTiffSize(sizeDir, sizeValue);  // Offset to the entry's data area
-  if (isRootDir) {                // Absolute offset to the image data
+  if (isRootDir) {                            // Absolute offset to the image data
     imageIdx = alignedTiffSize(addTiffSize(addTiffSize(offset, dataIdx), addTiffSize(sizeData, sizeNext)));
   }
 
