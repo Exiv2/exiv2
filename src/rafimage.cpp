@@ -81,7 +81,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
   const bool bPrint = option == kpsBasic || option == kpsRecursive;
   if (bPrint) {
     io_->seek(0, BasicIo::beg);  // rewind
-    size_t address = io_->tell();
+    uint64_t address = io_->tell();
     constexpr auto format = " {:9} | {:9} | ";
 
     {
@@ -145,7 +145,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     byte jpg_img_offset[4];
     io_->read(jpg_img_offset, 4);
     byte jpg_img_length[4];
-    size_t address2 = io_->tell();
+    uint64_t address2 = io_->tell();
     io_->read(jpg_img_length, 4);
 
     uint32_t jpg_img_off = Exiv2::getULong(jpg_img_offset, bigEndian);
@@ -179,13 +179,13 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
       address2 = io_->tell();
       io_->readOrThrow(data, 4);
       cfa_len[i] = Exiv2::getULong(data, bigEndian);
-      size_t address3 = io_->tell();
+      uint64_t address3 = io_->tell();
       io_->readOrThrow(data, 4);
       comp[i] = Exiv2::getULong(data, bigEndian);
-      size_t address4 = io_->tell();
+      uint64_t address4 = io_->tell();
       io_->readOrThrow(data, 4);
       cfa_size[i] = Exiv2::getULong(data, bigEndian);
-      size_t address5 = io_->tell();
+      uint64_t address5 = io_->tell();
       io_->readOrThrow(data, 4);
       cfa_data[i] = Exiv2::getULong(data, bigEndian);
       {

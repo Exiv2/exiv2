@@ -239,9 +239,9 @@ EXIV2API uint16_t getUShort(const byte* buf, ByteOrder byteOrder);
 template <typename T>
 uint16_t getUShort(const Slice<T>& buf, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
-    return static_cast<byte>(buf.at(1)) << 8 | static_cast<byte>(buf.at(0));
+    return static_cast<uint16_t>(static_cast<byte>(buf.at(1)) << 8 | static_cast<byte>(buf.at(0)));
   }
-  return static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1));
+  return static_cast<uint16_t>(static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1)));
 }
 
 //! Read a 4 byte unsigned long value from the data buffer

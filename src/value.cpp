@@ -112,8 +112,13 @@ int DataValue::read(const std::string& buf) {
   std::istringstream is(buf);
   int tmp = 0;
   ValueType val;
-  while (is >> tmp)
-    val.push_back(tmp);
+  while (is >> std::ws && !is.eof()) {
+    if (!(is >> tmp))
+      return 1;
+    if (!std::in_range<byte>(tmp) && !(typeId() == signedByte && std::in_range<signed char>(tmp)))
+      return 1;
+    val.push_back(static_cast<byte>(tmp));
+  }
   if (!is.eof())
     return 1;
   value_ = std::move(val);
@@ -785,7 +790,8 @@ int DateValue::read(const std::string& buf) {
           return 1;
         }
       }
-      dest = std::stoul(buf.substr(start, count));
+      // Date components contain at most four decimal digits.
+      dest = std::stoi(buf.substr(start, count));
       return 0;
     };
 

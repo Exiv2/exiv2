@@ -1105,7 +1105,7 @@ void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial) 
   Exiv2::byte cj = xlat[1][key];
   Exiv2::byte ck = 0x60;
   for (uint32_t i = 0; i < size; ++i) {
-    cj += ci * ck++;
+    cj = static_cast<Exiv2::byte>(cj + ci * ck++);  // Cipher arithmetic wraps modulo 256.
     pData[i] ^= cj;
   }
 }

@@ -77,22 +77,22 @@ static const char * kTenSpaces = "          ";
 
 #define OutProcNChars(p,n)	{ status = (*outProc) ( refCon, (p), (n) );  if ( status != 0 ) goto EXIT; }
 
-#define OutProcLiteral(lit)	{ status = (*outProc) ( refCon, (lit), strlen(lit) );  if ( status != 0 ) goto EXIT; }
+#define OutProcLiteral(lit)	{ status = (*outProc) ( refCon, (lit), static_cast<XMP_StringLen>(strlen(lit)) );  if ( status != 0 ) goto EXIT; }
 
-#define OutProcString(str)	{ status = (*outProc) ( refCon, (str).c_str(), (str).size() );  if ( status != 0 ) goto EXIT; }
+#define OutProcString(str)	{ status = (*outProc) ( refCon, (str).c_str(), XMP_CheckedCast<XMP_StringLen>((str).size()) );  if ( status != 0 ) goto EXIT; }
 
 #define OutProcULong(num)	{ snprintf ( buffer, sizeof(buffer), "%lu", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */ \
-							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
+							  status = (*outProc) ( refCon, buffer, static_cast<XMP_StringLen>(strlen(buffer)) );  if ( status != 0 ) goto EXIT; }
 #ifdef __APPLE__
 #define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%X", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
-							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
+							  status = (*outProc) ( refCon, buffer, static_cast<XMP_StringLen>(strlen(buffer)) );  if ( status != 0 ) goto EXIT; }
 #else
 #define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%lX", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
-							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
+							  status = (*outProc) ( refCon, buffer, static_cast<XMP_StringLen>(strlen(buffer)) );  if ( status != 0 ) goto EXIT; }
 #endif
 
 #define OutProcHexByte(num)	{ snprintf ( buffer, sizeof(buffer), "%.2X", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
-							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
+							  status = (*outProc) ( refCon, buffer, static_cast<XMP_StringLen>(strlen(buffer)) );  if ( status != 0 ) goto EXIT; }
 
 static const char * kIndent = "   ";
 #define OutProcIndent(lev)	{ for ( size_t i = 0; i < (lev); ++i ) OutProcNChars ( kIndent, 3 ); }
@@ -121,7 +121,7 @@ DumpClearString ( const XMP_VarString & value, XMP_TextOutputProc outProc, void 
 			if ( (unsigned char)(*spanEnd) > 0x7F ) break;
 			if ( (*spanEnd < 0x20) && (*spanEnd != kTab) && (*spanEnd != kLF) ) break;
 		}
-		if ( spanStart != spanEnd ) status = (*outProc) ( refCon,  spanStart, (spanEnd-spanStart) );
+		if ( spanStart != spanEnd ) status = (*outProc) ( refCon,  spanStart, XMP_CheckedCast<XMP_StringLen>((spanEnd-spanStart)) );
 		if ( status != 0 ) break;
 		spanStart = spanEnd;
 		
@@ -1074,7 +1074,7 @@ XMPMeta::GetNamespacePrefix	( XMP_StringPtr   namespaceURI,
 	
 	if ( uriPos != sNamespaceURIToPrefixMap->end() ) {
 		*namespacePrefix = uriPos->second.c_str();
-		*prefixSize = uriPos->second.size();
+		*prefixSize = XMP_CheckedCast<XMP_StringLen>(uriPos->second.size());
 		found = true;
 	}
 	
@@ -1104,7 +1104,7 @@ XMPMeta::GetNamespaceURI ( XMP_StringPtr   namespacePrefix,
 	
 	if ( prefixPos != sNamespacePrefixToURIMap->end() ) {
 		*namespaceURI = prefixPos->second.c_str();
-		*uriSize = prefixPos->second.size();
+		*uriSize = XMP_CheckedCast<XMP_StringLen>(prefixPos->second.size());
 		found = true;
 	}
 	
@@ -1305,11 +1305,11 @@ XMPMeta::ResolveAlias ( XMP_StringPtr	 aliasNS,
 	
 	*sOutputNS = fullPath[kSchemaStep].step;
 	*actualNS  = sOutputNS->c_str();
-	*nsSize    = sOutputNS->size();
+	*nsSize    = XMP_CheckedCast<XMP_StringLen>(sOutputNS->size());
 	
 	ComposeXPath ( fullPath, sOutputStr );
 	*actualProp = sOutputStr->c_str();
-	*propSize   = sOutputStr->size();
+	*propSize   = XMP_CheckedCast<XMP_StringLen>(sOutputStr->size());
 
 	*arrayForm  = actualPath[kRootPropStep].options & kXMP_PropArrayFormMask;
 	
@@ -1517,7 +1517,7 @@ XMPMeta::CountArrayItems ( XMP_StringPtr schemaNS,
 
 	if ( arrayNode == 0 ) return 0;
 	if ( ! (arrayNode->options & kXMP_PropValueIsArray) ) XMP_Throw ( "The named property is not an array", kXMPErr_BadXPath );
-	return arrayNode->children.size();
+	return XMP_CheckedCast<XMP_Index>(arrayNode->children.size());
 	
 }	// CountArrayItems
 
@@ -1532,7 +1532,7 @@ XMPMeta::GetObjectName ( XMP_StringPtr * namePtr,
 {
 	
 	*namePtr = tree.name.c_str();
-	*nameLen = tree.name.size();
+	*nameLen = XMP_CheckedCast<XMP_StringLen>(tree.name.size());
 	
 }	// GetObjectName
 

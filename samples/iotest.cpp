@@ -50,10 +50,13 @@ int main(int argc, char* const argv[]) {
           output.write(bytes.get(), r);
         }
       } else {
-        size_t l = 0;
+        const uint64_t length = io->size();
         // read/write byte-wise (#1029)
-        while (l++ < io->size()) {
-          output.putb(io->getb());
+        for (uint64_t l = 0; l < length; ++l) {
+          const int value = io->getb();
+          if (value == EOF)
+            throw Exiv2::Error(Exiv2::ErrorCode::kerInputDataReadFailed);
+          output.putb(static_cast<Exiv2::byte>(value));
         }
       }
       output.close();

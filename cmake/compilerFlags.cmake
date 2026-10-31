@@ -70,6 +70,13 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         add_compile_options(-Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W)
         add_compile_options(-Wno-error=format-nonliteral)
 
+        if (COMPILER_IS_GCC)
+            add_compile_options(-Wconversion)
+            if (EXIV2_TEAM_WARNINGS_AS_ERRORS)
+                add_compile_options(-Werror=conversion)
+            endif()
+        endif()
+
         # This seems to be causing issues in the Fedora_MinGW GitLab job
         #add_compile_options(-fasynchronous-unwind-tables)
 

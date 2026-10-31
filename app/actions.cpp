@@ -1941,7 +1941,8 @@ std::ostream& operator<<(std::ostream& os, const std::pair<std::string, int>& st
   if (count < minChCount) {
     minChCount += str.size() - count;
   }
-  return os << std::setw(minChCount) << str;
+  os.width(Exiv2::Internal::checkedCast<std::streamsize>(minChCount));
+  return os << str;
 }
 
 int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string& path) {

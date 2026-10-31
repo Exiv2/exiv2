@@ -235,7 +235,7 @@ EmitRDFArrayTag	( XMP_OptionBits  arrayForm,
 				  XMP_StringPtr	  newline,
 				  XMP_StringPtr	  indentStr,
 				  XMP_Index		  indent,
-				  XMP_Index		  arraySize,
+				  size_t			  arraySize,
 				  bool			  isStartTag )
 {
 	if ( (! isStartTag) && (arraySize == 0) ) return;
@@ -1163,12 +1163,14 @@ void
 XMPMeta::SerializeToBuffer ( XMP_StringPtr * rdfString,
 							 XMP_StringLen * rdfSize,
 							 XMP_OptionBits	 options,
-							 XMP_StringLen	 padding,
+							 XMP_StringLen	 requestedPadding,
 							 XMP_StringPtr	 newline,
 							 XMP_StringPtr	 indentStr,
 							 XMP_Index		 baseIndent ) const
 {
 	XMP_Assert ( (rdfString != 0) && (rdfSize != 0) && (newline != 0) && (indentStr != 0) );
+
+	size_t padding = requestedPadding;
 
 	// Fix up some default parameters.
 	
@@ -1279,7 +1281,7 @@ XMPMeta::SerializeToBuffer ( XMP_StringPtr * rdfString,
 			size_t newlineLen = newlineStr.size();
 	
 			if ( padding < newlineLen ) {
-				for ( int i = padding/2; i > 0; --i ) *sOutputStr += padStr;
+				for ( size_t i = padding/2; i > 0; --i ) *sOutputStr += padStr;
 			} else {
 				padding -= newlineLen;	// Write this newline last.
 				while ( padding >= (200 + newlineLen) ) {
@@ -1287,7 +1289,7 @@ XMPMeta::SerializeToBuffer ( XMP_StringPtr * rdfString,
 					*sOutputStr += newlineStr;
 					padding -= (200 + newlineLen);
 				}
-				for ( int i = padding/2; i > 0; --i ) *sOutputStr += padStr;
+				for ( size_t i = padding/2; i > 0; --i ) *sOutputStr += padStr;
 				*sOutputStr += newlineStr;
 			}
 
@@ -1319,7 +1321,7 @@ XMPMeta::SerializeToBuffer ( XMP_StringPtr * rdfString,
 			size_t newlineLen = newlineStr.size();
 	
 			if ( padding < newlineLen ) {
-				for ( int i = padding/4; i > 0; --i ) *sOutputStr += padStr;
+				for ( size_t i = padding/4; i > 0; --i ) *sOutputStr += padStr;
 			} else {
 				padding -= newlineLen;	// Write this newline last.
 				while ( padding >= (400 + newlineLen) ) {
@@ -1327,7 +1329,7 @@ XMPMeta::SerializeToBuffer ( XMP_StringPtr * rdfString,
 					*sOutputStr += newlineStr;
 					padding -= (400 + newlineLen);
 				}
-				for ( int i = padding/4; i > 0; --i ) *sOutputStr += padStr;
+				for ( size_t i = padding/4; i > 0; --i ) *sOutputStr += padStr;
 				*sOutputStr += newlineStr;
 			}
 
@@ -1340,7 +1342,7 @@ XMPMeta::SerializeToBuffer ( XMP_StringPtr * rdfString,
 	// Return the finished string.
 	
 	*rdfString = sOutputStr->c_str();
-	*rdfSize   = sOutputStr->size();
+	*rdfSize   = XMP_CheckedCast<XMP_StringLen>(sOutputStr->size());
 
 }	// SerializeToBuffer
 

@@ -2717,7 +2717,7 @@ std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*
         return os << "(" << value << ")";
       }
     }
-    const float ss = static_cast<float>(sec.first) / sec.second;
+    const float ss = static_cast<float>(sec.first) / static_cast<float>(sec.second);
     os << dd << " deg ";
     os << mm << "' ";
     std::ostringstream oss;
@@ -2874,7 +2874,8 @@ std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*)
     }
     std::ostringstream oss;
     oss.copyfmt(os);
-    const double t = (3600.0 * value.toInt64(0)) + (60.0 * value.toInt64(1)) + value.toFloat(2);
+    const double t = (3600.0 * static_cast<double>(value.toInt64(0))) + (60.0 * static_cast<double>(value.toInt64(1))) +
+                     value.toFloat(2);
     enforce<std::overflow_error>(std::isfinite(t), "Non-finite time value");
     int p = 0;
     const double fraction = std::fmod(t, 1);
@@ -2969,7 +2970,7 @@ std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*)
     t.first = 1;
     os << t << " s";
   } else {
-    os << static_cast<float>(t.first) / t.second << " s";
+    os << static_cast<float>(t.first) / static_cast<float>(t.second) << " s";
   }
   return os;
 }
@@ -2977,7 +2978,7 @@ std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*)
 std::ostream& print0x829d(std::ostream& os, const Value& value, const ExifData*) {
   Rational fnumber = value.toRational();
   if (fnumber.second != 0)
-    return os << stringFormat("F{:.2g}", static_cast<float>(fnumber.first) / fnumber.second);
+    return os << stringFormat("F{:.2g}", static_cast<float>(fnumber.first) / static_cast<float>(fnumber.second));
   return os << "(" << value << ")";
 }
 
@@ -3033,7 +3034,7 @@ std::ostream& print0x9201(std::ostream& os, const Value& value, const ExifData*)
   if (!value.ok() || r.second == 0)
     return os << "(" << value << ")";
 
-  URational ur = exposureTime(static_cast<float>(r.first) / r.second);
+  URational ur = exposureTime(static_cast<float>(r.first) / static_cast<float>(r.second));
   os << ur.first;
   if (ur.second > 1) {
     os << "/" << ur.second;
@@ -3074,7 +3075,7 @@ std::ostream& print0x9206(std::ostream& os, const Value& value, const ExifData*)
   if (static_cast<uint32_t>(distance.first) == std::numeric_limits<uint32_t>::max())
     return os << _("Infinity");
   if (distance.second != 0)
-    return os << stringFormat("{:.2f} m", static_cast<float>(distance.first) / distance.second);
+    return os << stringFormat("{:.2f} m", static_cast<float>(distance.first) / static_cast<float>(distance.second));
   return os << "(" << value << ")";
 }
 
@@ -3096,7 +3097,7 @@ std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData* 
 std::ostream& print0x920a(std::ostream& os, const Value& value, const ExifData*) {
   Rational length = value.toRational();
   if (length.second != 0)
-    return os << stringFormat("{:.1f} mm", static_cast<float>(length.first) / length.second);
+    return os << stringFormat("{:.1f} mm", static_cast<float>(length.first) / static_cast<float>(length.second));
   return os << "(" << value << ")";
 }
 
@@ -3181,7 +3182,7 @@ std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*)
   Rational zoom = value.toRational();
   if (zoom.second == 0)
     return os << _("Digital zoom not used");
-  return os << stringFormat("{:.1f}", static_cast<float>(zoom.first) / zoom.second);
+  return os << stringFormat("{:.1f}", static_cast<float>(zoom.first) / static_cast<float>(zoom.second));
 }
 
 std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*) {

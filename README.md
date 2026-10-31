@@ -74,7 +74,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 
 # Building, Installing, Using and Uninstalling Exiv2
 
-You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, any C++ compiler implementing the C++ 20 standard and the associated tool chain.
+You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, any C++ compiler implementing the C++ 20 standard and the associated tool chain. When building with GCC, version 10 or newer is required.
 
 <div id="B_I_U_Unix">
 

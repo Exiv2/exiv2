@@ -7,6 +7,7 @@
 #include <array>
 #include <cerrno>
 #include <chrono>
+#include <cstddef>
 #include <cstring>
 #include <thread>
 
@@ -62,7 +63,7 @@ static constexpr std::array blankLines{
 static constexpr auto snooze = std::chrono::milliseconds::zero();
 static auto sleep_ = std::chrono::milliseconds(1000);
 
-static int forgive(int n, int& err) {
+static std::ptrdiff_t forgive(std::ptrdiff_t n, int& err) {
   err = WSAGetLastError();
   if (!n && !err)
     return FINISH;
@@ -259,7 +260,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   ////////////////////////////////////
   // read and process the response
   int err = 0;
-  int n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
+  auto n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
   while (n >= 0 && OK(status)) {
     if (n) {
       end += n;
@@ -336,7 +337,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   }
 
   if (n != FINISH || !OK(status)) {
-    snprintf(buffer, sizeof buffer, "wsa_error = %d,n = %d,sleep_ = %d status = %d", WSAGetLastError(), n,
+    snprintf(buffer, sizeof buffer, "wsa_error = %d,n = %td,sleep_ = %d status = %d", WSAGetLastError(), n,
              static_cast<int>(sleep_.count()), status);
     error(errors, buffer, nullptr, nullptr, 0);
   } else if (bSearching && OK(status)) {

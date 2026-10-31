@@ -10,6 +10,7 @@
 // included header files
 #include "convert.hpp"
 #include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "exif.hpp"
 #include "image_int.hpp"
@@ -751,7 +752,7 @@ void Converter::cnvExifVersion(const char* from, const char* to) {
   std::string value;
   value.reserve(count);
   for (size_t i = 0; i < count; ++i) {
-    value.push_back(pos->toUint32(i));
+    value.push_back(static_cast<char>(Internal::checkedCast<byte>(pos->toUint32(i))));
   }
   (*xmpData_)[to] = value;
   if (erase_)
@@ -1058,7 +1059,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   if (pos != xmpData_->end() && pos->count() > 0) {
     auto ret = pos->toUint32();
     if (pos->value().ok())
-      value |= (ret & 3) << 1;
+      value |= static_cast<unsigned short>((ret & 3) << 1);
 #ifndef SUPPRESS_WARNINGS
     else
       EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Return"
@@ -1069,7 +1070,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   if (pos != xmpData_->end() && pos->count() > 0) {
     auto mode = pos->toUint32();
     if (pos->value().ok())
-      value |= (mode & 3) << 3;
+      value |= static_cast<unsigned short>((mode & 3) << 3);
 #ifndef SUPPRESS_WARNINGS
     else
       EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Mode"
@@ -1080,7 +1081,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   if (pos != xmpData_->end() && pos->count() > 0) {
     auto function = pos->toUint32();
     if (pos->value().ok())
-      value |= (function & 1) << 5;
+      value |= static_cast<unsigned short>((function & 1) << 5);
 #ifndef SUPPRESS_WARNINGS
     else
       EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Function"
@@ -1092,7 +1093,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
     if (pos->count() > 0) {
       auto red = pos->toUint32();
       if (pos->value().ok())
-        value |= (red & 1) << 6;
+        value |= static_cast<unsigned short>((red & 1) << 6);
 #ifndef SUPPRESS_WARNINGS
       else
         EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:RedEyeMode"

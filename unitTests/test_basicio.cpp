@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <exiv2/basicio.hpp>
 
+#include <algorithm>
 #include <array>
 
 using namespace Exiv2;
@@ -168,4 +169,45 @@ TEST(MemIo, readMoreBytesThanAvailableReturnsAvailableBytes) {
 
   MemIo io(buf1.data(), buf1.size());
   ASSERT_EQ(10u, io.read(buf2.data(), 15));
+}
+
+TEST(MemIo, streamCopyCountsBytesBeyondFourGiB) {
+  // Model the transfer without allocating or writing a multi-gigabyte buffer.
+  class CountingSource : public MemIo {
+   public:
+    using MemIo::read;
+
+    explicit CountingSource(uint64_t length) : length_(length), remaining_(length) {
+    }
+
+    uint64_t size() const override {
+      return length_;
+    }
+
+    uint64_t tell() const override {
+      return length_ - remaining_;
+    }
+
+    size_t read(byte*, size_t count) override {
+      const auto transferred = static_cast<size_t>(std::min<uint64_t>(count, remaining_));
+      remaining_ -= transferred;
+      return transferred;
+    }
+
+   private:
+    uint64_t length_;
+    uint64_t remaining_;
+  } source((uint64_t{1} << 32) + 123);
+
+  class CountingSink : public MemIo {
+   public:
+    using MemIo::write;
+
+    size_t write(const byte*, size_t count) override {
+      return count;
+    }
+  } sink;
+
+  EXPECT_EQ(source.size(), sink.write(source));
+  EXPECT_EQ(source.size(), source.tell());
 }
