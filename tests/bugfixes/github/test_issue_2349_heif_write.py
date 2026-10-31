@@ -36,7 +36,7 @@ class HeifMetadataWriting(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr.decode(errors="replace"))
         else:
             self.assertNotEqual(result.returncode, 0)
-        return result.stdout
+        return result.stdout.replace(b"\r\n", b"\n")
 
     # Extract metadata, clear its physical storage, and insert it back from the sidecar.
     @unittest.skipUnless(system_tests.BT.verbose_version().get("have_xmptoolkit") == "1",
