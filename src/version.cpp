@@ -423,8 +423,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
   output(os, keys, "debug", debug);
   output(os, keys, "cplusplus", __cplusplus);
   output(os, keys, "version", __VERSION__);
-  output(os, keys, "date", __DATE__);
-  output(os, keys, "time", __TIME__);
   output(os, keys, "processpath", Exiv2::getProcessPath());
 #ifdef EXV_ENABLE_NLS
   output(os, keys, "localedir", EXV_LOCALEDIR);

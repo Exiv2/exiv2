@@ -331,9 +331,9 @@ variable or value.
 Multiple **--grep** *str* options can be used to output additional data:
 
 ```
-$ exiv2 --verbose --version --grep webready --grep time
+$ exiv2 --verbose --version --grep webready --grep debug
 exiv2 1.0.0.9
-time=11:01:53
+debug=0
 enable_webready=1
 xmlns=mediapro:http://ns.iview-multimedia.com/mediapro/1.0/
 ```
