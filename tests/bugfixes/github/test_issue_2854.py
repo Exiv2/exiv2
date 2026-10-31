@@ -66,7 +66,7 @@ class Cr3FullPreview(unittest.TestCase):
 
                 listing = self.run_exiv2("-pp", path)
                 self.assertEqual(listing.returncode, 0, listing.stderr)
-                self.assertEqual(listing.stdout, (
+                self.assertEqual(listing.stdout.replace(b"\r\n", b"\n"), (
                     f"Preview 1: image/jpeg, 150x91 pixels, {len(self.jpeg)} bytes\n"
                 ).encode())
                 extracted = self.run_exiv2("-ep", path)
