@@ -5,7 +5,7 @@ from pathlib import Path
 import struct
 import tempfile
 
-from system_tests import CaseMeta
+from system_tests import BT, CaseMeta
 
 
 def make_tiff(filename, order, count=0x10000000, kind=7):
@@ -92,6 +92,10 @@ class LargeTiffTags(metaclass=CaseMeta):
     commands = []
 
     def setUp(self):
+        # The 256 MiB value exercises the old count cutoff, but editing it can
+        # consume about 2 GiB of address space in the Exiv2 process.
+        if not BT.Config.is_64bit:
+            self.skipTest("Large TIFF round trips require a 64-bit Exiv2 binary")
         temporary = tempfile.TemporaryDirectory(prefix="issue-3071-", dir=self.expand_variables("$tmp_path"))
         self.addCleanup(temporary.cleanup)
         self.filename = Path(temporary.name) / "large.tif"
@@ -108,16 +112,14 @@ class LargeTiffTags(metaclass=CaseMeta):
         make_tiff(self.filename, order)
         self.order, _, _, self.digest, _, _ = inspect_tiff(self.filename)
 
-    def compare_stderr(self, i, command, got_stderr, expected_stderr):
+    def post_command_hook(self, i, command):
+        # The harness checks stderr and the exit status before inspecting output.
         order, kind, count, digest, pixel, text = inspect_tiff(self.filename)
         self.assertEqual((self.order, 7, 0x10000000, self.digest, b"\x7b"),
                          (order, kind, count, digest, pixel))
         artist = ["B", "x" * 600, None, None][i % 4]
         self.assertEqual(artist, text.get(315))
         self.assertEqual("reopened" if i % 4 == 3 else None, text.get(270))
-        self.assertEqual(expected_stderr, got_stderr)
-
-    def post_command_hook(self, i, command):
         if i == 3:
             # Reuse the path so only one large fixture exists at a time.
             self.filename.unlink()
