@@ -54,7 +54,7 @@ uint64_t BmffCursor::number(unsigned width) {
 
   uint64_t result = 0;
   for (unsigned i = 0; i < width; ++i)
-    result = (result << 8) | bytes[i];
+    result = (result << 8) | bytes.at(i);
   return result;
 }
 
