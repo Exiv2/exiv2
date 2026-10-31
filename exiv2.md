@@ -80,8 +80,8 @@ DNG  | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Rea
 EPS  | -          | -          | Read/Write |                | -           | -
 EXV  | Read/Write | Read/Write | Read/Write | Read/Write     | Read/Write  | Read/Write
 GIF  | -          | -          | -          | -              | -           | -
-HEIC | Read       | Read       | Read       | -              | -           | Read
-HEIF | Read       | Read       | Read       | -              | -           | Read
+HEIC | Read/Write | Read       | Read/Write | -              | Read        | Read
+HEIF | Read/Write | Read       | Read/Write | -              | Read        | Read
 JP2  | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Read/Write
 JPEG | Read/Write | Read/Write | Read/Write | Read/Write     | Read/Write  | Read/Write
 JXL  | Read       | Read       | Read       | -              | -           | Read
@@ -121,6 +121,52 @@ and see if `enable_bmff=1`.
   rudimentary support to read metadata from quicktime, matroska and riff based video files (e.g.
   .MOV/.MP4, .MKV, .AVI, .WAV, .ASF).
 
+### HEIF and HEIC metadata writing
+
+With BMFF support enabled, Exiv2 can add, replace and remove Exif and XMP for
+the primary image of an existing item-based HEIF/HEIC file. This includes
+growing and shortening values, deleting individual tags, clearing a category,
+and extracting/reinserting metadata through `.exv` files. Encoded images are
+copied without decoding or recompression; no image codec library is required.
+
+Writing supports the `heic`, `heix` and `mif1` major brands, self-contained
+`mdat` and `idat` item storage, and primary coded or derived images (including
+grids). Thumbnails, auxiliary images, other image items, their properties,
+and ICC profiles are preserved. Capability reporting describes potential
+operations; each write checks the actual container before changing the source.
+AVIF, CR3 and JPEG XL writing remain unsupported. Timed sequences, protected
+items, external data references, item construction method 2, compressed XMP,
+and unknown structures whose offsets cannot be safely relocated are rejected.
+Creating a new HEIF image, editing ICC profiles, and standalone IPTC changes
+are unsupported. Embedded IPTC is preserved during unrelated Exif edits.
+
+Changed metadata is serialized afresh and the output is compacted. Successful
+deletion or replacement removes the targeted obsolete metadata payloads and
+unused storage from the new file, including shortened/deleted TIFF values,
+old media gaps and padding. If those bytes are also required by another item,
+the edit is rejected before source replacement. Independent active metadata
+belonging to other images remains. This operation does not erase backups,
+older copies, filesystem history or information encoded in image pixels.
+An explicit clear performs cleanup even when the decoded category is empty;
+an unchanged write with no pending cleanup preserves the file byte for byte.
+
+Exif byte order is retained. Known MakerNotes and embedded thumbnail data are
+reconstructed and checked for preservation; unsupported serialization changes
+fail before transfer. Canon autofocus fields derived from `AFInfo` are read-only.
+Repeated edits do not accumulate superseded payloads or duplicate image data.
+
+Without the XMP toolkit, Exif edits and raw XMP packet preservation, replacement
+and removal remain available. Structured XMP edits and Exif edits that require
+merging distinct primary XMP packets need the toolkit and are rejected without
+it. An explicit XMP replacement or clear can replace those packets together.
+
+Structural parsing and metadata sizes are bounded independently of image size.
+Limits include 16 MiB of parsed structural data, 65,536 items, 100,000 boxes,
+16 levels of nesting, and 64 MiB of combined Exif/XMP input payloads. Large
+encoded image ranges are copied in bounded chunks. Local file writes prepare
+and validate a temporary file before transfer; failure before transfer leaves
+the source unchanged. A failure or crash during final transfer can leave an
+incomplete destination. Replacement is not guaranteed to be atomic.
 
 [TOC](#TOC)
 
