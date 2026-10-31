@@ -169,15 +169,21 @@ bool isXmpType(BasicIo& iIo, bool advance) {
    */
   const int32_t len = 80;
   byte buf[len];
+  const size_t restore = iIo.tell();
   iIo.read(buf, xmlHdrCnt + 1);
   if (iIo.eof() && 0 == strncmp(reinterpret_cast<const char*>(buf), xmlHeader, xmlHdrCnt)) {
+    if (!advance) {
+      iIo.seek(restore, BasicIo::beg);
+    }
     return true;
   }
   if (iIo.error() || iIo.eof()) {
+    iIo.seek(restore, BasicIo::beg);
     return false;
   }
   iIo.read(buf + xmlHdrCnt + 1, len - xmlHdrCnt - 1);
   if (iIo.error() || iIo.eof()) {
+    iIo.seek(restore, BasicIo::beg);
     return false;
   }
   // Skip leading BOM
