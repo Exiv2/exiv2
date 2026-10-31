@@ -13,7 +13,6 @@
 // + standard includes
 #include <algorithm>
 #include <array>
-#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <ostream>
@@ -822,6 +821,17 @@ std::string_view blockText(std::span<const byte> data) {
   return text;
 }
 
+// Validate decoded Gregorian fields without requiring the C++20 calendar types.
+constexpr bool validGregorianDate(unsigned year, unsigned month, unsigned day) {
+  constexpr std::array<unsigned, 12> daysInMonth{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  if (month == 0 || month > daysInMonth.size() || day == 0)
+    return false;
+
+  const bool leapYear = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+  const auto lastDay = month == 2 && leapYear ? 29U : daysInMonth[month - 1];
+  return day <= lastDay;
+}
+
 // Callers supply a complete eight-byte face rectangle in the documented thumbnail coordinate system.
 void printFaceRectangle(std::ostream& os, const byte* data, ByteOrder order) {
   os << _("center") << " (" << getUShort(data, order) << ", " << getUShort(data + 2, order) << "), " << _("size") << ' '
@@ -883,9 +893,7 @@ std::ostream& PanasonicMakerNote::printTimeInfo(std::ostream& os, const Value& v
         return os << value;
       date[i] = (data[i] >> 4) * 10 + (data[i] & 15);
     }
-    const std::chrono::year_month_day calendar{std::chrono::year(static_cast<int>(date[0] * 100 + date[1])),
-                                               std::chrono::month(date[2]), std::chrono::day(date[3])};
-    if (!calendar.ok() || date[4] > 23 || date[5] > 59 || date[6] > 59)
+    if (!validGregorianDate(date[0] * 100 + date[1], date[2], date[3]) || date[4] > 23 || date[5] > 59 || date[6] > 59)
       return os << value;
   }
 
