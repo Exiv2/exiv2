@@ -3,6 +3,7 @@
 #include "tiffimage_int.hpp"
 #include "basicio.hpp"
 #include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
@@ -19,6 +20,7 @@
 
 #include <array>
 #include <iostream>
+#include <limits>
 
 // Shortcuts for the newTiffBinaryArray templates.
 #define EXV_BINARY_ARRAY(arrayCfg, arrayDef) &newTiffBinaryArray0<arrayCfg, std::size(arrayDef), arrayDef>
@@ -2066,32 +2068,37 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
                                      OffsetWriter* pOffsetWriter) {
   /*
      1) parse the binary image, if one is provided, and
-     2) attempt updating the parsed tree in-place ("non-intrusive writing")
-     3) else, create a new tree and write a new TIFF structure ("intrusive
-        writing"). If there is a parsed tree, it is only used to access the
-        image data in this case.
+     2) build and validate the replacement layout before any source bytes change
+     3) attempt updating the parsed tree in-place ("non-intrusive writing")
+     4) else, write the replacement tree ("intrusive writing")
    */
   WriteMethod writeMethod = wmIntrusive;
   auto parsedTree = parse(pData, size, root, pHeader);
   auto primaryGroups = findPrimaryGroups(parsedTree);
+  auto createdTree = TiffCreator::create(root, IfdId::ifdIdNotSet);
   if (parsedTree) {
+    TiffCopier copier(createdTree.get(), root, pHeader, primaryGroups);
+    parsedTree->accept(copier);
+  }
+  // The replacement encoder keeps the source tree alive for both write strategies.
+  auto sourceTree = parsedTree.get();
+  TiffEncoder replacement(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, primaryGroups, pHeader,
+                          findEncoderFct);
+  replacement.add(createdTree.get(), std::move(parsedTree), root);
+  const size_t limit = std::numeric_limits<uint32_t>::max();
+  const size_t metadataSize = createdTree->size();
+  enforce(pHeader->size() <= limit && metadataSize <= limit - pHeader->size() &&
+              createdTree->sizeImage() <= limit - pHeader->size() - metadataSize,
+          ErrorCode::kerOffsetOutOfRange);
+
+  if (sourceTree) {
     // Attempt to update existing TIFF components based on metadata entries
-    TiffEncoder encoder(exifData, iptcData, xmpData, parsedTree.get(), false, primaryGroups, pHeader, findEncoderFct);
-    parsedTree->accept(encoder);
+    TiffEncoder encoder(exifData, iptcData, xmpData, sourceTree, false, primaryGroups, pHeader, findEncoderFct);
+    sourceTree->accept(encoder);
     if (!encoder.dirty())
       writeMethod = wmNonIntrusive;
   }
   if (writeMethod == wmIntrusive) {
-    auto createdTree = TiffCreator::create(root, IfdId::ifdIdNotSet);
-    if (parsedTree) {
-      // Copy image tags from the original image to the composite
-      TiffCopier copier(createdTree.get(), root, pHeader, primaryGroups);
-      parsedTree->accept(copier);
-    }
-    // Add entries from metadata to composite
-    TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, std::move(primaryGroups), pHeader,
-                        findEncoderFct);
-    encoder.add(createdTree.get(), std::move(parsedTree), root);
     // Write binary representation from the composite tree
     DataBuf header = pHeader->write();
     auto tempIo = MemIo();

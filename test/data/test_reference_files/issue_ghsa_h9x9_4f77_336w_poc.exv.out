@@ -6,8 +6,8 @@ Warning: Directory Pentax, entry 0x0004 has unknown Exif (TIFF) type 0; setting 
 Error: Directory Pentax, entry 0x0004 has invalid size 1426102463*1; skipping entry.
 Warning: Directory Pentax, entry 0x0004: Size or data offset value not set, ignoring them.
 Warning: Directory Pentax, entry 0x0004 has unknown Exif (TIFF) type 0; setting type size 1.
-Error: Offset of directory Pentax, entry 0x0004 is out of bounds: Offset = 0x0001005c; truncating the entry
-Warning: Directory Pentax, entry 0x0004: Data offset entry value is empty, ignoring it.
+Error: Directory Pentax, entry 0x0004 has invalid size 39610*1; skipping entry.
+Warning: Directory Pentax, entry 0x0004: Size or data offset value not set, ignoring them.
 Warning: Directory Pentax, entry 0x0004 has unknown Exif (TIFF) type 0; setting type size 1.
 Error: Directory Pentax, entry 0x0004 has invalid size 932184321*1; skipping entry.
 Warning: Directory Pentax, entry 0x0004: Size or data offset value not set, ignoring them.
@@ -157,7 +157,6 @@ Exif.Pentax.NoiseReduction                   Short       1  1  On
 Exif.Pentax.FlashExposureCompensation        SLong       1  0  0 EV
 Exif.Pentax.ImageTone                        Short       1  0  Natural
 Exif.Pentax.ColorTemperature                 Short       1  0  0
-Exif.Pentax.PreviewOffset                    0x0000      0  
 Exif.Pentax.PreviewOffset                    0x0000      0  
 Exif.Pentax.PreviewOffset                    0x0000      0  
 Exif.Pentax.PreviewOffset                    0x0000      0  
