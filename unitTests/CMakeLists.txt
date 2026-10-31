@@ -31,6 +31,7 @@ add_executable(
   test_pngimage.cpp
   test_safe_op.cpp
   test_slice.cpp
+  test_sonymn.cpp
   test_tiffheader.cpp
   test_tiff_large_values.cpp
   test_tiff_makernotes.cpp
