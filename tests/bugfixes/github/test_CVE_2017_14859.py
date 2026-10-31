@@ -9,13 +9,10 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     filename = "$data_path/005-invalid-mem"
     commands = [f"$exiv2 {filename}"]
     stdout = [""]
+    # The following truncated JPEG segment is rejected before TIFF decoding.
     stderr = [
         f"""$exiv2_exception_message {filename}:
-{(
-    "$kerFailedToReadImageData"
-    if system_tests.BT.Config.is_64bit
-    else "$kerCorruptedMetadata"
-)}
+$kerFailedToReadImageData
 """
     ]
     retval = [1]
