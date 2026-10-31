@@ -324,6 +324,54 @@ TEST(PanasonicMetadata, MalformedTimeInfoRemainsRaw) {
   }
 }
 
+// Century leap years and month endpoints follow the Gregorian calendar in either TIFF byte order.
+TEST(PanasonicMetadata, TimeInfoAcceptsGregorianBoundaryDates) {
+  const struct {
+    std::array<byte, 4> date;
+    const char* expected;
+  } cases[] = {
+      {{0x01, 0x00, 0x01, 0x01}, "Date/time: 0100:01:01 23:59:59.99"},
+      {{0x19, 0x00, 0x02, 0x28}, "Date/time: 1900:02:28 23:59:59.99"},
+      {{0x20, 0x00, 0x02, 0x29}, "Date/time: 2000:02:29 23:59:59.99"},
+      {{0x20, 0x24, 0x04, 0x30}, "Date/time: 2024:04:30 23:59:59.99"},
+      {{0x24, 0x00, 0x02, 0x29}, "Date/time: 2400:02:29 23:59:59.99"},
+      {{0x99, 0x99, 0x12, 0x31}, "Date/time: 9999:12:31 23:59:59.99"},
+  };
+  for (const auto* order : {"II", "MM"}) {
+    SCOPED_TRACE(order);
+    auto metadata = panasonic();
+    metadata["Exif.MakerNote.ByteOrder"] = order;
+    for (const auto& test : cases) {
+      SCOPED_TRACE(test.expected);
+      const std::vector<byte> data{test.date[0], test.date[1], test.date[2], test.date[3], 0x23, 0x59, 0x59, 0x99};
+      setBlock(metadata, "Exif.Panasonic.TimeInfo", data);
+      EXPECT_EQ(test.expected, printed(metadata, "Exif.Panasonic.TimeInfo"));
+      EXPECT_EQ(data, bytes(metadata["Exif.Panasonic.TimeInfo"]));
+    }
+  }
+}
+
+// Invalid calendar fields retain their raw display instead of being normalized into another date.
+TEST(PanasonicMetadata, TimeInfoRejectsInvalidCalendarFields) {
+  const std::array<byte, 4> dates[] = {
+      {0x19, 0x00, 0x02, 0x29}, {0x21, 0x00, 0x02, 0x29}, {0x20, 0x24, 0x02, 0x30}, {0x20, 0x24, 0x04, 0x31},
+      {0x20, 0x24, 0x00, 0x01}, {0x20, 0x24, 0x13, 0x01}, {0x20, 0x24, 0x01, 0x00}, {0x20, 0x24, 0x99, 0x99},
+  };
+  for (const auto* order : {"II", "MM"}) {
+    SCOPED_TRACE(order);
+    auto metadata = panasonic();
+    metadata["Exif.MakerNote.ByteOrder"] = order;
+    for (const auto& date : dates) {
+      const std::vector<byte> data{date[0], date[1], date[2], date[3], 0, 0, 0, 0};
+      setBlock(metadata, "Exif.Panasonic.TimeInfo", data);
+      const auto raw = metadata["Exif.Panasonic.TimeInfo"].toString();
+      SCOPED_TRACE(raw);
+      EXPECT_EQ(raw, printed(metadata, "Exif.Panasonic.TimeInfo"));
+      EXPECT_EQ(data, bytes(metadata["Exif.Panasonic.TimeInfo"]));
+    }
+  }
+}
+
 // Packed settings are interpreted without changing types or dividing by zero.
 TEST(PanasonicMetadata, PackedSettingsRetainRawRepresentation) {
   auto metadata = panasonic();
