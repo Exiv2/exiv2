@@ -2,6 +2,7 @@
 
 - [README-TESTS](#README-TESTS)
   - [Running the test suite](#running-the-test-suite)
+    - [HEIF metadata writing](#heif-metadata-writing)
   - [Writing new tests](#writing-new-tests)
   - [Test data](#test-data)
   - [Test suite](#test-suite)
@@ -64,6 +65,62 @@ flags to Python's unittest module.
 Optionally one can provide the `--debug` flag which will instruct test suite to
 print all command invocations and all expected and obtained outputs to the
 standard output.
+
+[TOC](#TOC)
+
+<div id="heif-metadata-writing"/>
+
+### HEIF metadata writing
+
+Install the [build dependencies](../README.md#dependencies), including Google
+Test for [unit tests](../README.md#unit-tests), and the Python requirements
+listed above. These POSIX shell examples start at the repository root; see the
+[build instructions](../README.md#build-install-use-exiv2-on-a-unix-like-system)
+for general setup.
+
+Enable BMFF, unit tests and the CLI, then run the focused unit and CLI tests:
+
+```bash
+cmake -S . -B build-heif-debug -DCMAKE_BUILD_TYPE=Debug \
+  -DBUILD_TESTING=ON -DEXIV2_ENABLE_BMFF=ON \
+  -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_BUILD_EXIV2_COMMAND=ON \
+  -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_EXTERNAL_XMP=OFF
+cmake --build build-heif-debug --parallel 4
+./build-heif-debug/bin/unit_tests --gtest_filter='*Bmff*:*Heif*'
+(
+  cd tests
+  EXIV2_BINDIR="$PWD/../build-heif-debug/bin" \
+    python3 runner.py --verbose bugfixes/github/test_issue_2349_heif_write.py
+)
+```
+
+The unit filter includes the parameterized corpus tests. The CLI regressions
+cover metadata extraction/reinsertion, MakerNote removal, rejected writes, and
+staging/transfer-open failures, using disposable fixture copies.
+See the [BMFF internal layers](../src/README-BMFF.md) for the shared reader,
+item model, output engine and format-adapter boundaries covered by these tests.
+
+Use a separate build to check raw XMP handling without either XMP toolkit:
+
+```bash
+cmake -S . -B build-heif-no-xmp -DCMAKE_BUILD_TYPE=Debug \
+  -DBUILD_TESTING=ON -DEXIV2_ENABLE_BMFF=ON \
+  -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_BUILD_EXIV2_COMMAND=ON \
+  -DEXIV2_ENABLE_XMP=OFF -DEXIV2_ENABLE_EXTERNAL_XMP=OFF
+cmake --build build-heif-no-xmp --parallel 4
+./build-heif-no-xmp/bin/unit_tests --gtest_filter='*Bmff*:*Heif*'
+(
+  cd tests
+  EXIV2_BINDIR="$PWD/../build-heif-no-xmp/bin" \
+    python3 runner.py --verbose bugfixes/github/test_issue_2349_heif_write.py
+)
+```
+
+Tests requiring structured XMP decoding are skipped when the toolkit is
+disabled; raw-packet preservation, copying and removal have separate coverage.
+The CLI permission-failure test requires an unprivileged POSIX process and is
+skipped on other platforms or when run as root. A BMFF-disabled build omits
+the BMFF/HEIF unit tests and skips the HEIF CLI tests.
 
 [TOC](#TOC)
 
