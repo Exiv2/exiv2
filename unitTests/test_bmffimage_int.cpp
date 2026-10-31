@@ -1711,7 +1711,9 @@ Bytes tiffItem(ExifData exif, const XmpData& xmp = {}, ByteOrder order = littleE
   TiffParser::encode(output, nullptr, 0, order, exif, IptcData{}, xmp);
 
   Bytes bytes(4, 0);
-  bytes.insert(bytes.end(), output.mmap(), output.mmap() + output.size());
+  const auto* first = output.mmap();
+  const auto* last = first + output.size();
+  bytes.insert(bytes.end(), first, last);
   return bytes;
 }
 
@@ -2630,7 +2632,9 @@ TEST(HeifImage, preservesEmbeddedIptcAndThumbnailDataOnExifEdits) {
   TiffParser::encode(output, nullptr, 0, littleEndian, exif, iptc, XmpData{});
   HeifMetadataUpdate update;
   update.exif = Bytes(4, 0);
-  update.exif->insert(update.exif->end(), output.mmap(), output.mmap() + output.size());
+  const auto* first = output.mmap();
+  const auto* last = first + output.size();
+  update.exif->insert(update.exif->end(), first, last);
   auto image = openHeif(rewritten(heifWithMetadata(), update));
 
   image->exifData()["Exif.Image.Artist"] = "new";
