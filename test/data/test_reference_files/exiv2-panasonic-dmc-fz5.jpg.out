@@ -40,6 +40,7 @@ Exif.Panasonic.WhiteBalanceBias              Short       1  0  0 EV
 Exif.Panasonic.FlashBias                     Short       1  0  0
 Exif.Panasonic.InternalSerialNumber          Undefined  16  83 48 48 48 53 48 49 49 49 48 50 50 51 0 0 0  S000501110223
 Exif.Panasonic.ExifVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Panasonic.VideoFrameRate                Short       1  0  0
 Exif.Panasonic.ColorEffect                   Short       1  1  Off
 Exif.Panasonic.TimeSincePowerOn              Long        1  1450  00:00:14.50
 Exif.Panasonic.BurstMode                     Short       1  0  Off

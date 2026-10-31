@@ -42,6 +42,7 @@ Exif.Panasonic.WhiteBalanceBias              Short       1  0  0 EV
 Exif.Panasonic.FlashBias                     Short       1  0  0
 Exif.Panasonic.InternalSerialNumber          Undefined  16  70 54 53 49 50 48 51 50 54 48 51 55 54 0 0 0  F651203260376
 Exif.Panasonic.ExifVersion                   Undefined   4  48 51 57 48  3.90
+Exif.Panasonic.VideoFrameRate                Short       1  0  0
 Exif.Panasonic.ColorEffect                   Short       1  1  Off
 Exif.Panasonic.TimeSincePowerOn              Long        1  16615  00:02:46.15
 Exif.Panasonic.BurstMode                     Short       1  0  Off
@@ -56,6 +57,7 @@ Exif.Panasonic.BabyAge1                      Ascii      20  9999:99:99 00:00:00 
 Exif.Panasonic.OpticalZoomMode               Short       1  1  Standard
 Exif.Panasonic.ConversionLens                Short       1  1  Off
 Exif.Panasonic.TravelDay                     Short       1  65535  not set
+Exif.Panasonic.BatteryLevel                  Short       1  1  Full
 Exif.Panasonic.WorldTimeLocation             Short       1  1  Home
 Exif.Panasonic.TextStamp1                    Short       1  1  Off
 Exif.Panasonic.ProgramISO                    Short       1  65534  Intelligent ISO
@@ -63,10 +65,10 @@ Exif.Panasonic.AdvancedSceneType             Short       1  1  1
 Exif.Panasonic.TextStamp2                    Short       1  1  Off
 Exif.Panasonic.FacesDetected                 Short       1  0  0
 Exif.Panasonic.AFPointPosition               Rational    2  128/256 128/256  128/256 128/256
-Exif.Panasonic.FaceDetInfo                   Undefined  42  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Exif.Panasonic.FaceDetInfo                   Undefined  42  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  Stored face positions: 0
 Exif.Panasonic.Transform1                    Undefined   4  0 0 0 0  0 0 0 0
 Exif.Panasonic.IntelligentExposure           Short       1  2  Standard
-Exif.Panasonic.FaceRecInfo                   Undefined 148  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 57 57 57 57 58 57 57 58 57 57 32 48 48 58 48 48 58 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 57 57 57 57 58 57 57 58 57 57 32 48 48 58 48 48 58 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 57 57 57 57 58 57 57 58 57 57 32 48 48 58 48 48 58 48 48 0  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 57 57 57 57 58 57 57 58 57 57 32 48 48 58 48 48 58 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 57 57 57 57 58 57 57 58 57 57 32 48 48 58 48 48 58 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 57 57 57 57 58 57 57 58 57 57 32 48 48 58 48 48 58 48 48 0
+Exif.Panasonic.FaceRecInfo                   Undefined 148  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 57 57 57 57 58 57 57 58 57 57 32 48 48 58 48 48 58 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 57 57 57 57 58 57 57 58 57 57 32 48 48 58 48 48 58 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 57 57 57 57 58 57 57 58 57 57 32 48 48 58 48 48 58 48 48 0  Faces recognized: 0
 Exif.Panasonic.FlashWarning                  Short       1  0  No
 Exif.Panasonic.Title                         Undefined  64  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
 Exif.Panasonic.BabyName                      Undefined  64  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
@@ -76,15 +78,20 @@ Exif.Panasonic.State                         Undefined  72  45 45 45 0 0 0 0 0 0
 Exif.Panasonic.City                          Undefined  72  45 45 45 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  ---
 Exif.Panasonic.Landmark                      Undefined 128  45 45 45 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  ---
 Exif.Panasonic.IntelligentResolution         Byte        1  3  High
+Exif.Panasonic.MergedImages                  Short       1  0  0
 Exif.Panasonic.BurstSpeed                    Short       1  0  0
 Exif.Panasonic.ClearRetouch                  Short       1  0  Off
 Exif.Panasonic.City2                         Undefined  72  45 45 45 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  ---
 Exif.Panasonic.ManometerPressure             Short       1  1007  1007 hPa
+Exif.Panasonic.WBShiftCreativeControl        Byte        1  0  0
 Exif.Panasonic.SweepPanoramaDirection        Byte        1  0  Off
 Exif.Panasonic.PanoramaFieldOfView           Short       1  0  0
 Exif.Panasonic.TimerRecording                Byte        1  0  Off
+Exif.Panasonic.TimeInfo                      Undefined  20  0 0 0 0 0 0 0 0 255 255 255 255 255 255 255 255 0 0 0 0  Date/time: not set; Time-lapse shot: 0
 Exif.Panasonic.MakerNoteVersion              Undefined   4  48 49 52 48  1.40
 Exif.Panasonic.SceneMode                     Short       1  0  Off
+Exif.Panasonic.HighlightWarning              Short       1  1  No
+Exif.Panasonic.DarkFocusEnvironment          Short       1  1  No
 Exif.Panasonic.WBRedLevel                    Short       1  1729  1729
 Exif.Panasonic.WBGreenLevel                  Short       1  1060  1060
 Exif.Panasonic.WBBlueLevel                   Short       1  2011  2011
