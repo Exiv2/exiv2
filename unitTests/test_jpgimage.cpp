@@ -334,7 +334,8 @@ TEST(JpegExifSegments, finalCategoryStillCollectsContinuations) {
   IptcData iptc;
   iptc["Iptc.Application2.ObjectName"] = "press";
   const auto irb = Photoshop::setIptcIrb(nullptr, 0, iptc);
-  Blob photoshop(Photoshop::ps3Id_, Photoshop::ps3Id_ + 14);
+  const byte photoshopId[] = "Photoshop 3.0";
+  Blob photoshop(photoshopId, photoshopId + sizeof(photoshopId));
   photoshop.insert(photoshop.end(), irb.begin(), irb.end());
   segment(bytes, 0xed, photoshop);
 
