@@ -32,6 +32,7 @@ add_executable(
   test_safe_op.cpp
   test_slice.cpp
   test_tiffheader.cpp
+  test_tiffimage_offsets.cpp
   test_types.cpp
   test_TimeValue.cpp
   test_utils.cpp
