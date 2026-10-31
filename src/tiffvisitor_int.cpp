@@ -460,6 +460,12 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
   encodeIptc();
   encodeXmp();
 
+  // Validate all counts before the non-intrusive encoder can modify source bytes.
+  for (const auto& datum : exifData_) {
+    enforce(datum.count() <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerImageWriteFailed);
+    enforce(datum.size() <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerOffsetOutOfRange);
+  }
+
   // Find camera make
   ExifKey key("Exif.Image.Make");
   if (auto pos = exifData_.findKey(key); pos != exifData_.end()) {
@@ -594,6 +600,12 @@ uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, const TiffC
   auto pTiffEntry = std::dynamic_pointer_cast<TiffEntryBase>(tiffComponent);
   if (!pTiffEntry)
     return 0;
+  if (const auto* mnEntry = dynamic_cast<const TiffMnEntry*>(pTiffEntry.get()); mnEntry && mnEntry->mn_) {
+    // Decoded children were updated in place. Preserve the outer entry: its
+    // count()/size() describe a rebuilt MakerNote, not the retained source bytes.
+    return 12;
+  }
+  enforce(pTiffEntry->count() <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerImageWriteFailed);
   us2Data(buf + 2, pTiffEntry->tiffType(), byteOrder);
   ul2Data(buf + 4, static_cast<uint32_t>(pTiffEntry->count()), byteOrder);
   // Move data to offset field, if it fits and is not yet there.
@@ -1233,7 +1245,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
   try {
     byte* p = object->start();
 
-    if (p + 12 > pLast_) {
+    if (p > pLast_ || static_cast<size_t>(pLast_ - p) < 12) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "Entry in directory " << groupName(object->group())
                 << "requests access to memory beyond the data buffer. " << "Skipping entry.\n";
@@ -1255,15 +1267,19 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     }
     p += 2;
     uint32_t count = getULong(p, byteOrder());
-    if (count >= 0x10000000) {
+    p += 4;
+
+    // Large values are valid when their entire payload fits in the supplied buffer.
+    // Reject impossible counts before multiplying or constructing a Value. Sony's
+    // external preview reference is handled separately below, as before.
+    const bool sonyPreview = object->tag() == 0x2001 && object->group() == IfdId::sony1Id;
+    if (count > size_ / typeSize && !sonyPreview) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << stringFormat("Directory {}, entry 0x{:04x} has invalid size {}*{}; skipping entry.\n",
                                 groupName(object->group()), object->tag(), count, typeSize);
 #endif
       return;
     }
-    p += 4;
-
     if (count > std::numeric_limits<size_t>::max() / typeSize) {
       throw Error(ErrorCode::kerArithmeticOverflow);
     }
@@ -1272,7 +1288,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     byte* pData = p;
     if (size > 4 && Safe::add<size_t>(baseOffset(), offset) >= size_) {
       // #1143
-      if (object->tag() == 0x2001 && std::string(groupName(object->group())) == "Sony1") {
+      if (sonyPreview) {
         // This tag is Exif.Sony1.PreviewImage, which refers to a preview image which is
         // not stored in the metadata. Instead it is stored at the end of the file, after
         // the main image. The value of `size` refers to the size of the preview image, not
