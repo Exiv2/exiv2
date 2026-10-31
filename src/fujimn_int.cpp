@@ -543,7 +543,7 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
      unsignedShort, -1, printFujiDriveSetting},
     {0x1105, "PixelShiftShots", N_("Pixel Shift Shots"), N_("Pixel shift shots"), IfdId::fujiId, SectionId::makerTags,
      unsignedShort, -1, printValue},
-    {0x1105, "PixelShiftOfffset", N_("Pixel Shift Offset"), N_("Pixel shift offset"), IfdId::fujiId,
+    {0x1106, "PixelShiftOffset", N_("Pixel Shift Offset"), N_("Pixel shift offset"), IfdId::fujiId,
      SectionId::makerTags, signedRational, -1, printValue},
     {0x1153, "PanoramaAngle", N_("Panorama angle"), N_("Panorama angle"), IfdId::fujiId, SectionId::makerTags,
      unsignedShort, -1, printValue},
