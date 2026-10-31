@@ -8,6 +8,7 @@
 #include "makernote_int.hpp"
 #include "config.h"
 #include "safe_op.hpp"
+#include "sonydng_int.hpp"
 #include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
@@ -807,6 +808,10 @@ std::unique_ptr<TiffIfdMakernote> newSigmaMn2(uint16_t tag, IfdId group, IfdId m
 
 std::unique_ptr<TiffIfdMakernote> newSonyMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size,
                                             ByteOrder) {
+  // Adobe private data is a record container, not a native Sony IFD.
+  if (tag == 0xc634 && isAdobeDngPrivateData(pData, size))
+    return nullptr;
+
   // If there is no "SONY DSC " string we assume it's a simple IFD Makernote
   if (size < 12 || std::string(reinterpret_cast<const char*>(pData), 12) != std::string("SONY DSC \0\0\0", 12)) {
     // Require at least an IFD with 1 entry

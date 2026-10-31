@@ -36,6 +36,16 @@ __Sony1Cs2__
 __Sony2010e__
 <br>
 
+<h3>Sony 9405b Lens-Correction Coefficients</h3>
+<p>The <code>Sony9405b</code> group exposes read-only distortion, vignetting,
+and chromatic-aberration arrays from documented Sony 0x9405 layouts. Its tag
+identifiers are synthesized logical fields, not offsets within the encrypted
+block. Unknown layouts remain opaque. Unrelated metadata edits preserve the
+original encrypted block; editing or partially deleting these derived fields
+is unsupported. Existing correction tags and their precedence are unchanged.</p>
+__Sony9405b__
+<br>
+
 <h3>Sony Minolta Camera Settings Tags</h3>
 <p>These are the same tags as the Minolta Camera Settings in the Minolta MakerNote. 
 In Sony images the group name is <b><code>Sony1MltCsOld</code></b> or <b><code>Sony1MltCsNew</code></b>.</p>

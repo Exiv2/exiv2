@@ -109,6 +109,9 @@ Exif.SonyMisc3c.Quality2                     Byte        1  2  Raw + JPEG
 Exif.SonyMisc3c.SonyImageHeight              Short       1  663  5304
 Exif.SonyMisc3c.ModelReleaseYear             Byte        1  16  2016
 Exif.SonyMisc1.CameraTemperature             SByte       1  35  35 °C
+Exif.Sony9405b.DistortionCorrParams          SShort     16  11 -4 -19 -58 -100 -152 -205 -269 -332 -398 -455 -507 -542 -559 -544 -495  11 -4 -19 -58 -100 -152 -205 -269 -332 -398 -455 -507 -542 -559 -544 -495
+Exif.Sony9405b.VignettingCorrParams          SShort     16  0 32 64 224 448 704 1024 1408 1821 2493 3835 5464 7187 8913 10606 12145  0 32 64 224 448 704 1024 1408 1821 2493 3835 5464 7187 8913 10606 12145
+Exif.Sony9405b.ChromaticAberrationCorrParams SShort     32  -26 112 250 448 572 617 556 481 507 545 538 504 440 364 293 240 627 566 505 403 324 267 227 219 278 355 398 451 563 663 713 672  -26 112 250 448 572 617 556 481 507 545 538 504 440 364 293 240 627 566 505 403 324 267 227 219 278 355 398 451 563 663 713 672
 Exif.Photo.UserComment                       Undefined  64    
 Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
 Exif.Photo.ColorSpace                        Short       1  1  sRGB
