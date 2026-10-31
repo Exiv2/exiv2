@@ -63,4 +63,6 @@ unit_tests = executable(
   include_directories: exiv2inc,
 )
 
-test('Unit Tests', unit_tests)
+# Allow headroom for large Exif fixtures and XMP concurrency tests under
+# sanitizers and on slower CI VMs.
+test('Unit Tests', unit_tests, timeout: 120)
