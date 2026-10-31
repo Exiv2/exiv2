@@ -770,8 +770,8 @@ class HeifImage final : public BmffImage {
         supported(xml->size() <= heifMetadataLimit, "embedded XMP exceeds the allocation limit");
         Bytes bytes(xml->size());
         xml->copy(bytes.data(), original.order);
-        enforce(XmpParser::decode(embedded, std::string(bytes.begin(), bytes.end()), params) == 0,
-                ErrorCode::kerInvalidXMP);
+        const auto result = XmpParser::decode(embedded, std::string(bytes.begin(), bytes.end()), params);
+        enforce(result == 0, ErrorCode::kerInvalidXMP);
       }
     }
 #endif
