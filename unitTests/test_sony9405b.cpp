@@ -501,8 +501,9 @@ TEST(Sony9405b, PreservesDuplicateParentsDuringWrites) {
   image->readMetadata();
   expectLens(image->exifData(), 2);
   for (const auto& datum : image->exifData()) {
-    if (datum.key() == "Exif.Sony2.0x9405")
+    if (datum.key() == "Exif.Sony2.0x9405") {
       EXPECT_EQ(block, rawValue(datum));
+    }
   }
 }
 
