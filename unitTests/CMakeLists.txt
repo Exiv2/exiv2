@@ -14,6 +14,7 @@ add_executable(
   test_basicio.cpp
   test_bmpimage.cpp
   test_cr2header_int.cpp
+  test_convert.cpp
   test_datasets.cpp
   test_Error.cpp
   test_DateValue.cpp

@@ -16,6 +16,7 @@ test_sources = files(
   'test_basicio.cpp',
   'test_bmpimage.cpp',
   'test_cr2header_int.cpp',
+  'test_convert.cpp',
   'test_datasets.cpp',
   'test_enforce.cpp',
   'test_futils.cpp',
