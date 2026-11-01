@@ -55,6 +55,13 @@ class OverwritePromptAtEndOfInput(metaclass=CaseMeta):
     stderr = ["", ""]
     retval = [0, 0]
 
+    def compare_stdout(self, i, command, got_stdout, expected_stdout):
+        # MSYS2 Python and std::filesystem can choose different Windows separators.
+        if os.name == "nt":
+            got_stdout = got_stdout.replace("\\", "/")
+            expected_stdout = expected_stdout.replace("\\", "/")
+        super().compare_stdout(i, command, got_stdout, expected_stdout)
+
     def setUp(self):
         shutil.copyfile(self.original_file, self.filename)
         if os.path.exists(self.xmp_file):
