@@ -23,6 +23,7 @@ test_sources = files(
   'test_image_int.cpp',
   'test_jp2image.cpp',
   'test_jp2image_int.cpp',
+  'test_jpgimage.cpp',
   'test_safe_op.cpp',
   'test_slice.cpp',
   'test_tiffheader.cpp',
@@ -64,4 +65,6 @@ unit_tests = executable(
   include_directories: exiv2inc,
 )
 
-test('Unit Tests', unit_tests)
+# Allow headroom for large Exif fixtures and XMP concurrency tests under
+# sanitizers and on slower CI VMs.
+test('Unit Tests', unit_tests, timeout: 120)
