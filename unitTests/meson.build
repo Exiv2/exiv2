@@ -34,6 +34,8 @@ test_sources = files(
   'test_xmp_concurrent.cpp',
   'test_xmp_concurrent_registry.cpp',
   'test_xmp_race_encode_decode.cpp',
+  'test_xmp_sidecar_io.cpp',
+  'test_xmpsidecar.cpp',
   'unittest_utils.cpp',
 )
 

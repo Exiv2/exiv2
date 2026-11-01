@@ -40,6 +40,15 @@ class EXIV2API XmpSidecar : public Image {
   //! @name Manipulators
   //@{
   void readMetadata() override;
+  /*!
+    @brief Write buffered metadata as an XMP sidecar.
+    @throw Error(ErrorCode::kerImageWriteFailed) if structured XMP encoding fails.
+           Encoding failure leaves the bytes present before this call unchanged.
+    @note The complete packet is staged in memory before BasicIo::transfer writes
+          it to the destination. Transfer errors may leave partially written data.
+          ImageFactory::create(type, path) still overwrites the file immediately;
+          create an in-memory image to defer that change until encoding succeeds.
+   */
   void writeMetadata() override;
   /*!
     @brief Not supported. XMP sidecar files do not contain a comment.

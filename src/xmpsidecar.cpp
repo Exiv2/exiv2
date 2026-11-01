@@ -153,10 +153,12 @@ void XmpSidecar::writeMetadata() {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
+      // Keep any existing bytes intact and let callers distinguish failure from success.
+      throw Error(ErrorCode::kerImageWriteFailed);
     }
   }
   if (!xmpPacket_.empty()) {
-    if (!xmpPacket_.starts_with("<?xml")) {
+    if (!xmpPacket_.starts_with("<?xml") && !xmpPacket_.starts_with("<?xpacket")) {
       xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
     }
     MemIo tempIo;
@@ -166,7 +168,8 @@ void XmpSidecar::writeMetadata() {
       throw Error(ErrorCode::kerImageWriteFailed);
     if (tempIo.error())
       throw Error(ErrorCode::kerImageWriteFailed);
-    io_->close();
+    if (io_->close() != 0)
+      throw Error(ErrorCode::kerImageWriteFailed);
     io_->transfer(tempIo);  // may throw
   }
 }  // XmpSidecar::writeMetadata
