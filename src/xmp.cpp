@@ -8,6 +8,7 @@
 #include "properties.hpp"
 #include "types.hpp"
 #include "value.hpp"
+#include "value_int.hpp"
 #include "xmp_exiv2.hpp"
 
 // + standard includes
@@ -782,7 +783,8 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket, const Deco
           while (count-- > 0) {
             iter.Next(&schemaNs, &propPath, &propValue, &opt);
             printNode(schemaNs, propPath, propValue, opt);
-            val->read(propValue);
+            // Parsed empty items are real values; read("") is a setter no-op.
+            Internal::XmpArrayValueAccess::append(*val, propValue);
           }
           xmpData.addUnlocked(*key, val.get(), lock);
           continue;
@@ -1127,6 +1129,19 @@ Exiv2::XmpKey::UniquePtr Exiv2::XmpParser::makeXmpKey(const std::string& schemaN
   }
   if (prefix.empty()) {
     throw Exiv2::Error(Exiv2::ErrorCode::kerNoPrefixForNamespace, propPath, schemaNs);
+  }
+  // DeviceSettings fields use namespace URIs, not the packet's arbitrary prefix spelling.
+  constexpr std::string_view deviceFields = "DeviceSettingDescription/";
+  if (schemaNs == "http://ns.adobe.com/exif/1.0/" && property.starts_with(deviceFields)) {
+    const auto colon = property.find(':', deviceFields.size());
+    if (colon != std::string::npos) {
+      const auto field = property.substr(colon + 1, property.find_first_of("/[", colon) - colon - 1);
+      const auto fieldPrefix = property.substr(deviceFields.size(), colon - deviceFields.size());
+      std::string fieldNs;
+      if ((field == "Columns" || field == "Rows" || field == "Values" || field == "Settings") &&
+          SXMPMeta::GetNamespaceURI(fieldPrefix.c_str(), &fieldNs) && fieldNs == schemaNs)
+        property.replace(deviceFields.size(), colon - deviceFields.size(), "exif");
+    }
   }
   return Exiv2::XmpKey::UniquePtr(new Exiv2::XmpKey(prefix, property, lock));
 }  // makeXmpKey

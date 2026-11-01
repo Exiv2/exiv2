@@ -4,10 +4,12 @@
 #include "basicio.hpp"
 #include "config.h"
 #include "convert.hpp"
+#include "devicesettings_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 #include "properties.hpp"
+#include "tags.hpp"
 #include "utils.hpp"
 #include "value.hpp"
 #include "xmp_exiv2.hpp"
@@ -22,6 +24,7 @@ namespace {
 constexpr char xmlHeader[] = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
 constexpr auto xmlHdrCnt = std::size(xmlHeader) - 1;  // without the trailing 0-character
 constexpr auto xmlFooter = "<?xpacket end=\"w\"?>";
+const Exiv2::ExifKey deviceSettingsKey("Exif.Photo.DeviceSettingDescription");
 }  // namespace
 
 // class member definitions
@@ -85,6 +88,15 @@ void XmpSidecar::readMetadata() {
 
   copyXmpToIptc(xmpData_, iptcData_);
   copyXmpToExif(xmpData_, exifData_);
+
+  // Record this sidecar's derived native value so later XMP edits stay authoritative.
+  if (const auto pos = exifData_.findKey(deviceSettingsKey); pos != exifData_.end()) {
+    auto value = pos->getValue();
+    if (const auto native = dynamic_cast<Internal::DeviceSettingsValue*>(value.get())) {
+      native->rememberXmpOrigin();
+      pos->setValue(value.get());
+    }
+  }
 }  // XmpSidecar::readMetadata
 
 static bool matchi(const std::string& key, const char* substr) {
@@ -107,7 +119,17 @@ void XmpSidecar::writeMetadata() {
     }
 
     // run the converters
-    copyExifToXmp(exifData_, xmpData_);
+    const auto device = exifData_.findKey(deviceSettingsKey);
+    const auto native =
+        device != exifData_.end() ? dynamic_cast<const Internal::DeviceSettingsValue*>(&device->value()) : nullptr;
+    if (!xmpPacket_.empty() && native && native->unchangedXmpOrigin()) {
+      // Unedited derived Exif must not undo a user's XMP edits or removals.
+      auto exif = exifData_;
+      exif.erase(exif.findKey(deviceSettingsKey));
+      copyExifToXmp(exif, xmpData_);
+    } else {
+      copyExifToXmp(exifData_, xmpData_);
+    }
     copyIptcToXmp(iptcData_, xmpData_);
 
     // #1112 - restore dates if they lost their TZ info

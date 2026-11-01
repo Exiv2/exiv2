@@ -48,6 +48,7 @@ int_lib = files(
   'casiomn_int.cpp',
   'cr2header_int.cpp',
   'crwimage_int.cpp',
+  'devicesettings_int.cpp',
   'fujimn_int.cpp',
   'helper_functions.cpp',
   'image_int.cpp',
