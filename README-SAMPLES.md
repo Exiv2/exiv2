@@ -590,6 +590,39 @@ Read an XMP packet from a file, parse and re-serialize it.
 
 
 
+### Encoding an XMP sidecar before writing the destination
+
+`ImageFactory::create(type, path)` creates or overwrites the file immediately.
+Applications exporting a new sidecar can instead use the existing in-memory
+factory, then transfer the completed packet to the destination:
+
+```cpp
+auto sidecar = Exiv2::ImageFactory::create(Exiv2::ImageType::xmp);
+sidecar->setExifData(source.exifData());
+sidecar->setIptcData(source.iptcData());
+sidecar->setXmpData(source.xmpData());
+sidecar->writeMetadata(); // Converts and encodes entirely in memory; may throw.
+
+Exiv2::FileIo destination(path);
+destination.transfer(sidecar->io()); // Only reached after successful encoding.
+```
+
+Handle errors from both operations in the calling application. Conversion or
+encoding failure leaves an existing destination unchanged and a new destination
+absent. Invalid text is reported as an error; no encoding is guessed and no
+property is dropped to recover from the error. The final transfer uses the normal
+file-writing behavior: an I/O failure can leave a partially written destination.
+This sequence does not provide atomic replacement or power-loss protection.
+
+Use `ImageFactory::open(path)` and `readMetadata()` when editing an existing
+sidecar and retaining its metadata. `writeMetadata()` also stages that packet in
+memory before transferring it, so encoding failure preserves the existing bytes.
+
+Applications such as digiKam that currently create a filesystem sidecar before
+encoding must change their call sequence to gain this protection. The immediate
+creation contract is unchanged; no new factory mode is required. The CLI uses
+in-memory creation for new sidecar exports and opens existing sidecars normally.
+
 Robin Mills<br>
 robin@clanmills.com<br>
 Revised: 2021-09-21
