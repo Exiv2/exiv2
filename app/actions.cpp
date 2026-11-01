@@ -1685,11 +1685,14 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
   std::string target(bStdout ? temporaryPath() : tgt);
 
   std::unique_ptr<Exiv2::Image> targetImage;
+  bool stageXmp = false;
   if (Exiv2::fileExists(target)) {
     targetImage = Exiv2::ImageFactory::open(target);
     targetImage->readMetadata();
   } else {
-    targetImage = Exiv2::ImageFactory::create(targetType, target);
+    // Finish XMP conversion and encoding before creating the destination.
+    stageXmp = targetType == Exiv2::ImageType::xmp;
+    targetImage = stageXmp ? Exiv2::ImageFactory::create(targetType) : Exiv2::ImageFactory::create(targetType, target);
   }
 
   // Copy each type of metadata
@@ -1750,6 +1753,10 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
   if (rc < 0)
     try {
       targetImage->writeMetadata();
+      if (stageXmp) {
+        Exiv2::FileIo destination(target);
+        destination.transfer(targetImage->io());
+      }
       rc = 0;
     } catch (const Exiv2::Error& e) {
       std::cerr << tgt << ": " << _("Could not write metadata to file") << ": " << e << "\n";
