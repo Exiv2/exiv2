@@ -2,6 +2,13 @@
 
 #include <gtest/gtest.h>
 #include "basicio.hpp"
+
+#ifdef _WIN32
+#include <windows.h>
+#include <filesystem>
+#include <fstream>
+#include <optional>
+#endif
 using namespace Exiv2;
 
 namespace {
@@ -78,3 +85,68 @@ TEST(AFileIO, canSeekBeyondEOF) {
   ASSERT_FALSE(file.error());
   ASSERT_FALSE(file.eof());
 }
+
+#ifdef _WIN32
+namespace {
+// path in codePage (CP_UTF8, or CP_ACP - Windows' code page); nothing if codePage cannot name it
+std::optional<std::string> narrowName(const std::wstring& path, UINT codePage) {
+  BOOL usedDefaultChar = FALSE;
+  BOOL* usedDefault = codePage == CP_UTF8 ? nullptr : &usedDefaultChar;  // CP_UTF8 takes none
+  const int n =
+      WideCharToMultiByte(codePage, 0, path.data(), static_cast<int>(path.size()), nullptr, 0, nullptr, usedDefault);
+  std::string result(n, char{});
+  WideCharToMultiByte(codePage, 0, path.data(), static_cast<int>(path.size()), result.data(), n, nullptr, usedDefault);
+  if (usedDefaultChar)
+    return std::nullopt;
+  return result;
+}
+
+bool isUtf8(const std::string& s) {
+  return MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.data(), static_cast<int>(s.size()), nullptr, 0) != 0;
+}
+
+// A 3-byte file, name in the temporary directory, while it lives
+struct TemporaryFile {
+  explicit TemporaryFile(const std::wstring& name) : path(std::filesystem::temp_directory_path() / name) {
+    std::ofstream(path, std::ios::binary) << "abc";
+  }
+  ~TemporaryFile() {
+    std::filesystem::remove(path);
+  }
+  std::filesystem::path path;
+};
+}  // namespace
+
+// On Windows, a path in UTF-8 names any file - here one whose name is outside Windows-1252 (and most code pages)
+TEST(AFileIO, opensAFileByItsUtf8NameOnWindows) {
+  TemporaryFile f(L"exiv2-\u03a9mega.dat");
+  FileIo file(*narrowName(f.path.wstring(), CP_UTF8));
+  EXPECT_EQ(3u, file.size());  // by its name, before it is open
+  ASSERT_EQ(0, file.open());
+  EXPECT_EQ(3u, file.size());
+}
+
+// ... and one that is not UTF-8 is in the code page, as before
+TEST(AFileIO, opensAFileByItsCodePageNameOnWindows) {
+  TemporaryFile f(L"exiv2-Zo\u00eb.dat");
+  auto name = narrowName(f.path.wstring(), CP_ACP);
+  if (!name || isUtf8(*name))
+    GTEST_SKIP() << "the code page cannot name it, or names it in valid UTF-8";
+  FileIo file(*name);
+  EXPECT_EQ(3u, file.size());
+  ASSERT_EQ(0, file.open());
+  EXPECT_EQ(3u, file.size());
+}
+
+// ... as is one in the code page that is also valid UTF-8, when its UTF-8 meaning names no file
+TEST(AFileIO, opensAFileByItsCodePageNameThatIsAlsoUtf8OnWindows) {
+  TemporaryFile f(L"exiv2-\u00c3\u00a9.dat");  // in Windows-1252, the UTF-8 of U+00E9
+  auto name = narrowName(f.path.wstring(), CP_ACP);
+  if (!name || !isUtf8(*name))
+    GTEST_SKIP() << "the code page cannot name it, or not in valid UTF-8";
+  FileIo file(*name);
+  EXPECT_EQ(3u, file.size());
+  ASSERT_EQ(0, file.open());
+  EXPECT_EQ(3u, file.size());
+}
+#endif

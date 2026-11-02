@@ -11,12 +11,14 @@
 #include "image_int.hpp"
 #include "types.hpp"
 
+#include <cerrno>
 #include <cstdio>   // for remove, rename
 #include <cstdlib>  // for alloc, realloc, free
 #include <cstring>  // std::memcpy
 #include <ctime>    // timestamp for the name of temporary file
 #include <fstream>  // write the temporary file
 #include <iostream>
+#include <optional>
 
 // + standard includes
 #include <fcntl.h>     // _O_BINARY in FileIo::FileIo
@@ -71,6 +73,41 @@ void BasicIo::seekOrThrow(int64_t offset, Position pos, ErrorCode err) {
 }
 
 #ifdef EXV_ENABLE_FILESYSTEM
+namespace {
+#ifdef _WIN32
+/*!
+  @brief A FileIo path as UTF-16, if it is valid UTF-8. On Windows, such a path is opened by its wide name, so it can
+      name any file; any other is opened by its narrow name, as before, which Windows reads in the code page. UTF-8
+      comes first because in a single-byte code page every string is a valid name. But a name in a double-byte code
+      page (Japanese, Chinese, Korean) can also be valid UTF-8, so opening an existing file that the UTF-8 name does not
+      find retries the narrow name.
+ */
+std::optional<std::wstring> wideFileName(const std::string& path) {
+  const int n =
+      MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, path.data(), static_cast<int>(path.size()), nullptr, 0);
+  if (n == 0)
+    return std::nullopt;
+  std::wstring result(n, wchar_t{});
+  MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, path.data(), static_cast<int>(path.size()), result.data(), n);
+  return result;
+}
+#endif
+
+//! std::fopen, but on Windows by the wide name of a path that is UTF-8 (see wideFileName)
+FILE* openFile(const std::string& path, const std::string& mode) {
+#ifdef _WIN32
+  if (auto wpath = wideFileName(path)) {
+    if (auto wmode = wideFileName(mode)) {
+      FILE* fp = _wfopen(wpath->c_str(), wmode->c_str());
+      if (fp || mode[0] != 'r' || errno != ENOENT)
+        return fp;
+    }
+  }
+#endif
+  return std::fopen(path.c_str(), mode.c_str());
+}
+}  // namespace
+
 //! Internal Pimpl structure of class FileIo.
 class FileIo::Impl {
  public:
@@ -166,7 +203,7 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   std::fclose(fp_);
   openMode_ = "r+b";
   opMode_ = opSeek;
-  fp_ = std::fopen(path_.c_str(), openMode_.c_str());
+  fp_ = openFile(path_, openMode_);
   if (!fp_)
     return 1;
 #ifdef _WIN32
@@ -177,8 +214,16 @@ int FileIo::Impl::switchMode(OpMode opMode) {
 }  // FileIo::Impl::switchMode
 
 int FileIo::Impl::stat(StructStat& buf) const {
+#ifdef _WIN32
+  struct _stat st;
+  auto wpath = wideFileName(path_);
+  auto ret = wpath ? _wstat(wpath->c_str(), &st) : -1;
+  if (ret != 0 && (!wpath || errno == ENOENT))  // as openFile: by its narrow name, if not by its UTF-8 one
+    ret = _stat(path_.c_str(), &st);
+#else
   struct stat st;
   auto ret = ::stat(path_.c_str(), &st);
+#endif
   if (ret == 0) {
     buf.st_size = st.st_size;
     buf.st_mode = st.st_mode;
@@ -505,7 +550,7 @@ int FileIo::open(const std::string& mode) {
   close();
   p_->openMode_ = mode;
   p_->opMode_ = Impl::opSeek;
-  p_->fp_ = ::fopen(path().c_str(), mode.c_str());
+  p_->fp_ = openFile(path(), mode);
   if (!p_->fp_)
     return 1;
   return 0;
