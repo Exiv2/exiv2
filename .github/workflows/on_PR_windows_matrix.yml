@@ -119,6 +119,7 @@ jobs:
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
             -DPython3_EXECUTABLE=${MINGW_PREFIX}/bin/python.exe \
+            -DPython3_FIND_REGISTRY=NEVER \
             -S . -B build && \
           cmake --build build --parallel
 
