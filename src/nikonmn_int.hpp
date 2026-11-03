@@ -119,6 +119,14 @@ class Nikon3MakerNote {
   static constexpr auto tagListAf22() {
     return tagInfoAf22_;
   }
+  //! Return read-only list of built-in Auto Focus 2 version 03xx tags
+  static constexpr auto tagListAf23() {
+    return tagInfoAf23_;
+  }
+  //! Return read-only list of built-in Auto Focus 2 version 04xx tags
+  static constexpr auto tagListAf24() {
+    return tagInfoAf24_;
+  }
   //! Return read-only list of built-in AF Fine Tune tags
   static constexpr auto tagListAFT() {
     return tagInfoAFT_;
@@ -216,6 +224,8 @@ class Nikon3MakerNote {
   //@{
   //! Print ISO setting
   static std::ostream& print0x0002(std::ostream& os, const Value& value, const ExifData*);
+  //! Print AF2 Area Mode for Expeed 6 and 7 cameras
+  static std::ostream& printAf2HybridAreaMode(std::ostream& os, const Value& value, const ExifData* metadata);
   //! Print AF2 Area Mode
   static std::ostream& printAf2AreaMode(std::ostream& os, const Value& value, const ExifData* metadata);
   //! Print autofocus mode
@@ -330,6 +340,10 @@ class Nikon3MakerNote {
   static const TagInfo tagInfoAf21_[];
   //! Auto Focus tag 2 information
   static const TagInfo tagInfoAf22_[];
+  //! Auto Focus 2 version 03xx tag information
+  static const TagInfo tagInfoAf23_[];
+  //! Auto Focus 2 version 04xx tag information
+  static const TagInfo tagInfoAf24_[];
   //! AF Fine Tune tag information
   static const TagInfo tagInfoAFT_[];
   //! File Info tag information

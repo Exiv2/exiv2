@@ -813,6 +813,92 @@ constexpr TagInfo Nikon3MakerNote::tagInfoAf22_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
+// AFInfo2 03xx/04xx field layouts and values are documented in ExifTool's
+// lib/Image/ExifTool/Nikon.pm (AFInfo2V0300 and AFInfo2V0400).
+constexpr TagDetails nikonAfDetectionMethod[] = {
+    {0, N_("Phase Detect")},
+    {1, N_("Contrast Detect")},
+    {2, N_("Hybrid")},
+};
+constexpr TagDetails nikonAfFocusPointSchema[] = {
+    {0, N_("Off")},
+    {1, N_("51-point")},
+    {8, N_("81-point")},
+    {9, N_("105-point")},
+};
+constexpr TagDetails nikonAfHybridAreaMode[] = {
+    {192, N_("Pinpoint")},         {193, N_("Single")},           {194, N_("Dynamic")},
+    {195, N_("Wide (S)")},         {196, N_("Wide (L)")},         {197, N_("Auto")},
+    {198, N_("Auto (People)")},    {199, N_("Auto (Animal)")},    {200, N_("Normal-area AF")},
+    {201, N_("Wide-area AF")},     {202, N_("Face-priority AF")}, {203, N_("Subject-tracking AF")},
+    {204, N_("Dynamic Area (S)")}, {205, N_("Dynamic Area (M)")}, {206, N_("Dynamic Area (L)")},
+    {207, N_("3D-tracking")},      {208, N_("Wide (C1/C2)")},
+};
+constexpr TagDetails nikonAfFocusResult[] = {
+    {0, N_("Out of Focus")},
+    {1, N_("Focus")},
+};
+
+constexpr TagInfo Nikon3MakerNote::tagInfoAf23_[] = {
+    {0, "Version", N_("Version"), N_("AFInfo2 version"), IfdId::nikonAf23Id, SectionId::makerTags, undefined, 4,
+     printExifVersion},
+    {4, "AFDetectionMethod", N_("AF Detection Method"), N_("AF detection method"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonAfDetectionMethod)},
+    {5, "AFAreaMode", N_("AF Area Mode"), N_("AF area mode"), IfdId::nikonAf23Id, SectionId::makerTags, unsignedByte, 1,
+     printAf2HybridAreaMode},
+    {6, "FocusPointSchema", N_("Focus Point Schema"), N_("Focus point schema"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonAfFocusPointSchema)},
+    {7, "AFCoordinatesAvailable", N_("AF Coordinates Available"), N_("Whether AF area coordinates are valid"),
+     IfdId::nikonAf23Id, SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonYesNo)},
+    {42, "AFImageWidth", N_("AF Image Width"), N_("Width of the AF coordinate system"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {44, "AFImageHeight", N_("AF Image Height"), N_("Height of the AF coordinate system"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {46, "AFAreaXPosition", N_("AF Area X Position"),
+     N_("AF area center X coordinate; valid when AFCoordinatesAvailable is Yes"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {48, "AFAreaYPosition", N_("AF Area Y Position"),
+     N_("AF area center Y coordinate; valid when AFCoordinatesAvailable is Yes"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {50, "AFAreaWidth", N_("AF Area Width"), N_("AF area width in AF image coordinates"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {52, "AFAreaHeight", N_("AF Area Height"), N_("AF area height in AF image coordinates"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {56, "PrimaryAFPoint", N_("Primary AF Point"), N_("Primary AF point index"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedByte, 1, printValue},
+    {0xffff, "(UnknownNikonAf2Tag)", "(UnknownNikonAf2Tag)", N_("Unknown Nikon Auto Focus 2 Tag"), IfdId::nikonAf23Id,
+     SectionId::makerTags, unsignedByte, 1, printValue},
+};
+
+constexpr TagInfo Nikon3MakerNote::tagInfoAf24_[] = {
+    {0, "Version", N_("Version"), N_("AFInfo2 version"), IfdId::nikonAf24Id, SectionId::makerTags, undefined, 4,
+     printExifVersion},
+    {4, "AFDetectionMethod", N_("AF Detection Method"), N_("AF detection method"), IfdId::nikonAf24Id,
+     SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonAfDetectionMethod)},
+    {5, "AFAreaMode", N_("AF Area Mode"), N_("AF area mode"), IfdId::nikonAf24Id, SectionId::makerTags, unsignedByte, 1,
+     printAf2HybridAreaMode},
+    {7, "AFCoordinatesAvailable", N_("AF Coordinates Available"), N_("Whether AF area coordinates are valid"),
+     IfdId::nikonAf24Id, SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonYesNo)},
+    {62, "AFImageWidth", N_("AF Image Width"), N_("Width of the AF coordinate system"), IfdId::nikonAf24Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {64, "AFImageHeight", N_("AF Image Height"), N_("Height of the AF coordinate system"), IfdId::nikonAf24Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {66, "AFAreaXPosition", N_("AF Area X Position"),
+     N_("AF area center X coordinate; valid when AFCoordinatesAvailable is Yes"), IfdId::nikonAf24Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {68, "AFAreaYPosition", N_("AF Area Y Position"),
+     N_("AF area center Y coordinate; valid when AFCoordinatesAvailable is Yes"), IfdId::nikonAf24Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {70, "AFAreaWidth", N_("AF Area Width"), N_("AF area width in AF image coordinates"), IfdId::nikonAf24Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {72, "AFAreaHeight", N_("AF Area Height"), N_("AF area height in AF image coordinates"), IfdId::nikonAf24Id,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {74, "FocusResult", N_("Focus Result"), N_("Result of the last AF operation"), IfdId::nikonAf24Id,
+     SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonAfFocusResult)},
+    {0xffff, "(UnknownNikonAf2Tag)", "(UnknownNikonAf2Tag)", N_("Unknown Nikon Auto Focus 2 Tag"), IfdId::nikonAf24Id,
+     SectionId::makerTags, unsignedByte, 1, printValue},
+};
+
 // Nikon3 File Info Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoFi_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonFiId, SectionId::makerTags, undefined, 4,
@@ -1668,6 +1754,19 @@ std::ostream& Nikon3MakerNote::print0x0002(std::ostream& os, const Value& value,
   if (value.count() > 1)
     return os << value.toInt64(1);
   return os << "(" << value << ")";
+}
+
+std::ostream& Nikon3MakerNote::printAf2HybridAreaMode(std::ostream& os, const Value& value, const ExifData* metadata) {
+  if (metadata) {
+    const auto method = metadata->findKey(ExifKey("Exif.NikonAf23.AFDetectionMethod"));
+    if (method != metadata->end() && method->count() != 0) {
+      if (method->toInt64() == 0)
+        return EXV_PRINT_TAG(nikonAf2AreaModeContrastDetectAfOff)(os, value, metadata);
+      if (method->toInt64() == 1 && value.count() != 0 && value.toInt64() < 128)
+        return EXV_PRINT_TAG(nikonAf2AreaModeContrastDetectAfOn)(os, value, metadata);
+    }
+  }
+  return EXV_PRINT_TAG(nikonAfHybridAreaMode)(os, value, metadata);
 }
 
 std::ostream& Nikon3MakerNote::printAf2AreaMode(std::ostream& os, const Value& value, const ExifData* metadata) {
