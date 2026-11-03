@@ -223,6 +223,7 @@ enum class ErrorCode {
   kerMallocFailed,
   kerInvalidIconvEncoding,
   kerFileAccessDisabled,
+  kerMaxRecursionDepth,
 
   kerErrorCount,
 };

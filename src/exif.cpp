@@ -490,7 +490,7 @@ ExifData::iterator ExifData::erase(ExifData::iterator pos) {
   return exifMetadata_.erase(pos);
 }
 
-DecodeParams::DecodeParams(size_t max_recursion_depth) : max_recursion_depth_(max_recursion_depth) {
+DecodeParams::DecodeParams(RecursionLimit max_recursion_depth) : max_recursion_depth_(max_recursion_depth) {
 }
 
 ByteOrder ExifParser::decode(ExifData& exifData, const byte* pData, size_t size, const DecodeParams& dp) {
