@@ -1,0 +1,5 @@
+Exif.Image.ExifTag                           Long        1  38  38
+Exif.Photo.UserComment                       Undefined  23  charset=Unicode Привет  charset=Unicode Привет
+Exif.Image.GPSTag                            Long        1  80  80
+Exif.GPSInfo.GPSProcessingMethod             Undefined  12  charset=Unicode 쌨쌨  charset=Unicode 쌨쌨
+Exif.GPSInfo.GPSAreaInformation              Undefined  18  charset=Unicode مرحبا  charset=Unicode مرحبا
