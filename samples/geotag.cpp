@@ -542,7 +542,7 @@ int getFileType(const fs::path& path, Options& options) {
 }
 
 int version(const char* program) {
-  printf("%s: %s %s\n", program, __DATE__, __TIME__);
+  printf("%s: exiv2 %s\n", program, Exiv2::versionString().c_str());
   return 0;
 }
 
