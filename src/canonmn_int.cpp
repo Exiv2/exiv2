@@ -2293,7 +2293,7 @@ constexpr TagInfo CanonMakerNote::tagInfoSi_[] = {
     {0x0021, "FlashOutput", N_("Flash Output"), N_("Flash output"), IfdId::canonSiId, SectionId::makerTags, signedShort,
      1, printValue},
     // End of list marker
-    {0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", N_("Unknown Canon Camera Settings 1 tag"), IfdId::canonCsId,
+    {0xffff, "(UnknownCanonSiTag)", "(UnknownCanonSiTag)", N_("Unknown Canon Shot Info tag"), IfdId::canonSiId,
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
