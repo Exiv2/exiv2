@@ -161,6 +161,7 @@ enum class IfdId : uint32_t {
   sony1Cs2Id,
   sony2CsId,
   sony2Cs2Id,
+  sony2Cs3Id,
   sony2FpId,
   sonyMisc1Id,
   sonyMisc2bId,
