@@ -2,6 +2,7 @@
 
 import os
 import shutil
+from pathlib import Path
 
 from system_tests import CaseMeta, path
 
@@ -56,11 +57,15 @@ class OverwritePromptAtEndOfInput(metaclass=CaseMeta):
     retval = [0, 0]
 
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
-        # MSYS2 Python and std::filesystem can choose different Windows separators.
-        if os.name == "nt":
-            got_stdout = got_stdout.replace("\\", "/")
-            expected_stdout = expected_stdout.replace("\\", "/")
-        super().compare_stdout(i, command, got_stdout, expected_stdout)
+        if not expected_stdout:
+            return super().compare_stdout(i, command, got_stdout, expected_stdout)
+
+        # Check the prompt exactly, but compare the filename as a path.
+        prefix, _, suffix = expected_stdout.partition(self.xmp_file)
+        self.assertTrue(got_stdout.startswith(prefix), got_stdout)
+        self.assertTrue(got_stdout.endswith(suffix), got_stdout)
+        got_path = got_stdout[len(prefix):-len(suffix)]
+        self.assertEqual(Path(got_path), Path(self.xmp_file))
 
     def setUp(self):
         shutil.copyfile(self.original_file, self.filename)
