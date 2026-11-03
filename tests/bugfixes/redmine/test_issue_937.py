@@ -212,7 +212,7 @@ Xmp.dwc.MeasurementOrFact/dwc:measurementDeterminedDate Measurement Determined D
 @CopyFiles("$data_path/exiv2.dc.dwc.i18n.jpg")
 class DarwinCoreXmpMetadataModify(metaclass=CaseMeta):
 
-    filename = path("$data_path/exiv2.dc.dwc.i18n_copy.jpg")
+    filename = path("$tmp_path/exiv2.dc.dwc.i18n_copy.jpg")
     dataname = path("$data_path/exiv2.dc.dwc.i18n.txt")
 
     commands = [

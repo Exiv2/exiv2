@@ -50,7 +50,7 @@ jobs:
 
       - name: Install Conan & common config
         run: |
-          python -m pip install conan lxml
+          python -m pip install conan lxml pytest
           conan profile detect --name default --force
 
       - name: Run Conan
@@ -104,6 +104,7 @@ jobs:
             cmake:p
             ninja:p
             python:p
+            python-pytest:p
             gtest:p
             brotli:p
             curl:p
@@ -118,7 +119,6 @@ jobs:
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
-            -DPython3_EXECUTABLE=${MINGW_PREFIX}/bin/python.exe \
             -S . -B build && \
           cmake --build build --parallel
 
@@ -158,6 +158,7 @@ jobs:
             ninja
             pkg-config
             python3
+            python3-pytest
             libbrotli-devel
             libcurl-devel
             libexpat-devel
@@ -173,7 +174,6 @@ jobs:
             -DEXIV2_BUILD_SAMPLES=OFF \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
-            -DPython3_EXECUTABLE=/usr/bin/python3 \
             -S . -B build && \
           cmake --build build --parallel
 

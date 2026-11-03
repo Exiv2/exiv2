@@ -1,5 +1,5 @@
-runner = find_program('runner.py', required: get_option('tests'))
-if not runner.found()
+pytest = find_program('pytest', required: get_option('tests'))
+if not pytest.found()
   subdir_done()
 endif
 
@@ -14,30 +14,22 @@ if not (host_machine.system() == 'windows' or iconv_dep.found())
 endif
 
 tests = {
-  'bashTests': 'bash_tests',
-  'bugfixTests': 'bugfixes',
-  'lensTests': 'lens_tests',
-  'tiffTests': 'tiff_test',
-  'versionTests': 'bash_tests/version_test.py',
+  'bashTests': ['bash_tests'],
+  'bugfixTests': ['bugfixes'],
+  'lensTests': ['lens_tests'],
+  'regressionTests': ['regression_tests'],
+  'tiffTests': ['tiff_test'],
+  # -s so that the version information ends up in the test log
+  'versionTests': ['-s', 'bash_tests/version_test.py'],
 }
 
 foreach n, t : tests
   test(
     n,
-    runner,
+    pytest,
     env: bindir,
-    args: ['--verbose', t],
+    args: ['--verbose'] + t,
     timeout: 1200,
     workdir: meson.current_source_dir(),
   )
 endforeach
-
-test(
-  'regressionTests',
-  runner,
-  env: bindir,
-  args: ['--verbose', 'regression_tests'],
-  timeout: 1200,
-  is_parallel: false,
-  workdir: meson.current_source_dir(),
-)

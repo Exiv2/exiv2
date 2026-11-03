@@ -13,7 +13,7 @@ class TiffImageIntOutOfBoundsRead(metaclass=system_tests.CaseMeta):
     """
 
     filename = system_tests.path(
-        "$data_path/tiffimage_int-out-of-bound-read-poc-2_copy"
+        "$tmp_path/tiffimage_int-out-of-bound-read-poc-2_copy"
     )
 
     compare_stderr = system_tests.check_no_ASAN_UBSAN_errors

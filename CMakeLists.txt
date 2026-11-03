@@ -123,25 +123,25 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     set(EXIV2_ENABLE_FILESYSTEM_ACCESS ON)
     get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
 
-    if(BUILD_TESTING AND Python3_Interpreter_FOUND)
+    if(BUILD_TESTING AND PYTEST_EXECUTABLE)
       add_test(
         NAME bashTests
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${PYTEST_EXECUTABLE} --verbose bash_tests
       )
     endif()
   endif()
 
-  if(BUILD_TESTING AND Python3_Interpreter_FOUND)
+  if(BUILD_TESTING AND PYTEST_EXECUTABLE)
     add_test(
       NAME bugfixTests
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bugfixes
+      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${PYTEST_EXECUTABLE} --verbose bugfixes
     )
     add_test(
       NAME lensTests
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests
+      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${PYTEST_EXECUTABLE} --verbose lens_tests
     )
     # Repeat lens test with a DE locale that uses "," as float delimiter
     # to check that all float conversions are done independently of locale
@@ -149,22 +149,22 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     add_test(
       NAME lensTestsLocaleDE
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-      COMMAND cmake -E env LC_ALL=de_DE.UTF-8 EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests
+      COMMAND cmake -E env LC_ALL=de_DE.UTF-8 EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${PYTEST_EXECUTABLE} --verbose lens_tests
     )
     add_test(
       NAME tiffTests
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose tiff_test
+      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${PYTEST_EXECUTABLE} --verbose tiff_test
     )
     add_test(
       NAME versionTests
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests/version_test.py
+      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${PYTEST_EXECUTABLE} --verbose -s bash_tests/version_test.py
     )
     add_test(
       NAME regressionTests
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose regression_tests
+      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${PYTEST_EXECUTABLE} --verbose regression_tests
     )
   endif()
 endif()

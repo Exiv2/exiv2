@@ -17,14 +17,20 @@ static int WriteReadSeek(BasicIo& io);
 // Main
 int main(int argc, char* const argv[]) {
   try {
+    bool useCurl = true;
+    if (argc > 1 && std::string(argv[1]) == "--nocurl") {
+      useCurl = false;
+      --argc;
+      ++argv;
+    }
     if (argc < 4 || argc > 6) {
-      std::cout << "Usage: " << argv[0]
-                << " filein fileout1 fileout2 [remote [blocksize]]\n"
+      std::cout << "Usage: iotest [--nocurl] filein fileout1 fileout2 [remote [blocksize]]\n"
                    "copy filein to fileout1 and copy filein to fileout2\n"
                    "fileout1 and fileout2 are overwritten and should match filein exactly\n"
                    "\n"
                    "You may optionally provide the URL of a remote file to be copied to filein\n"
-                   "If you use `remote`, you may optionally provide a blocksize for the copy buffer (default 10k)\n";
+                   "If you use `remote`, you may optionally provide a blocksize for the copy buffer (default 10k)\n"
+                   "--nocurl reads an http:// remote with exiv2's built-in HttpIo instead of libcurl\n";
       return 1;
     }
     const char* f0 = argv[1];  // fileIn
@@ -35,7 +41,7 @@ int main(int argc, char* const argv[]) {
 
     if (argc >= 5) {
       // copy fileIn from a remote location.
-      auto io = Exiv2::ImageFactory::createIo(fr);
+      auto io = Exiv2::ImageFactory::createIo(fr, useCurl);
       if (io->open() != 0) {
         throw Error(Exiv2::ErrorCode::kerFileOpenFailed, io->path(), "rb", strError());
       }

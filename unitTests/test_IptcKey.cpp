@@ -101,3 +101,17 @@ TEST(IptcKey, record) {
   IptcKey key("Iptc.Envelope.ModelVersion");
   ASSERT_EQ(IptcDataSets::envelope, key.record());
 }
+
+TEST(IptcKey, hexDatasetIsConvertedToDatasetName) {
+  IptcKey key("Iptc.Envelope.0x0005");
+  ASSERT_EQ("Iptc.Envelope.Destination", key.key());
+  ASSERT_EQ("Destination", key.tagName());
+  ASSERT_EQ("Envelope", key.recordName());
+}
+
+TEST(IptcKey, unknownTagAndRecordAreHexStrings) {
+  IptcKey key(0xabcd, 0x1234);
+  ASSERT_EQ("Iptc.0x1234.0xabcd", key.key());
+  ASSERT_EQ("0xabcd", key.tagName());
+  ASSERT_EQ("0x1234", key.recordName());
+}

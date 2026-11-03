@@ -7,6 +7,7 @@
 #include <array>
 #include <cerrno>
 #include <chrono>
+#include <cstdlib>
 #include <cstring>
 #include <thread>
 
@@ -59,8 +60,15 @@ static constexpr std::array blankLines{
     "\n\n",      // this is commonly sent by CGI scripts
 };
 
-static constexpr auto snooze = std::chrono::milliseconds::zero();
-static auto sleep_ = std::chrono::milliseconds(1000);
+static constexpr auto snooze = std::chrono::milliseconds(1);
+
+// sleep for a snooze and charge the time actually slept to the budget:
+// Windows rounds a 1 ms sleep up to its ~15 ms timer tick
+static void nap(std::chrono::milliseconds& budget) {
+  const auto start = std::chrono::steady_clock::now();
+  std::this_thread::sleep_for(snooze);
+  budget -= std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start);
+}
 
 static int forgive(int n, int& err) {
   err = WSAGetLastError();
@@ -173,6 +181,12 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   if (!port_p[0])
     port_p = "80";
 
+  // give up when the server stays silent for EXIV2_TIMEOUT seconds, like CurlIo
+  std::chrono::milliseconds timeout = std::chrono::seconds(std::atol(Exiv2::getEnv(Exiv2::envTIMEOUT).c_str()));
+  if (timeout <= std::chrono::milliseconds::zero())
+    timeout = std::chrono::seconds(40);
+  auto sleep_ = timeout;
+
   ////////////////////////////////////
   // open the socket
   auto sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -242,8 +256,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     // auto err = WSAGetLastError();
     // if (err != WSAENOTCONN && err != WSAEWOULDBLOCK)
     //   break;
-    std::this_thread::sleep_for(snooze);
-    sleep_ -= snooze;
+    nap(sleep_);
   }
 
   if (sleep_ < std::chrono::milliseconds::zero()) {
@@ -262,6 +275,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   int n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
   while (n >= 0 && OK(status)) {
     if (n) {
+      sleep_ = timeout;
       end += n;
       buffer[end] = 0;
 
@@ -328,8 +342,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     }
     n = forgive(recv(sockfd, buffer + end, static_cast<int>(buff_l - end), 0), err);
     if (!n) {
-      std::this_thread::sleep_for(snooze);
-      sleep_ -= snooze;
+      nap(sleep_);
       if (sleep_ < std::chrono::milliseconds::zero())
         n = FINISH;
     }
@@ -352,7 +365,6 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   ////////////////////////////////////
   // close sockets
-  closesocket(server);
   closesocket(sockfd);
   response["body"] = std::move(file);
   return result;

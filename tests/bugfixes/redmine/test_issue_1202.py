@@ -6,7 +6,7 @@ import system_tests
 class CheckFocusContinuous(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1202"
-    filename = "$data_path/exiv2-bug1202_copy.jpg"
+    filename = "$tmp_path/exiv2-bug1202_copy.jpg"
 
     commands = [
         """$exiv2 -M"set Exif.CanonCs.FocusContinuous SShort 0" $filename""",
