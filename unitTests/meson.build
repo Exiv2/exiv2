@@ -40,6 +40,7 @@ if get_option('video')
   test_sources += files(
     'test_asfvideo.cpp',
     'test_matroskavideo.cpp',
+    'test_quicktimevideo.cpp',
     'test_riffVideo.cpp',
   )
 endif
