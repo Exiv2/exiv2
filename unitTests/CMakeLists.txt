@@ -34,6 +34,7 @@ add_executable(
   test_tiffheader.cpp
   test_tiff_large_values.cpp
   test_tiff_makernotes.cpp
+  test_tiffimage_offsets.cpp
   test_types.cpp
   test_TimeValue.cpp
   test_utils.cpp
