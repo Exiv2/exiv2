@@ -20,6 +20,11 @@ namespace Exiv2 {
 
 #ifdef EXV_ENABLE_BMFF
 namespace Exiv2 {
+namespace Internal {
+//! @brief Private adapter for legacy metadata interpretation over shared box traversal.
+class BmffLegacyReader;
+}  // namespace Internal
+
 struct Iloc {
   explicit Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length) {
   }
@@ -36,6 +41,12 @@ struct Iloc {
 
 /*!
   @brief Class to access BMFF images.
+
+  This general BMFF class provides read access. Use ImageFactory::open() for
+  HEIF/HEIC editing: the factory selects a private specialization and reports
+  ImageType::heif. Its Exif/XMP write capability is subject to validation of the
+  file's item layout; unsupported layouts fail before source replacement.
+  Direct construction of BmffImage does not enable HEIF writing.
  */
 class EXIV2API BmffImage : public Image {
  public:
@@ -117,6 +128,8 @@ class EXIV2API BmffImage : public Image {
   static constexpr Exiv2::ByteOrder endian_{Exiv2::bigEndian};
 
  private:
+  friend class Internal::BmffLegacyReader;
+
   void openOrThrow() const;
   /*!
     @brief recursiveBoxHandler
