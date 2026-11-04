@@ -14,6 +14,7 @@ add_executable(
   test_basicio.cpp
   test_bmpimage.cpp
   test_cr2header_int.cpp
+  test_convert.cpp
   test_datasets.cpp
   test_Error.cpp
   test_DateValue.cpp
@@ -43,6 +44,8 @@ add_executable(
   test_xmp_lifecycle.cpp
   test_xmp_race_encode_decode.cpp
   test_xmp_concurrent_registry.cpp
+  test_xmp_sidecar_io.cpp
+  test_xmpsidecar.cpp
   unittest_utils.hpp
   unittest_utils.cpp
   ${VIDEO_SUPPORT}

@@ -30,12 +30,21 @@ class XmpData;
 // *****************************************************************************
 // free functions, template and inline definitions
 
-//! Convert (copy) Exif tags to XMP properties.
+/*!
+  @brief Convert (copy) Exif tags to XMP properties.
+  @note DeviceSettingDescription retains its native byte order when parsed and
+        copied as Exif data. Manually supplied raw values with ambiguous byte
+        order cannot be converted safely and leave the destination unchanged.
+ */
 EXIV2API void copyExifToXmp(const ExifData& exifData, XmpData& xmpData);
 //! Convert (move) Exif tags to XMP properties, remove converted Exif tags.
 EXIV2API void moveExifToXmp(ExifData& exifData, XmpData& xmpData);
 
-//! Convert (copy) XMP properties to Exif tags.
+/*!
+  @brief Convert (copy) XMP properties to Exif tags.
+  @note DeviceSettings text must be representable as UCS-2. Invalid dimensions
+        or unrepresentable text leave that destination tag unchanged.
+ */
 EXIV2API void copyXmpToExif(const XmpData& xmpData, ExifData& exifData);
 //! Convert (move) XMP properties to Exif tags, remove converted XMP properties.
 EXIV2API void moveXmpToExif(XmpData& xmpData, ExifData& exifData);
