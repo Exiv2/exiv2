@@ -680,17 +680,17 @@ class TiffReader : public TiffVisitor {
   using PostList = std::vector<TiffComponent*>;
 
   // DATA
-  const byte* pData_;      //!< Pointer to the memory buffer
-  size_t size_;            //!< Size of the buffer
-  const byte* pLast_;      //!< Pointer to the last byte
-  TiffComponent* pRoot_;   //!< Root element of the composite
-  TiffRwState* pState_;    //!< Pointer to the state in effect (origState_ or mnState_)
-  TiffRwState origState_;  //!< State class as set in the c'tor
-  TiffRwState mnState_;    //!< State class as set in the c'tor or by setMnState()
-  DirList dirList_;        //!< List of IFD pointers and their groups
-  IdxSeq idxSeq_;          //!< Sequences for group, used for the entry's idx
-  PostList postList_;      //!< List of components with deferred reading
-  bool postProc_{false};   //!< True in postProcessList()
+  const byte* pData_;           //!< Pointer to the memory buffer
+  size_t size_;                 //!< Size of the buffer
+  const byte* pLast_;           //!< Pointer to the last byte
+  TiffComponent* pRoot_;        //!< Root element of the composite
+  TiffRwState* pState_;         //!< Pointer to the state in effect (origState_ or mnState_)
+  TiffRwState origState_;       //!< State class as set in the c'tor
+  TiffRwState mnState_;         //!< State class as set in the c'tor or by setMnState()
+  DirList dirList_;             //!< List of IFD pointers and their groups
+  IdxSeq idxSeq_;               //!< Sequences for group, used for the entry's idx
+  PostList postList_;           //!< List of components with deferred reading
+  bool postProc_{false};        //!< True in postProcessList()
   TiffReadContext* context_{};  //!< Optional strict JPEG XR state; owned by the caller.
 };
 
