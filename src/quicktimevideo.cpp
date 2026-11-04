@@ -1005,9 +1005,9 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
     const auto tag = header.read_uint32(0, bigEndian);
     const auto type = header.read_uint16(4, bigEndian);
     const auto count = header.read_uint16(6, bigEndian);
-    enforce(type < widths.size() && widths[type] != 0, ErrorCode::kerCorruptedMetadata);
-    enforce(count <= (end - io_->tell()) / widths[type], ErrorCode::kerCorruptedMetadata);
-    const auto length = static_cast<size_t>(count) * widths[type];
+    enforce(type < widths.size() && widths.at(type) != 0, ErrorCode::kerCorruptedMetadata);
+    enforce(count <= (end - io_->tell()) / widths.at(type), ErrorCode::kerCorruptedMetadata);
+    const auto length = static_cast<size_t>(count) * widths.at(type);
     const auto next = io_->tell() + length;
 
     // Unknown IDs and unmapped field types still own their entire validated extent.
