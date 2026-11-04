@@ -5,6 +5,7 @@
 
 #include "basicio.hpp"
 #include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
@@ -148,7 +149,9 @@ void TiffImage::readMetadata() {
   clearMetadata();
 
   const DecodeParams dp(max_recursion_depth_);
-  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
+  const uint64_t fileSize = io_->size();
+  ByteOrder bo =
+      TiffParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), Internal::checkedCast<size_t>(fileSize), dp);
   setByteOrder(bo);
 
   // read profile from the metadata
@@ -170,12 +173,12 @@ void TiffImage::writeMetadata() {
 #endif
   ByteOrder bo = byteOrder();
   const byte* pData = nullptr;
-  size_t size = 0;
+  uint64_t fileSize = 0;
   IoCloser closer(*io_);
   // Ensure that this is the correct image type
   if (io_->open() == 0 && isTiffType(*io_, false)) {
     pData = io_->mmap(true);
-    size = io_->size();
+    fileSize = io_->size();
     TiffHeader tiffHeader;
     if (0 == tiffHeader.read(pData, 8)) {
       bo = tiffHeader.byteOrder();
@@ -204,7 +207,8 @@ void TiffImage::writeMetadata() {
   // set usePacket to influence TiffEncoder::encodeXmp() called by TiffVisitor.encode()
   xmpData().usePacket(writeXmpFromPacket());
 
-  TiffParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_);  // may throw
+  TiffParser::encode(*io_, pData, Internal::checkedCast<size_t>(fileSize), bo, exifData_, iptcData_,
+                     xmpData_);  // may throw
 }  // TiffImage::writeMetadata
 
 ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,

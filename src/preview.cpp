@@ -399,14 +399,15 @@ DataBuf LoaderNative::getData() const {
   }
   IoCloser closer(io);
   const byte* data = io.mmap();
-  if (io.size() < Safe::add(nativePreview_.position_, nativePreview_.size_)) {
+  const auto position = Internal::checkedCast<size_t>(nativePreview_.position_);
+  if (io.size() < Safe::add(nativePreview_.position_, uint64_t{nativePreview_.size_})) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Invalid native preview position or size.\n";
 #endif
     return {};
   }
   if (nativePreview_.filter_.empty()) {
-    return {data + nativePreview_.position_, nativePreview_.size_};
+    return {data + position, nativePreview_.size_};
   }
   if (nativePreview_.filter_ == "hex-ai7thumbnail-pnm") {
     size_t expectedSize = 0;
@@ -416,12 +417,12 @@ DataBuf LoaderNative::getData() const {
 #endif
       return {};
     }
-    const DataBuf ai7thumbnail = decodeHex(data + nativePreview_.position_, nativePreview_.size_);
+    const DataBuf ai7thumbnail = decodeHex(data + position, nativePreview_.size_);
     const DataBuf rgb = decodeAi7Thumbnail(ai7thumbnail, expectedSize);
     return makePnm(width_, height_, rgb);
   }
   if (nativePreview_.filter_ == "hex-irb") {
-    const DataBuf psData = decodeHex(data + nativePreview_.position_, nativePreview_.size_);
+    const DataBuf psData = decodeHex(data + position, nativePreview_.size_);
     const byte* record;
     uint32_t sizeHdr = 0;
     uint32_t sizeData = 0;
@@ -731,7 +732,7 @@ DataBuf LoaderTiff::getData() const {
         // this saves one copying of the buffer
         uint32_t offset = dataValue.toUint32(0);
         uint32_t size = sizes.toUint32(0);
-        if (Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
+        if (Safe::add(offset, size) <= io.size())
           dataValue.setDataArea(base + offset, size);
       } else {
         // FIXME: the buffer is probably copied twice, it should be optimized
@@ -747,7 +748,7 @@ DataBuf LoaderTiff::getData() const {
           // But e.g in malicious files some of these values could be negative
           // That's why we check again for each step here to really make sure we don't overstep
           Internal::enforce(Safe::add(idxBuf, size) <= size_, ErrorCode::kerCorruptedMetadata);
-          if (size != 0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size())) {
+          if (size != 0 && Safe::add(offset, size) <= io.size()) {
             std::copy_n(base + offset, size, buf.begin() + idxBuf);
           }
 
@@ -768,7 +769,7 @@ DataBuf LoaderTiff::getData() const {
   IptcData emptyIptc;
   XmpData emptyXmp;
   TiffParser::encode(mio, nullptr, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
-  return {mio.mmap(), mio.size()};
+  return {mio.mmap(), Internal::checkedCast<size_t>(mio.size())};
 }
 
 LoaderXmpJpeg::LoaderXmpJpeg(PreviewId id, const Image& image, int parIdx) : Loader(id, image) {
@@ -873,7 +874,7 @@ DataBuf decodeHex(const byte* src, size_t srcSize) {
       byte srcValue = decodeHexTable[src[srcPos]];
       if (srcValue == invalid)
         continue;
-      buffer |= srcValue << (bufferPos * 4);
+      buffer |= static_cast<byte>(srcValue << (bufferPos * 4));
       bufferPos--;
     }
     dest.write_uint8(destPos, buffer);

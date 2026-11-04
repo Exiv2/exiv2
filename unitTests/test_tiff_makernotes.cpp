@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 #include <exiv2/exiv2.hpp>
+#include "enforce.hpp"
 
 #include <algorithm>
 #include <array>
@@ -16,7 +17,7 @@ class TiffMakerNote : public testing::TestWithParam<std::tuple<ByteOrder, bool>>
  protected:
   static constexpr size_t orientation = 30;
   static constexpr size_t exifDirectory = 64;
-  static constexpr size_t makerNote = 96;
+  static constexpr uint32_t makerNote = 96;
   static constexpr uint32_t makerNoteSize = 160;
   static constexpr size_t cameraId = makerNote + 128;
   std::vector<byte> data;
@@ -86,7 +87,7 @@ class TiffMakerNote : public testing::TestWithParam<std::tuple<ByteOrder, bool>>
 
 TEST_P(TiffMakerNote, preservesEntireMakerNoteDuringRepeatedInPlaceEdits) {
   auto expected = data;
-  for (uint16_t value : {8, 1, 3}) {
+  for (uint16_t value : std::array<uint16_t, 3>{8, 1, 3}) {
     exif["Exif.Image.Orientation"] = value;
     us2Data(expected.data() + orientation, value, order());
     MemIo output;
@@ -171,7 +172,7 @@ TEST_P(TiffMakerNote, reconstructsConsistentMakerNoteForNewAndExistingBuffers) {
       MemIo output;
       ASSERT_EQ(wmIntrusive, TiffParser::encode(output, fresh ? nullptr : data.data(), fresh ? 0 : data.size(), order(),
                                                 exif, iptc, xmp));
-      decode(output.mmap(), output.size());
+      decode(output.mmap(), Internal::checkedCast<size_t>(output.size()));
       EXPECT_EQ(value, exif[key("CameraID")].toString());
       EXPECT_EQ("force reconstruction", exif["Exif.Image.Artist"].toString());
       if (value.size() < makerNoteSize)

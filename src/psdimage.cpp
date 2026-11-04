@@ -2,6 +2,7 @@
 
 // included header files
 #include "psdimage.hpp"
+#include "safe_op.hpp"
 
 #include "basicio.hpp"
 #include "config.h"
@@ -193,7 +194,7 @@ void PsdImage::readMetadata() {
       throw Error(ErrorCode::kerNotAnImage, "Photoshop");
     }
     uint32_t resourceSize = getULong(buf, bigEndian);
-    const size_t curOffset = io_->tell();
+    const uint64_t curOffset = io_->tell();
 
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << std::hex << "resourceId: " << resourceId << std::dec << " length: " << resourceSize << std::hex
@@ -383,7 +384,7 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
   if (outIo.error())
     throw Error(ErrorCode::kerImageWriteFailed);
 
-  const size_t resLenOffset = io_->tell();  // remember for later update
+  const uint64_t resLenOffset = io_->tell();  // remember for later update
 
   // Read length of all resource blocks from original PSD
   if (io_->read(buf, 4) != 4)
@@ -434,7 +435,7 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
 
     uint32_t resourceSize = getULong(buf, bigEndian);
     uint32_t pResourceSize = (resourceSize + 1) & ~1;  // padded resource size
-    const size_t curOffset = io_->tell();
+    const uint64_t curOffset = io_->tell();
 
     // Write IPTC_NAA resource block
     if (resourceId >= kPhotoshopResourceID::IPTC_NAA && !iptcDone) {
@@ -613,7 +614,7 @@ uint32_t PsdImage::writeExifData(ExifData& exifData, BasicIo& out) {
       // Write encoded Exif data
       if (out.write(blob.data(), blob.size()) != blob.size())
         throw Error(ErrorCode::kerImageWriteFailed);
-      resLength += static_cast<long>(blob.size()) + 12;
+      resLength = Safe::add(Internal::checkedCast<uint32_t>(blob.size()), uint32_t{12});
       if (blob.size() & 1)  // even padding
       {
         buf[0] = 0;

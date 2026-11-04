@@ -12,6 +12,7 @@
 
 #include "basicio.hpp"
 #include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "metadatum.hpp"
 #include "safe_op.hpp"
@@ -574,7 +575,7 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
   WriteMethod wm = TiffParserWorker::encode(mio1, pData, size, exifData, emptyIptc, emptyXmp, Tag::root,
                                             TiffMapping::findEncoder, &header, nullptr);
   if (mio1.size() <= 65527) {
-    append(blob, mio1.mmap(), mio1.size());
+    append(blob, mio1.mmap(), Exiv2::Internal::checkedCast<size_t>(mio1.size()));
     return wm;
   }
 
@@ -657,7 +658,7 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
   MemIo mio2;
   wm = TiffParserWorker::encode(mio2, pData, size, exifData, emptyIptc, emptyXmp, Tag::root, TiffMapping::findEncoder,
                                 &header, nullptr);
-  append(blob, mio2.mmap(), mio2.size());
+  append(blob, mio2.mmap(), Exiv2::Internal::checkedCast<size_t>(mio2.size()));
 #ifdef EXIV2_DEBUG_MESSAGES
   if (wm == wmIntrusive) {
     std::cerr << "SIZE OF EXIF DATA IS " << std::dec << mio2.size() << " BYTES\n";
@@ -715,7 +716,7 @@ Exiv2::DataBuf TiffThumbnail::copy(const Exiv2::ExifData& exifData) const {
   Exiv2::IptcData emptyIptc;
   Exiv2::XmpData emptyXmp;
   Exiv2::TiffParser::encode(io, nullptr, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
-  return io.read(io.size());
+  return io.read(Exiv2::Internal::checkedCast<size_t>(io.size()));
 }
 
 const char* JpegThumbnail::mimeType() const {

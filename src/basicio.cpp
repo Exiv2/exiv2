@@ -258,7 +258,7 @@ byte* FileIo::mmap(bool isWriteable) {
   if (munmap() != 0) {
     throw Error(ErrorCode::kerCallFailed, path(), strError(), "munmap");
   }
-  p_->mappedLength_ = size();
+  p_->mappedLength_ = Internal::checkedCast<size_t>(size(), ErrorCode::kerInvalidMalloc);
   p_->isWriteable_ = isWriteable;
   if (p_->isWriteable_ && p_->switchMode(Impl::opWrite) != 0) {
     throw Error(ErrorCode::kerFailedToMapFileForReadWrite, path(), strError());
@@ -355,7 +355,7 @@ size_t FileIo::write(const byte* data, size_t wcount) {
   return std::fwrite(data, 1, wcount, p_->fp_);
 }
 
-size_t FileIo::write(BasicIo& src) {
+uint64_t FileIo::write(BasicIo& src) {
   if (static_cast<BasicIo*>(this) == &src)
     return 0;
   if (!src.isopen())
@@ -364,7 +364,7 @@ size_t FileIo::write(BasicIo& src) {
     return 0;
 
   byte buf[4096];
-  size_t writeTotal = 0;
+  uint64_t writeTotal = 0;
   size_t readCount = src.read(buf, sizeof(buf));
   while (readCount != 0) {
     size_t writeCount = std::fwrite(buf, 1, readCount, p_->fp_);
@@ -492,21 +492,23 @@ int FileIo::seek(int64_t offset, Position pos) {
 #ifdef _WIN32
   return _fseeki64(p_->fp_, offset, fileSeek);
 #else
-  return fseeko(p_->fp_, offset, fileSeek);
+  if (!std::in_range<off_t>(offset))
+    return 1;
+  return fseeko(p_->fp_, static_cast<off_t>(offset), fileSeek);
 #endif
 }
 
-size_t FileIo::tell() const {
+uint64_t FileIo::tell() const {
 #ifdef _WIN32
   auto pos = _ftelli64(p_->fp_);
 #else
   auto pos = ftello(p_->fp_);
 #endif
   Internal::enforce(pos >= 0, ErrorCode::kerInputDataReadFailed);
-  return static_cast<size_t>(pos);
+  return static_cast<uint64_t>(pos);
 }
 
-size_t FileIo::size() const {
+uint64_t FileIo::size() const {
   // Flush and commit only if the file is open for writing
   if (p_->fp_ && (p_->openMode_.front() != 'r' || p_->openMode_.at(1) == '+')) {
     std::fflush(p_->fp_);
@@ -518,8 +520,8 @@ size_t FileIo::size() const {
 
   Impl::StructStat buf;
   if (p_->stat(buf))
-    return std::numeric_limits<size_t>::max();
-  return static_cast<size_t>(buf.st_size);
+    return std::numeric_limits<uint64_t>::max();
+  return Internal::checkedCast<uint64_t>(buf.st_size);
 }
 
 int FileIo::open() {
@@ -761,14 +763,14 @@ void MemIo::transfer(BasicIo& src) {
     throw Error(ErrorCode::kerMemoryTransferFailed, strError());
 }
 
-size_t MemIo::write(BasicIo& src) {
+uint64_t MemIo::write(BasicIo& src) {
   if (this == &src)
     return 0;
   if (!src.isopen())
     return 0;
 
   byte buf[4096];
-  size_t writeTotal = 0;
+  uint64_t writeTotal = 0;
   size_t readCount = src.read(buf, sizeof(buf));
   while (readCount != 0) {
     write(buf, readCount);
@@ -821,11 +823,11 @@ int MemIo::munmap() {
   return 0;
 }
 
-size_t MemIo::tell() const {
+uint64_t MemIo::tell() const {
   return p_->idx_;
 }
 
-size_t MemIo::size() const {
+uint64_t MemIo::size() const {
   return p_->size_;
 }
 
@@ -1022,7 +1024,7 @@ class RemoteIo::Impl {
           on the remote machine to handle the data. SSH requires the permission to edit the file.
     @throw Error if it fails.
    */
-  virtual void writeRemote(const byte* data, size_t size, size_t from, size_t to) = 0;
+  virtual void writeRemote(const byte* data, size_t size, uint64_t from, uint64_t to) = 0;
   /*!
     @brief Get the data from the remote machine and write them to the memory blocks.
     @param startBlock The start block index.
@@ -1146,7 +1148,7 @@ size_t RemoteIo::write(const byte* /* unused data*/, size_t /* unused wcount*/) 
   return 0;  // means failure
 }
 
-size_t RemoteIo::write(BasicIo& src) {
+uint64_t RemoteIo::write(BasicIo& src) {
   if (!src.isopen())
     return 0;
 
@@ -1157,8 +1159,9 @@ size_t RemoteIo::write(BasicIo& src) {
    *      + goes from the right, find the first different position -> $right
    * The different bytes are [$left-$right] part.
    */
-  size_t left = 0;
-  size_t right = 0;
+  const uint64_t sourceSize = src.size();
+  uint64_t left = 0;
+  uint64_t right = 0;
   size_t blockIndex = 0;
   auto buf = std::make_unique<byte[]>(p_->blockSize_);
   size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
@@ -1184,10 +1187,10 @@ size_t RemoteIo::write(BasicIo& src) {
   // find $right
   findDiff = false;
   blockIndex = nBlocks;
-  while (blockIndex > 0 && right < src.size() && !findDiff) {
+  while (blockIndex > 0 && right < sourceSize && !findDiff) {
     blockIndex--;
     size_t blockSize = p_->blocksMap_.at(blockIndex).getSize();
-    if (src.seek(-1 * (blockSize + right), BasicIo::end)) {
+    if (src.seek(-Internal::checkedCast<int64_t>(uint64_t{blockSize} + right), BasicIo::end)) {
       findDiff = true;
     } else {
       bool isFakeData = p_->blocksMap_.at(blockIndex).isKnown();  // fake data
@@ -1205,13 +1208,14 @@ size_t RemoteIo::write(BasicIo& src) {
   }
 
   // submit to the remote machine.
-  if (auto dataSize = src.size() - left - right) {
-    auto data = std::make_unique<byte[]>(dataSize);
-    src.seek(left, BasicIo::beg);
-    src.read(data.get(), dataSize);
-    p_->writeRemote(data.get(), dataSize, left, p_->size_ - right);
+  if (const uint64_t dataSize = sourceSize - left - right) {
+    const auto bufferSize = Internal::checkedCast<size_t>(dataSize);
+    auto data = std::make_unique<byte[]>(bufferSize);
+    src.seek(Internal::checkedCast<int64_t>(left), BasicIo::beg);
+    src.read(data.get(), bufferSize);
+    p_->writeRemote(data.get(), bufferSize, left, p_->size_ - right);
   }
-  return src.size();
+  return sourceSize;
 }
 
 int RemoteIo::putb(byte /*unused data*/) {
@@ -1334,11 +1338,11 @@ int RemoteIo::munmap() {
   return 0;
 }
 
-size_t RemoteIo::tell() const {
+uint64_t RemoteIo::tell() const {
   return p_->idx_;
 }
 
-size_t RemoteIo::size() const {
+uint64_t RemoteIo::size() const {
   return p_->size_;
 }
 
@@ -1403,7 +1407,7 @@ class HttpIo::HttpImpl : public Impl {
           "/exiv2.php". More info is available at http://dev.exiv2.org/wiki/exiv2
     @throw Error if it fails.
    */
-  void writeRemote(const byte* data, size_t size, size_t from, size_t to) override;
+  void writeRemote(const byte* data, size_t size, uint64_t from, uint64_t to) override;
 };
 
 HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize) {
@@ -1456,7 +1460,7 @@ void HttpIo::HttpImpl::getDataByRange(size_t startBlock, size_t stopBlock, std::
   response = responseDic["body"];
 }
 
-void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, size_t to) {
+void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, uint64_t from, uint64_t to) {
   std::string scriptPath(getEnv(envHTTPPOST));
   if (scriptPath.empty()) {
     throw Error(ErrorCode::kerErrorMessage,
@@ -1549,7 +1553,7 @@ class CurlIo::CurlImpl : public Impl {
           string EXIV2_HTTP_POST. The default value is "/exiv2.php". More info is available at
           http://dev.exiv2.org/wiki/exiv2
    */
-  void writeRemote(const byte* data, size_t size, size_t from, size_t to) override;
+  void writeRemote(const byte* data, size_t size, uint64_t from, uint64_t to) override;
 
  private:
   long timeout_;  //!< The number of seconds to wait while trying to connect.
@@ -1621,7 +1625,7 @@ void CurlIo::CurlImpl::getDataByRange(size_t startBlock, size_t stopBlock, std::
   }
 }
 
-void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, size_t to) {
+void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, uint64_t from, uint64_t to) {
   std::string scriptPath(getEnv(envHTTPPOST));
   if (scriptPath.empty()) {
     throw Error(ErrorCode::kerErrorMessage,
@@ -1670,7 +1674,7 @@ size_t CurlIo::write(const byte* data, size_t wcount) {
   throw Error(ErrorCode::kerErrorMessage, "does not support write for this protocol.");
 }
 
-size_t CurlIo::write(BasicIo& src) {
+uint64_t CurlIo::write(BasicIo& src) {
   if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
     return RemoteIo::write(src);
   }

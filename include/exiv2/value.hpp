@@ -1592,7 +1592,7 @@ inline float ValueType<Rational>::toFloat(size_t n) const {
   ok_ = (value_.at(n).second != 0);
   if (!ok_)
     return 0.0f;
-  return static_cast<float>(value_.at(n).first) / value_.at(n).second;
+  return static_cast<float>(value_.at(n).first) / static_cast<float>(value_.at(n).second);
 }
 // Specialization for unsigned rational
 template <>
@@ -1600,7 +1600,7 @@ inline float ValueType<URational>::toFloat(size_t n) const {
   ok_ = (value_.at(n).second != 0);
   if (!ok_)
     return 0.0f;
-  return static_cast<float>(value_.at(n).first) / value_.at(n).second;
+  return static_cast<float>(value_.at(n).first) / static_cast<float>(value_.at(n).second);
 }
 // Default implementation
 template <typename T>

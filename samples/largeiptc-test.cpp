@@ -5,6 +5,7 @@
 
 #include <exiv2/exiv2.hpp>
 #include <iostream>
+#include <utility>
 
 int main(int argc, char* const argv[]) {
   try {
@@ -21,7 +22,10 @@ int main(int argc, char* const argv[]) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
     }
 
-    Exiv2::DataBuf buf(io.size());
+    const uint64_t length = io.size();
+    if (!std::in_range<size_t>(length))
+      throw Exiv2::Error(Exiv2::ErrorCode::kerInvalidMalloc);
+    Exiv2::DataBuf buf(static_cast<size_t>(length));
     std::cout << "Reading " << buf.size() << " bytes from " << data << "\n";
     const size_t readBytes = io.read(buf.data(), buf.size());
     if (readBytes != buf.size() || io.error() || io.eof()) {

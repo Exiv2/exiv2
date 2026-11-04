@@ -360,8 +360,10 @@ void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   std::vector<int16_t> ints;
   std::vector<uint16_t> uint;
   for (size_t i = 0; i < object->pValue()->count(); i++) {
-    ints.push_back(object->pValue()->toInt64(i));
-    uint.push_back(object->pValue()->toUint32(i));
+    const auto word = static_cast<uint16_t>(object->pValue()->toUint32(i));
+    // AFInfo stores signed coordinates in unsigned 16-bit words.
+    ints.push_back(static_cast<int16_t>(word));
+    uint.push_back(word);
   }
   // Check this is AFInfo2 (ints[0] = bytes in object)
   if (ints.front() != static_cast<int16_t>(object->pValue()->count()) * 2)
@@ -370,7 +372,7 @@ void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   std::string familyGroup(std::string("Exif.") + groupName(object->group()) + ".");
 
   const uint16_t nPoints = uint.at(2);
-  const uint16_t nMasks = (nPoints + 15) / (sizeof(uint16_t) * 8);
+  const auto nMasks = static_cast<uint16_t>((nPoints + 15U) / (sizeof(uint16_t) * 8));
   int nStart = 0;
 
   const std::tuple<uint16_t, uint16_t, bool> records[] = {

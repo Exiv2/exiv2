@@ -88,13 +88,14 @@ void PgfImage::readMetadata() {
   // And now, the most interesting, the user data byte array where metadata are stored as small image.
 
   Internal::enforce(headerSize <= std::numeric_limits<size_t>::max() - 8, ErrorCode::kerCorruptedMetadata);
-  size_t size = headerSize + 8 - io_->tell();
+  Internal::enforce(io_->tell() <= uint64_t{headerSize} + 8, ErrorCode::kerCorruptedMetadata);
+  const uint64_t size = uint64_t{headerSize} + 8 - io_->tell();
 
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
 #endif
 
-  const size_t offset = io_->tell();
+  const uint64_t offset = io_->tell();
   assert(offset <= io_->size());
   if (size > io_->size() - offset)
     throw Error(ErrorCode::kerInputDataReadFailed);
@@ -105,7 +106,8 @@ void PgfImage::readMetadata() {
   if (io_->error())
     throw Error(ErrorCode::kerFailedToReadImageData);
 
-  auto image = Exiv2::ImageFactory::open(base + offset, size);
+  auto image =
+      Exiv2::ImageFactory::open(base + Internal::checkedCast<size_t>(offset), Internal::checkedCast<size_t>(size));
   image->readMetadata();
   exifData() = image->exifData();
   iptcData() = image->iptcData();
@@ -158,8 +160,8 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   img->setIptcData(iptcData_);
   img->setXmpData(xmpData_);
   img->writeMetadata();
-  size_t imgSize = img->io().size();
-  DataBuf imgBuf = img->io().read(imgSize);
+  const uint64_t imgSize = img->io().size();
+  DataBuf imgBuf = img->io().read(Internal::checkedCast<size_t>(imgSize));
 
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cout << "Exiv2::PgfImage::doWriteMetadata: Creating image to host metadata (" << imgSize << " bytes)\n";
@@ -176,7 +178,7 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
     throw Error(ErrorCode::kerImageWriteFailed);
 
   // Write new Header size.
-  auto newHeaderSize = static_cast<uint32_t>(header.size() + imgSize);
+  auto newHeaderSize = Internal::checkedCast<uint32_t>(uint64_t{header.size()} + imgSize);
   DataBuf buffer(4);
   std::memcpy(buffer.data(), &newHeaderSize, sizeof(uint32_t));
   byteSwap_(buffer, 0, bSwap_);

@@ -4,6 +4,7 @@
 #include <exiv2/exiv2.hpp>
 
 #include <iostream>
+#include <utility>
 
 using namespace Exiv2;
 
@@ -22,7 +23,10 @@ int main(int argc, char* const argv[]) {
     }
     // Map it to memory
     const Exiv2::byte* pData = file.mmap();
-    Blob buf(file.size());
+    const uint64_t length = file.size();
+    if (!std::in_range<size_t>(length))
+      throw Exiv2::Error(Exiv2::ErrorCode::kerInvalidMalloc);
+    Blob buf(static_cast<size_t>(length));
 
     // Read from the memory mapped region
     std::copy_n(pData, buf.size(), buf.begin());

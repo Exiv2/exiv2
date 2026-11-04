@@ -183,7 +183,7 @@ static const XML_Node * FindRootNode ( XMPMeta * thiz, const XMLParserAdapter & 
 		++verStr;
 	}
 	if ( part > 99 ) part = 99;
-	thiz->prevTkVer = part * 100*100*1000;
+	thiz->prevTkVer = static_cast<XMP_Int32>(part * 100*100*1000);
 	
 	part = 0;
 	if ( *verStr == '.' ) ++verStr;
@@ -192,7 +192,7 @@ static const XML_Node * FindRootNode ( XMPMeta * thiz, const XMLParserAdapter & 
 		++verStr;
 	}
 	if ( part > 99 ) part = 99;
-	thiz->prevTkVer += part * 100*1000;
+	thiz->prevTkVer += static_cast<XMP_Int32>(part * 100*1000);
 	
 	part = 0;
 	if ( *verStr == '.' ) ++verStr;
@@ -201,7 +201,7 @@ static const XML_Node * FindRootNode ( XMPMeta * thiz, const XMLParserAdapter & 
 		++verStr;
 	}
 	if ( part > 99 ) part = 99;
-	thiz->prevTkVer += part * 1000;
+	thiz->prevTkVer += static_cast<XMP_Int32>(part * 1000);
 	
 	part = 0;
 	if ( *verStr == '-' ) ++verStr;
@@ -210,7 +210,7 @@ static const XML_Node * FindRootNode ( XMPMeta * thiz, const XMLParserAdapter & 
 		++verStr;
 	}
 	if ( part > 999 ) part = 999;
-	thiz->prevTkVer += part;
+	thiz->prevTkVer += static_cast<XMP_Int32>(part);
 	
 	return rootNode;
 	
@@ -564,9 +564,9 @@ MigrateAudioCopyright ( XMPMeta * xmp, XMP_Node * dmCopyright )
 			// 3. Look for a double linefeed in the x-default value.
 			XMP_Assert ( xdIndex == 0 );
 			std::string & defaultValue = dcRightsArray->children[xdIndex]->value;
-			XMP_Index lfPos = defaultValue.find ( kDoubleLF );
+			const size_t lfPos = defaultValue.find ( kDoubleLF );
 			
-			if ( lfPos < 0 ) {
+			if ( lfPos == std::string::npos ) {
 			
 				// 3A. No double LF, compare whole values.
 				if ( dmValue != defaultValue ) {
@@ -618,7 +618,7 @@ RepairAltText ( XMP_Node & tree, XMP_StringPtr schemaNS, XMP_StringPtr arrayName
 	
 	arrayNode->options |= (kXMP_PropArrayIsOrdered | kXMP_PropArrayIsAlternate | kXMP_PropArrayIsAltText);
 	
-	for ( int i = arrayNode->children.size()-1; i >= 0; --i ) {	// ! Need a signed index type.
+	for ( size_t i = arrayNode->children.size(); i-- > 0; ) {
 
 		XMP_Node * currChild = arrayNode->children[i];
 
@@ -871,7 +871,7 @@ CountUTF8 ( const XMP_Uns8 * charStart, const XMP_Uns8 * bufEnd )
 	
 	int byteCount = 2;
 	XMP_Uns8 firstByte = *charStart;
-	for ( firstByte = firstByte << 2; (firstByte & 0x80) != 0; firstByte = firstByte << 1 ) ++byteCount;
+	for ( firstByte = static_cast<XMP_Uns8>(firstByte << 2); (firstByte & 0x80) != 0; firstByte = static_cast<XMP_Uns8>(firstByte << 1) ) ++byteCount;
 	
 	if ( (charStart + byteCount) > bufEnd ) return -byteCount;
 
@@ -904,7 +904,7 @@ CountControlEscape ( const XMP_Uns8 * escStart, const XMP_Uns8 * bufEnd )
 	
 	if ( strncmp ( (char*)escStart, "&#x", 3 ) != 0 ) return 0;
 	
-	XMP_Uns8 escValue = 0;
+	unsigned int escValue = 0;
 	const XMP_Uns8 * escPos = escStart + 3;
 	
 	if ( ('0' <= *escPos) && (*escPos <= '9') ) {
@@ -932,7 +932,7 @@ CountControlEscape ( const XMP_Uns8 * escStart, const XMP_Uns8 * bufEnd )
 	if ( escPos == bufEnd ) return -1;	// Partial escape.
 	if ( *escPos != ';' ) return 0;
 	
-	size_t escLen = escPos - escStart + 1;
+	const auto escLen = static_cast<int>(escPos - escStart + 1);
 	if ( escLen < 5 ) return 0;	// ! Catch "&#x;".
 	
 	if ( (escValue == kTab) || (escValue == kLF) || (escValue == kCR) ) return 0;	// An allowed escape.
@@ -1091,9 +1091,10 @@ ProcessUTF8Portion ( XMLParserAdapter * xmlParser,
 
 void
 XMPMeta::ParseFromBuffer ( XMP_StringPtr  buffer,
-						   XMP_StringLen  xmpSize,
+						   XMP_StringLen  inputSize,
 						   XMP_OptionBits options )
 {
+	size_t xmpSize = inputSize;
 	if ( (buffer == 0) && (xmpSize != 0) ) XMP_Throw ( "Null parse buffer", kXMPErr_BadParam );
 	if ( xmpSize == kXMP_UseNullTermination ) xmpSize = strlen ( buffer );
 	

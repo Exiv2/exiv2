@@ -764,8 +764,8 @@ void RiffVideo::fillDuration(double frame_rate, size_t frame_count) {
   if (frame_rate == 0)
     return;
 
-  auto duration = static_cast<uint64_t>(frame_count * 1000. / frame_rate);
-  xmpData_["Xmp.video.FileDataRate"] = io_->size() / (1048576. * duration);
+  auto duration = static_cast<uint64_t>(static_cast<double>(frame_count) * 1000. / frame_rate);
+  xmpData_["Xmp.video.FileDataRate"] = static_cast<double>(io_->size()) / (1048576. * static_cast<double>(duration));
   xmpData_["Xmp.video.Duration"] = duration;  // Duration in number of seconds
 }  // RiffVideo::fillDuration
 

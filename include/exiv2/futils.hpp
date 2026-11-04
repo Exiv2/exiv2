@@ -10,7 +10,7 @@
 // namespace extensions
 namespace Exiv2 {
 //! the name of environmental variables.
-enum EnVar { envHTTPPOST = 0, envTIMEOUT = 1 };
+enum EnVar : int { envHTTPPOST = 0, envTIMEOUT = 1 };
 //! the collection of protocols.
 enum Protocol { pFile = 0, pHttp, pFtp, pHttps, pSftp, pFileUri, pDataUri, pStdin };
 // *********************************************************************

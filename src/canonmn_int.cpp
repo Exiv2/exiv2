@@ -24,6 +24,7 @@
 #include <regex>
 #include <sstream>
 #include <string>
+#include <utility>
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {
@@ -2717,7 +2718,9 @@ std::ostream& CanonMakerNote::print0x0008(std::ostream& os, const Value& value, 
 
 std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
   try {
-    uint32_t l = std::stoul(value.toString());
+    const auto l = std::stoul(value.toString());
+    if (!std::in_range<uint32_t>(l))
+      return os << value;
     return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
   } catch (const std::logic_error&) {
     return os << value;
@@ -2734,7 +2737,9 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
   // if model is EOS D30
   if (pos != exifData->end() && pos->value().count() == 1 && pos->value().toInt64() == 0x01140000) {
     try {
-      uint32_t l = std::stoul(value.toString());
+      const auto l = std::stoul(value.toString());
+      if (!std::in_range<uint32_t>(l))
+        return os << value;
       return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
     } catch (const std::logic_error&) {
       return os << value;
@@ -2747,7 +2752,7 @@ std::ostream& CanonMakerNote::printCs0x0002(std::ostream& os, const Value& value
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
-  if (auto l = value.toInt64(); l == 0) {
+  if (auto l = value.toFloat(); l == 0) {
     os << "Off";
   } else {
     os << l / 10.0 << " s";
@@ -2920,8 +2925,8 @@ std::ostream& CanonMakerNote::printCsLens(std::ostream& os, const Value& value, 
   float fu = value.toFloat(2);
   if (fu == 0.0F)
     return os << value;
-  float len1 = value.toInt64(0) / fu;
-  float len2 = value.toInt64(1) / fu;
+  float len1 = value.toFloat(0) / fu;
+  float len2 = value.toFloat(1) / fu;
   if (len1 == len2) {
     return os << stringFormat("{:.1f} mm", len1);
   }
@@ -2959,7 +2964,7 @@ std::ostream& CanonMakerNote::printSi0x0003(std::ostream& os, const Value& value
     // exposure of 30s which is 5 EV below 1s
     // see also printSi0x0017
     auto res = std::lround(100.0 * (static_cast<short>(value.toInt64()) / 32.0 + 5.0));
-    os << stringFormat("{:.2f}", res / 100.0);
+    os << stringFormat("{:.2f}", static_cast<double>(res) / 100.0);
   }
   return os;
 }
@@ -3008,10 +3013,10 @@ std::ostream& CanonMakerNote::printSi0x0013(std::ostream& os, const Value& value
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
-  if (auto l = value.toInt64(); l == 0xffff) {
+  if (auto l = value.toFloat(); l == 0xffff) {
     return os << "Infinite";
   }
-  return os << value.toInt64() / 100.0 << " m";
+  return os << value.toFloat() / 100.0 << " m";
 }
 
 std::ostream& CanonMakerNote::printSi0x0015(std::ostream& os, const Value& value, const ExifData*) {
@@ -3039,7 +3044,7 @@ std::ostream& CanonMakerNote::printSi0x0016(std::ostream& os, const Value& value
 std::ostream& CanonMakerNote::printSi0x0017(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
-  return os << stringFormat("{:.2f}", (value.toInt64() / 8.0) - 6.0);
+  return os << stringFormat("{:.2f}", (value.toFloat() / 8.0) - 6.0);
 }
 
 std::ostream& CanonMakerNote::printSi0x0018(std::ostream& os, const Value& value, const ExifData*) {
@@ -3050,7 +3055,7 @@ std::ostream& CanonMakerNote::printFiFocusDistance(std::ostream& os, const Value
   if (value.typeId() != signedShort || value.count() == 0)
     return os << value;
 
-  auto l = value.toInt64();
+  auto l = value.toFloat();
   if (l == -1) {
     return os << "Infinite";
   }
@@ -3079,7 +3084,7 @@ float canonEv(int64_t val) {
   } else if ((val == 160) && (frac == 0x08)) {  // for Sigma f/6.3 lenses that report f/6.2 to camera
     frac = 30.0F / 3;
   }
-  return sign * (val + frac) / 32.0F;
+  return static_cast<float>(sign) * (static_cast<float>(val) + frac) / 32.0F;
 }
 
 }  // namespace Exiv2::Internal

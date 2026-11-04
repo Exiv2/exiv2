@@ -27,6 +27,7 @@ add_executable(
   test_jp2image_int.cpp
   test_IptcKey.cpp
   test_LangAltValueRead.cpp
+  test_makernote_conversions.cpp
   test_Photoshop.cpp
   test_pngimage.cpp
   test_safe_op.cpp
@@ -48,6 +49,11 @@ add_executable(
   ${VIDEO_SUPPORT}
   $<TARGET_OBJECTS:exiv2lib_int>
 )
+
+if(EXIV2_ENABLE_XMP AND NOT EXIV2_ENABLE_EXTERNAL_XMP)
+  target_sources(unit_tests PRIVATE test_xmp_conversions.cpp)
+  target_include_directories(unit_tests SYSTEM PRIVATE ${PROJECT_SOURCE_DIR}/xmpsdk/include)
+endif()
 
 target_compile_definitions(unit_tests PRIVATE exiv2lib_STATIC TESTDATA_PATH="${PROJECT_SOURCE_DIR}/test/data")
 
