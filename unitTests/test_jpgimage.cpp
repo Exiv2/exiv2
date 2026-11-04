@@ -182,15 +182,25 @@ TEST(JpegExifSegments, processesTerminatingMarkersOnce) {
 
 // An unrelated marker ends the chain; later fragments cannot repair that TIFF.
 TEST(JpegExifSegments, doesNotMergeAcrossComment) {
-  auto bytes = fragmented(tiff(littleEndian), false);
+  auto payload = tiff(littleEndian);
+  // Keep a valid inline field beside the description whose data crosses the comment.
+  us2Data(payload.data() + 8, 2, littleEndian);
+  us2Data(payload.data() + 22, 0x0112, littleEndian);  // Orientation.
+  us2Data(payload.data() + 24, 3, littleEndian);
+  ul2Data(payload.data() + 26, 1, littleEndian);
+  ul2Data(payload.data() + 30, 1, littleEndian);
+  auto bytes = fragmented(payload, false);
   Blob comment;
   segment(comment, 0xfe, Blob{'g', 'a', 'p'});
   bytes.insert(bytes.begin() + 7 + 2 + 65535, comment.begin(), comment.end());
   const auto image = read(bytes);
   EXPECT_EQ(image->comment(), "gap");
   const auto it = image->exifData().findKey(ExifKey("Exif.Image.ImageDescription"));
-  ASSERT_NE(it, image->exifData().end());
-  EXPECT_LT(it->count(), 70000 - 64);
+  // TIFF bounds validation drops the incomplete value instead of exposing a truncated one.
+  EXPECT_EQ(it, image->exifData().end());
+  const auto orientation = image->exifData().findKey(ExifKey("Exif.Image.Orientation"));
+  ASSERT_NE(orientation, image->exifData().end());
+  EXPECT_EQ(orientation->toInt64(), 1);
 }
 
 // Reject recognized continuation writes, including clearing, without touching MemIo bytes.
