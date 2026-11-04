@@ -572,15 +572,15 @@ void JxrImage::writeMetadata() {
   primary.tree = std::move(replacement);
   for (size_t i = 0; i < original.images.size(); ++i) {
     if (i != original.primary) {
-      clearCategories(*original.images[i].tree, clearExif_, clearIptc_, clearXmp_, clearIcc_);
-      if (clearExif_ && !clearIptc_ && !original.images[i].iptc.empty()) {
+      clearCategories(*original.images.at(i).tree, clearExif_, clearIptc_, clearXmp_, clearIcc_);
+      if (clearExif_ && !clearIptc_ && !original.images.at(i).iptc.empty()) {
         // IPTC may have existed only inside the discarded Photoshop resources.
-        auto& directory = dynamic_cast<TiffDirectory&>(*original.images[i].tree);
+        auto& directory = dynamic_cast<TiffDirectory&>(*original.images.at(i).tree);
         auto& entries = directory.components();
         entries.erase(std::remove_if(entries.begin(), entries.end(),
                                      [](const auto& component) { return component->tag() == iptcTag; }),
                       entries.end());
-        auto raw = IptcParser::encode(original.images[i].iptc);
+        auto raw = IptcParser::encode(original.images.at(i).iptc);
         auto field = std::make_unique<TiffEntry>(iptcTag, IfdId::ifd0Id);
         field->updateValue(std::make_unique<DataValue>(raw.c_data(), raw.size(), invalidByteOrder, unsignedByte),
                            littleEndian);
@@ -622,7 +622,7 @@ void JxrImage::writeMetadata() {
   auto tree = std::move(original.images.front().tree);
   TiffComponent* tail = tree.get();
   for (size_t i = 1; i < original.images.size(); ++i)
-    tail = tail->addNext(std::move(original.images[i].tree));
+    tail = tail->addNext(std::move(original.images.at(i).tree));
   uint64_t measured = uint64_t(header.size()) + tree->size();
   for (const auto& image : original.images) {
     for (const auto& range : image.streams)
@@ -646,16 +646,16 @@ void JxrImage::writeMetadata() {
   enforce(verified.images.size() == original.images.size() && verified.primary == original.primary,
           ErrorCode::kerImageWriteFailed);
   for (size_t i = 0; i < verified.images.size(); ++i) {
-    auto& result = verified.images[i];
-    enforce(exifValues(result.exif) == exifValues(expected[i].exif) &&
-                categoryValues(result.iptc) == categoryValues(expected[i].iptc) &&
-                categoryValues(result.xmp) == categoryValues(expected[i].xmp) &&
-                rawValue(*result.tree, xmpTag) == packets[i] && rawValue(*result.tree, iccTag) == profiles[i] &&
-                result.streams.size() == original.images[i].streams.size(),
+    auto& result = verified.images.at(i);
+    enforce(exifValues(result.exif) == exifValues(expected.at(i).exif) &&
+                categoryValues(result.iptc) == categoryValues(expected.at(i).iptc) &&
+                categoryValues(result.xmp) == categoryValues(expected.at(i).xmp) &&
+                rawValue(*result.tree, xmpTag) == packets.at(i) && rawValue(*result.tree, iccTag) == profiles.at(i) &&
+                result.streams.size() == original.images.at(i).streams.size(),
             ErrorCode::kerImageWriteFailed);
     for (size_t j = 0; j < result.streams.size(); ++j) {
-      const auto before = original.images[i].streams[j];
-      const auto after = result.streams[j];
+      const auto before = original.images.at(i).streams.at(j);
+      const auto after = result.streams.at(j);
       enforce(before.size == after.size, ErrorCode::kerImageWriteFailed);
       for (size_t position = 0; position < before.size;) {
         const auto length = std::min<size_t>(65536, before.size - position);
