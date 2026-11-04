@@ -14,6 +14,7 @@
 
 #ifdef EXV_ENABLE_BMFF
 #include "bmffimage.hpp"
+#include "heifimage_int.hpp"
 #endif  // EXV_ENABLE_BMFF
 
 #include "cr2image.hpp"
@@ -117,6 +118,7 @@ constexpr Registry registry[] = {
     {ImageType::mkv, newMkvInstance, isMkvType, amRead, amNone, amRead, amNone},
 #endif  // EXV_ENABLE_VIDEO
 #ifdef EXV_ENABLE_BMFF
+    {ImageType::heif, Internal::newHeifInstance, Internal::isHeifType, amReadWrite, amRead, amReadWrite, amNone},
     {ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF
 };

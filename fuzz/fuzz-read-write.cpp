@@ -1,5 +1,7 @@
 #include <exiv2/exiv2.hpp>
 
+#include "fuzz-heif-write.hpp"
+
 #include <cassert>
 #include <iomanip>
 #include <iostream>
@@ -15,6 +17,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 
     image->readMetadata();
     image->writeMetadata();
+    fuzzHeifWrite(*image, size);
 
   } catch (...) {
     // Exiv2 throws an exception if the metadata is invalid.
