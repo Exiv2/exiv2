@@ -27,6 +27,7 @@
 #include "bmpimage.hpp"
 #include "gifimage.hpp"
 #include "jp2image.hpp"
+#include "jxrimage_int.hpp"
 #include "nikonmn_int.hpp"
 #include "orfimage.hpp"
 #include "pgfimage.hpp"
@@ -86,6 +87,7 @@ constexpr Registry registry[] = {
     {ImageType::cr2, newCr2Instance, isCr2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
     {ImageType::crw, newCrwInstance, isCrwType, amReadWrite, amNone, amNone, amReadWrite},
     {ImageType::mrw, newMrwInstance, isMrwType, amRead, amRead, amRead, amNone},
+    {ImageType::jxr, Internal::newJxrInstance, Internal::isJxrType, amReadWrite, amReadWrite, amReadWrite, amNone},
     {ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
     {ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone, amReadWrite, amNone},
     {ImageType::dng, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
@@ -774,6 +776,8 @@ const std::string& Image::tagName(uint16_t tag) {
 }
 
 AccessMode ImageFactory::checkMode(ImageType type, MetadataId metadataId) {
+  if (type == ImageType::jxr && metadataId == mdIccProfile)
+    return amReadWrite;
   auto r = Exiv2::find(registry, type);
   if (!r)
     throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
@@ -895,6 +899,9 @@ Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io) {
 
 #ifdef EXV_ENABLE_FILESYSTEM
 Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path) {
+  // Unsupported JPEG XR creation must not truncate an existing destination.
+  if (type == ImageType::jxr)
+    throw Error(ErrorCode::kerWritingImageFormatUnsupported, "JPEG XR creation");
   auto fileIo = std::make_unique<FileIo>(path);
   // Create or overwrite the file, then close it
   if (fileIo->open("w+b") != 0) {

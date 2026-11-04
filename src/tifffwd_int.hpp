@@ -41,6 +41,7 @@ class TiffFinder;
 class TiffDecoder;
 class TiffEncoder;
 class TiffReader;
+struct TiffReadContext;
 
 class TiffRwState;
 class TiffPathItem;

@@ -541,6 +541,13 @@ using IsThisTypeFct = bool (*)(BasicIo& iIo, bool advance);
   @brief Returns an Image instance of the specified type.
 
   The factory is implemented as a static class.
+
+  @note Version-1 JPEG XR still images report ImageType::jxr and receive a private
+  TIFF-based adapter. Earlier versions reported TIFF identity. Ordinary edits
+  affect the first non-preview image; explicit category clears and empty category
+  setters apply throughout the image/preview chain. Native decoding/layout fields
+  and compressed streams are retained. Individual layouts and requested edits
+  are validated by Image::writeMetadata(); creation is unsupported.
 */
 class EXIV2API ImageFactory {
   friend bool Image::good() const;

@@ -22,6 +22,7 @@ test_sources = files(
   'test_helper_functions.cpp',
   'test_image_int.cpp',
   'test_jp2image.cpp',
+  'test_jxrimage.cpp',
   'test_jp2image_int.cpp',
   'test_safe_op.cpp',
   'test_slice.cpp',
