@@ -13,6 +13,7 @@ add_executable(
   unit_tests
   test_basicio.cpp
   test_bmpimage.cpp
+  test_canonmn.cpp
   test_cr2header_int.cpp
   test_datasets.cpp
   test_Error.cpp

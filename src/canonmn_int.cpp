@@ -2805,7 +2805,20 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
   if (!metadata || value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
-  auto const lensType = value.toInt64();
+  auto lensType = value.toInt64();
+
+  // The original EOS 5D may only record the lens ID in CameraInfo, at byte offset 0x97
+  // (ExifTool's CameraInfo5D table). This field is big-endian regardless of EXIF byte order.
+  if (lensType == 0) {
+    const auto model = metadata->findKey(ExifKey("Exif.Image.Model"));
+    const auto info = metadata->findKey(ExifKey("Exif.Canon.CameraInfo"));
+    if (model != metadata->end() && model->toString() == "Canon EOS 5D" && info != metadata->end() &&
+        info->typeId() == undefined && info->count() >= 0x99) {
+      const auto id = (info->toUint32(0x97) << 8) | info->toUint32(0x98);
+      if (id != 0xffff)
+        lensType = id;
+    }
+  }
 
   if (lensType == 0xffff) {
     return printCsLensFFFF(os, value, metadata);
