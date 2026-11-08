@@ -449,7 +449,8 @@ std::string PngChunk::makeUtf8TxtChunk(std::string_view keyword, std::string_vie
     chunkData += std::string(flags, 5) + zlibCompress(text);
   } else {
     static const char flags[] = {0x00, 0x00, 0x00, 0x00, 0x00};
-    chunkData += std::string(flags, 5) + text.data();
+    chunkData += std::string(flags, 5);
+    chunkData += text;
   }
   // Determine length of the chunk data
   byte length[4];
