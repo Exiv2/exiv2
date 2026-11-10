@@ -2120,6 +2120,35 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
   return writeMethod;
 }  // TiffParserWorker::encode
 
+TiffComponent::UniquePtr TiffParserWorker::parseDirectory(const byte* pData, size_t size, uint32_t offset,
+                                                          TiffReadContext& context) {
+  if (!pData || offset >= size)
+    throw Error(ErrorCode::kerCorruptedMetadata);
+
+  auto tree = TiffCreator::create(Tag::root, IfdId::ifdIdNotSet);
+  tree->setStart(pData + offset);
+  TiffReader reader(pData, size, tree.get(), TiffRwState{littleEndian, 0}, &context);
+  tree->accept(reader);
+  reader.postProcess();
+  return tree;
+}
+
+TiffComponent::UniquePtr TiffParserWorker::buildTree(TiffComponent::UniquePtr source, const ExifData& exifData,
+                                                     const IptcData& iptcData, const XmpData& xmpData, uint32_t root,
+                                                     TiffHeaderBase* header, FindEncoderFct findEncoderFct) {
+  auto primaryGroups = findPrimaryGroups(source);
+  auto tree = TiffCreator::create(root, IfdId::ifdIdNotSet);
+  if (source) {
+    TiffCopier copier(tree.get(), root, header, primaryGroups);
+    source->accept(copier);
+  }
+
+  TiffEncoder encoder(exifData, iptcData, xmpData, tree.get(), !source, std::move(primaryGroups), header,
+                      findEncoderFct);
+  encoder.add(tree.get(), std::move(source), root);
+  return tree;
+}
+
 TiffComponent::UniquePtr TiffParserWorker::parse(const byte* pData, size_t size, uint32_t root,
                                                  TiffHeaderBase* pHeader) {
   TiffComponent::UniquePtr rootDir;

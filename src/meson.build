@@ -52,6 +52,7 @@ int_lib = files(
   'helper_functions.cpp',
   'image_int.cpp',
   'jp2image_int.cpp',
+  'jxrimage_int.cpp',
   'makernote_int.cpp',
   'minoltamn_int.cpp',
   'nikonmn_int.cpp',
