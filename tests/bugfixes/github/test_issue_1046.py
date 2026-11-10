@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, CopyFiles, path
+from system_tests import CaseMeta, CopyFiles, path, requires
 
 
+@requires("iconv")
 @CopyFiles("$data_path/IMG_0246.exv")
 class test_issue_1046Test(metaclass=CaseMeta):
     filename = path("$tmp_path/IMG_0246_copy.exv")

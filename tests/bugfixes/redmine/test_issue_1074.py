@@ -5,6 +5,7 @@ import hashlib
 import system_tests
 
 
+@system_tests.requires("have_libz")
 class IccProfileInApp2Segment(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1074"

@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from system_tests import BT
+from system_tests import BT, has_feature
 
 
 def get_valid_files(data_dir):
@@ -186,8 +186,43 @@ def get_valid_files(data_dir):
     ]
 
 
+# files whose reference output needs an optional feature
+requirements = {
+    "have_libz": [
+        # PNG support
+        "1343_exif.png",
+        "ReaganLargePng.png",
+        "ReaganSmallPng.png",
+        "exiv2-bug1074.png",
+        "exiv2-bug922.png",
+        "imagemagick.png",
+        # PGF keeps its metadata in an embedded PNG
+        "issue_94_poc3.pgf",
+    ],
+    # charset conversion of comments
+    "iconv": [
+        "IMG_0246.exv",
+        "exiv2-bug460.jpg",
+        "exiv2-bug937.jpg",
+        "issue_ghsa_5p8g_9xf3_gfrr_poc.exv",
+        "issue_ghsa_5p8g_9xf3_gfrr_poc.webp",
+        "sample_960x540.asf",
+    ],
+}
+
+
+def param(f):
+    missing = [
+        feature
+        for feature, names in requirements.items()
+        if os.path.basename(f) in names and not has_feature(feature)
+    ]
+    marks = pytest.mark.skip(reason=f"exiv2 was built without {', '.join(missing)}") if missing else ()
+    return pytest.param(f, marks=marks)
+
+
 @pytest.mark.parametrize(
-    "filename", sorted(get_valid_files(BT.Config.data_dir)), ids=os.path.basename
+    "filename", [param(f) for f in sorted(get_valid_files(BT.Config.data_dir))], ids=os.path.basename
 )
 def test_regression(filename):
     """run exiv2 over a file in exiv_dir/test/data/ and compare against its reference file"""

@@ -4,7 +4,7 @@ import socket
 import unittest
 
 from importlib.util import find_spec
-from system_tests import BT
+from system_tests import BT, requires
 
 class TestCases(unittest.TestCase):
 
@@ -27,6 +27,7 @@ class TestCases(unittest.TestCase):
         BT.reportTest('addmoddel', out)
 
 
+    @requires("iconv")
     def test_conversions(self):
         # XMP parser test driver
         jpg      = 'exiv2-empty.jpg'
@@ -566,6 +567,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             raise RuntimeError(f"{str(out)}\n{BT.log.to_str()}")
 
 
+    @requires("enable_webready")
     def test_io(self):
         # Test driver for file i/o
         test_files  = ['table.jpg', 'smiley2.jpg', 'ext.dat']
@@ -920,6 +922,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # print(out)
 
 
+    @requires("have_libz")
     def test_png(self):
         # Test PNG support (-pS, -pc, -c, -pa)
         out   = BT.Output()
@@ -940,6 +943,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('png-test', out) # skip!  blank lines from -pc are in the wrong order!
 
 
+    @requires("have_libz")
     def test_preview(self):
         # Test driver for previews
         images = [
@@ -1020,6 +1024,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('preview-test', out)
 
 
+    @requires("have_libz")
     def test_stdin(self):
         # Test driver for stdin
         if find_spec('lxml') is None:

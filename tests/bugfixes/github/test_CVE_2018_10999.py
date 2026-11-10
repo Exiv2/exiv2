@@ -3,6 +3,7 @@
 import system_tests
 
 
+@system_tests.requires("have_libz")
 class TestCvePoC(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/issues/306"
 

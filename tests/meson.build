@@ -3,14 +3,9 @@ if not pytest.found()
   subdir_done()
 endif
 
-# the suites fail without these: XMP (expat), PNG (zlib), the lens config
-# file (inih) and the http iotest (webready)
-if not (expat_dep.found() and inih_dep.found() and web_dep.found() and zlib_dep.found())
-  subdir_done()
-endif
-
-# windows does conversion without iconv
-if not (host_machine.system() == 'windows' or iconv_dep.found())
+# most suites check XMP output. Tests for other optional features skip
+# themselves when exiv2 -vV says the feature is missing
+if not expat_dep.found()
   subdir_done()
 endif
 

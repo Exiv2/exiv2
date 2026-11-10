@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, CopyTmpFiles
+from system_tests import CaseMeta, CopyTmpFiles, requires
 
 
+@requires("iconv")
 @CopyTmpFiles("$data_path/issue_2403_poc.exv")
 class checkIconvSegFault(metaclass=CaseMeta):
     url = """"""

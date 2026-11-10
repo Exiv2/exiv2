@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import configparser
+import functools
 import os
 import inspect
 import subprocess
@@ -9,6 +10,8 @@ import sys
 import shutil
 import string
 import unittest
+
+import pytest
 
 from bash_tests import utils as BT
 
@@ -508,6 +511,37 @@ class DeleteFiles(FileDecoratorBase):
 
     def setUp_file_action(self, expanded_file_name):
         return expanded_file_name
+
+
+@functools.lru_cache(maxsize=None)
+def _build_features():
+    return BT.verbose_version()
+
+
+def has_feature(name):
+    """
+    Whether exiv2 was built with an optional feature, as reported by
+    `exiv2 --verbose --version` (e.g. have_libz, enable_webready).
+
+    Charset conversion ("iconv") is also available on Windows, where exiv2
+    uses the Win32 API instead of iconv.
+    """
+    if name == "iconv":
+        return _build_features().get("have_iconv") == "1" or sys.platform in ("win32", "msys")
+    return _build_features().get(name) == "1"
+
+
+def requires(*features):
+    """
+    Decorator that skips a test, a test method or a whole test class
+    unless exiv2 was built with all of the given features:
+
+    @requires("have_libz")
+    class PngTest(metaclass=CaseMeta):
+        ...
+    """
+    missing = [f for f in features if not has_feature(f)]
+    return pytest.mark.skipif(bool(missing), reason=f"exiv2 was built without {', '.join(missing)}")
 
 
 def path(path_string):

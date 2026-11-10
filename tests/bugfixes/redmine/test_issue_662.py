@@ -3,6 +3,7 @@
 import system_tests
 
 
+@system_tests.requires("iconv")
 @system_tests.CopyFiles("$data_path/exiv2-empty.jpg")
 class UnicodeEncodingOfExifUserCommentTag(metaclass=system_tests.CaseMeta):
 
