@@ -168,6 +168,7 @@ constexpr GroupInfo groupInfo[] = {
     {IfdId::sonyMisc3cId, "Makernote", "SonyMisc3c", &SonyMakerNote::tagListSonyMisc3c},
     {IfdId::sonySInfo1Id, "Makernote", "SonySInfo1", &SonyMakerNote::tagListSonySInfo1},
     {IfdId::sony2010eId, "Makernote", "Sony2010e", &SonyMakerNote::tagList2010e},
+    {IfdId::sony9405bId, "Makernote", "Sony9405b", &SonyMakerNote::tagList9405b},
     {IfdId::lastId, "(Last IFD info)", "(Last IFD item)", nullptr},
 };
 

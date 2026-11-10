@@ -13,6 +13,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -581,13 +582,19 @@ class TiffReader : public TiffVisitor {
   /*!
     @brief Constructor. The data buffer and table describing the TIFF
                      structure of the data are set in the constructor.
-    @param pData     Pointer to the data buffer, starting with a TIFF header.
+    @param pData     Pointer to a TIFF buffer or an isolated headerless Sony2 IFD.
     @param size      Number of bytes in the data buffer.
     @param pRoot     Root element of the TIFF composite.
     @param state     State object for creation function, byte order and
                      base offset.
+    @param originalOffset Original file position of an isolated Sony2 IFD;
+                     subtracted from its out-of-line value offsets. Pass nullopt
+                     for ordinary TIFF parsing; zero still selects isolated
+                     decoding, which permits at most 65536 binary-array elements.
+                     The buffer remains borrowed.
    */
-  TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state);
+  TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state,
+             std::optional<uint32_t> originalOffset = std::nullopt);
   //@}
 
   //! @name Manipulators
@@ -659,17 +666,19 @@ class TiffReader : public TiffVisitor {
   using PostList = std::vector<TiffComponent*>;
 
   // DATA
-  const byte* pData_;      //!< Pointer to the memory buffer
-  size_t size_;            //!< Size of the buffer
-  const byte* pLast_;      //!< Pointer to the last byte
-  TiffComponent* pRoot_;   //!< Root element of the composite
-  TiffRwState* pState_;    //!< Pointer to the state in effect (origState_ or mnState_)
-  TiffRwState origState_;  //!< State class as set in the c'tor
-  TiffRwState mnState_;    //!< State class as set in the c'tor or by setMnState()
-  DirList dirList_;        //!< List of IFD pointers and their groups
-  IdxSeq idxSeq_;          //!< Sequences for group, used for the entry's idx
-  PostList postList_;      //!< List of components with deferred reading
-  bool postProc_{false};   //!< True in postProcessList()
+  const byte* pData_;                       //!< Pointer to the memory buffer
+  size_t size_;                             //!< Size of the buffer
+  const byte* pLast_;                       //!< Pointer to the last byte
+  TiffComponent* pRoot_;                    //!< Root element of the composite
+  TiffRwState* pState_;                     //!< Pointer to the state in effect (origState_ or mnState_)
+  TiffRwState origState_;                   //!< State class as set in the c'tor
+  TiffRwState mnState_;                     //!< State class as set in the c'tor or by setMnState()
+  DirList dirList_;                         //!< List of IFD pointers and their groups
+  IdxSeq idxSeq_;                           //!< Sequences for group, used for the entry's idx
+  PostList postList_;                       //!< List of components with deferred reading
+  bool postProc_{false};                    //!< True in postProcessList()
+  std::optional<uint32_t> originalOffset_;  //!< Saved source position for an isolated Sony2 IFD
+  size_t decodedElements_{0};               //!< Expansion budget used only for isolated Sony2 data
 };
 
 }  // namespace Internal
