@@ -74,7 +74,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 
 # Building, Installing, Using and Uninstalling Exiv2
 
-You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, any C++ compiler implementing the C++ 20 standard and the associated tool chain.
+You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, any C++ compiler implementing the C++ 20 standard and the associated tool chain. When building with GCC, version 10 or newer is required.
 
 <div id="B_I_U_Unix">
 
@@ -825,6 +825,17 @@ This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.c
 **Attention is drawn to the possibility that BMFF support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights.  Exiv2 shall not be held responsible for the legal consequences of the use of this code_.**
 
 Access to the BMFF code is guarded by the CMake option: `-DEXIV2_ENABLE_BMFF=ON` (enabled by default).
+
+Existing item-based HEIF/HEIC files support primary-image Exif and XMP writing,
+including growth, replacement and removal. The native writer preserves encoded
+image payloads and compacts obsolete metadata storage without an image codec
+dependency. AVIF, CR3 and JPEG XL writing remain unsupported. Unsupported layouts
+and edits conflicting with shared item data are rejected before source transfer.
+
+See [HEIF and HEIC metadata writing](exiv2.md#heif-and-heic-metadata-writing) for
+the supported structures, metadata-removal scope, build options and transfer
+failure limitations. Use `ImageFactory::open()` to obtain the HEIF writer; the
+factory reports `ImageType::heif`, while the general `BmffImage` remains read-only.
 
 [TOC](#TOC)
 <div id="LicenseSupport">

@@ -14,6 +14,10 @@ test_sources = files(
   'test_TimeValue.cpp',
   'test_XmpKey.cpp',
   'test_basicio.cpp',
+  'test_bmffbox_int.cpp',
+  'test_bmfflegacy_int.cpp',
+  'test_bmfflayout_int.cpp',
+  'test_bmffimage_int.cpp',
   'test_bmpimage.cpp',
   'test_cr2header_int.cpp',
   'test_datasets.cpp',
@@ -60,8 +64,10 @@ unit_tests = executable(
   'unit_tests',
   test_sources,
   cpp_args: t_args,
-  dependencies: [exiv2_dep, gtest_dep],
+  dependencies: [exiv2_dep, exiv2int_dep, gtest_dep],
   include_directories: exiv2inc,
 )
 
-test('Unit Tests', unit_tests)
+# Allow headroom for large Exif fixtures and XMP concurrency tests under
+# sanitizers and on slower CI VMs.
+test('Unit Tests', unit_tests, timeout: 120)
