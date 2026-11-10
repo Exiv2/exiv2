@@ -15,7 +15,7 @@ jobs:
     name: Linux-GCC${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['9', '16']
+        cxx: ['10', '16']
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v7
