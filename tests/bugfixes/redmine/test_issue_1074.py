@@ -25,7 +25,7 @@ class IccProfileInApp2Segment(metaclass=system_tests.CaseMeta):
 
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
         self.assertEqual(
-            hashlib.md5(got_stdout).hexdigest(), expected_stdout
+            hashlib.md5(got_stdout, usedforsecurity=False).hexdigest(), expected_stdout
         )
 
     stderr = [bytes()] * len(filenames)
