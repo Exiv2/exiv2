@@ -153,7 +153,18 @@ Exif.NikonMe.MultiExposureMode               Long        1  0  Off
 Exif.NikonMe.MultiExposureShots              Long        1  0  0
 Exif.NikonMe.MultiExposureAutoGain           Long        1  0  Off
 Exif.Nikon3.HighISONoiseReduction            Short       1  4  Normal
-Exif.Nikon3.AFInfo2                          Undefined  60  48 51 48 48 1 193 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 160 23 184 15 208 11 220 7 29 1 52 1 0 0 0 0 0 0  48 51 48 48 1 193 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 160 23 184 15 208 11 220 7 29 1 52 1 0 0 0 0 0 0
+Exif.NikonAf23.Version                       Undefined   4  48 51 48 48  3.00
+Exif.NikonAf23.AFDetectionMethod             Byte        1  1  Contrast Detect
+Exif.NikonAf23.AFAreaMode                    Byte        1  193  Single
+Exif.NikonAf23.FocusPointSchema              Byte        1  0  Off
+Exif.NikonAf23.AFCoordinatesAvailable        Byte        1  1  Yes
+Exif.NikonAf23.AFImageWidth                  Short       1  6048  6048
+Exif.NikonAf23.AFImageHeight                 Short       1  4024  4024
+Exif.NikonAf23.AFAreaXPosition               Short       1  3024  3024
+Exif.NikonAf23.AFAreaYPosition               Short       1  2012  2012
+Exif.NikonAf23.AFAreaWidth                   Short       1  285  285
+Exif.NikonAf23.AFAreaHeight                  Short       1  308  308
+Exif.NikonAf23.PrimaryAFPoint                Byte        1  0  0
 Exif.NikonFi.Version                         Undefined   4  48 49 48 48  1.00
 Exif.NikonFi.DirectoryNumber                 Short       1  100  100
 Exif.NikonFi.FileNumber                      Short       1  174  174
