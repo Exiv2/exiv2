@@ -3,8 +3,9 @@ if not pytest.found()
   subdir_done()
 endif
 
-# these are all needed. Not sure if conditional testing is desired.
-if not (brotli_dep.found() and expat_dep.found() and inih_dep.found() and web_dep.found() and zlib_dep.found())
+# the suites fail without these: XMP (expat), PNG (zlib), the lens config
+# file (inih) and the http iotest (webready)
+if not (expat_dep.found() and inih_dep.found() and web_dep.found() and zlib_dep.found())
   subdir_done()
 endif
 
