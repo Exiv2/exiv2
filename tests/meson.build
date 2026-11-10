@@ -1,43 +1,31 @@
-runner = find_program('runner.py', required: get_option('tests'))
-if not runner.found()
+pytest = find_program('pytest', required: get_option('tests'))
+if not pytest.found()
   subdir_done()
 endif
 
-# these are all needed. Not sure if conditional testing is desired.
-if not (brotli_dep.found() and expat_dep.found() and inih_dep.found() and web_dep.found() and zlib_dep.found())
-  subdir_done()
-endif
-
-# windows does conversion without iconv
-if not (host_machine.system() == 'windows' or iconv_dep.found())
+# most suites check XMP output. Tests for other optional features skip
+# themselves when exiv2 -vV says the feature is missing
+if not expat_dep.found()
   subdir_done()
 endif
 
 tests = {
-  'bashTests': 'bash_tests',
-  'bugfixTests': 'bugfixes',
-  'lensTests': 'lens_tests',
-  'tiffTests': 'tiff_test',
-  'versionTests': 'bash_tests/version_test.py',
+  'bashTests': ['bash_tests'],
+  'bugfixTests': ['bugfixes'],
+  'lensTests': ['lens_tests'],
+  'regressionTests': ['regression_tests'],
+  'tiffTests': ['tiff_test'],
+  # -s so that the version information ends up in the test log
+  'versionTests': ['-s', 'bash_tests/version_test.py'],
 }
 
 foreach n, t : tests
   test(
     n,
-    runner,
+    pytest,
     env: ['MSYSTEM=', bindir],
-    args: ['--verbose', t],
+    args: ['--verbose'] + t,
     timeout: 1200,
     workdir: meson.current_source_dir(),
   )
 endforeach
-
-test(
-  'regressionTests',
-  runner,
-  env: bindir,
-  args: ['--verbose', 'regression_tests'],
-  timeout: 1200,
-  is_parallel: false,
-  workdir: meson.current_source_dir(),
-)

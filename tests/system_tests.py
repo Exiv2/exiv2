@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import configparser
+import functools
 import os
 import inspect
 import subprocess
@@ -9,6 +10,8 @@ import sys
 import shutil
 import string
 import unittest
+
+import pytest
 
 from bash_tests import utils as BT
 
@@ -91,7 +94,7 @@ def set_debug_mode(debug):
     _debug_mode = debug
 
 
-def configure_suite(config_file):
+def configure_suite(config_file, tmp_subdir=None):
     """
     Populates a global datastructure with the parameters from the suite's
     configuration file.
@@ -106,6 +109,9 @@ def configure_suite(config_file):
     5. interpret all entries in the ``paths`` section as relative paths from
        the configuration file, expand them to absolute paths and save them in
        the global datastructure
+
+    If ``tmp_subdir`` is given, ``tmp_path`` is set to that subdirectory of the
+    configured path, so that parallel test processes don't share files.
 
     For further information concerning the rationale behind this, please
     consult the documentation in ``doc.md``.
@@ -156,6 +162,8 @@ def configure_suite(config_file):
                 os.path.join(_parameters["suite_root"], rel_path)
             )
             if key == "tmp_path":
+                if tmp_subdir:
+                    abs_path = os.path.join(abs_path, tmp_subdir)
                 os.makedirs(abs_path, exist_ok=True)
             if key == "data_path" and not os.path.exists(abs_path):
                 raise ValueError(
@@ -185,15 +193,16 @@ def configure_suite(config_file):
             )
 
     # Configure the parameters for bash tests
-    BT.Config.bin_dir           = os.path.abspath(config['ENV']['exiv2_path'])
-    BT.Config.dyld_library_path = os.path.abspath(config['ENV']['dyld_library_path'])
-    BT.Config.ld_library_path   = os.path.abspath(config['ENV']['ld_library_path'])
-    BT.Config.data_dir          = os.path.abspath(config['paths']['data_path'])
-    BT.Config.tmp_dir           = os.path.abspath(config['paths']['tmp_path'])
+    BT.Config.bin_dir           = os.path.abspath(os.path.join(_parameters["suite_root"], config['ENV']['exiv2_path']))
+    BT.Config.dyld_library_path = os.path.abspath(os.path.join(_parameters["suite_root"], config['ENV']['dyld_library_path']))
+    BT.Config.ld_library_path   = os.path.abspath(os.path.join(_parameters["suite_root"], config['ENV']['ld_library_path']))
+    BT.Config.data_dir          = _config_variables['data_path']
+    BT.Config.tmp_dir           = _config_variables['tmp_path']
     BT.Config.exiv2_http        = config['ENV']['exiv2_http']
     BT.Config.exiv2_echo        = config['ENV']['exiv2_echo']
     BT.Config.verbose           = config['ENV']['verbose']
     BT.Config.valgrind          = config['ENV']['valgrind']
+    BT.Config.is_64bit          = BT.exiv2_is_64bit(BT.Config.bin_dir)
 
 
 class FileDecoratorBase(object):
@@ -439,8 +448,8 @@ class CopyFiles(FileDecoratorBase):
 
     The decorator will inject a new setUp method that at first calls the
     already defined setUp(), then expands all supplied file names using
-    Case.expand_variables and then creates copies by appending '_copy' before
-    the file extension. The paths to the copies are stored in
+    Case.expand_variables and then creates copies in $tmp_path by appending
+    '_copy' before the file extension. The paths to the copies are stored in
     self._copied_files.
 
     The decorator also injects a new tearDown method that deletes all files in
@@ -455,8 +464,8 @@ class CopyFiles(FileDecoratorBase):
     FILE_LIST_NAME = '_copied_files'
 
     def setUp_file_action(self, expanded_file_name):
-        fname, ext = os.path.splitext(expanded_file_name)
-        new_name = f"{fname}_copy{ext}"
+        fname, ext = os.path.splitext(os.path.basename(expanded_file_name))
+        new_name = os.path.join(_config_variables['tmp_path'], f"{fname}_copy{ext}")
         return shutil.copyfile(expanded_file_name, new_name)
 
 class CopyTmpFiles(FileDecoratorBase):
@@ -502,6 +511,37 @@ class DeleteFiles(FileDecoratorBase):
 
     def setUp_file_action(self, expanded_file_name):
         return expanded_file_name
+
+
+@functools.lru_cache(maxsize=None)
+def _build_features():
+    return BT.verbose_version()
+
+
+def has_feature(name):
+    """
+    Whether exiv2 was built with an optional feature, as reported by
+    `exiv2 --verbose --version` (e.g. have_libz, enable_webready).
+
+    Charset conversion ("iconv") is also available on Windows, where exiv2
+    uses the Win32 API instead of iconv.
+    """
+    if name == "iconv":
+        return _build_features().get("have_iconv") == "1" or sys.platform in ("win32", "msys")
+    return _build_features().get(name) == "1"
+
+
+def requires(*features):
+    """
+    Decorator that skips a test, a test method or a whole test class
+    unless exiv2 was built with all of the given features:
+
+    @requires("have_libz")
+    class PngTest(metaclass=CaseMeta):
+        ...
+    """
+    missing = [f for f in features if not has_feature(f)]
+    return pytest.mark.skipif(bool(missing), reason=f"exiv2 was built without {', '.join(missing)}")
 
 
 def path(path_string):
@@ -685,23 +725,18 @@ class Case(unittest.TestCase):
     def _get_env(self):
         """ Return an appropriate env value for subprocess.Popen.
 
-        This function returns either an appropriately populated dictionary or
-        None (the latter if this class has no attribute env). If a dictionary
-        is returned, then it will be either exactly self.env (when inherit_env
-        is False) or a copy of the current environment merged with self.env
-        (the values from self.env take precedence).
+        The returned dictionary always contains the library search paths of
+        the exiv2 build. If this class has an attribute env, it is merged in
+        (its values take precedence) and, when inherit_env is False, the
+        current environment is not copied.
         """
-        if not hasattr(self, "env"):
-            return None
-
-        if not self.inherit_env:
-            return self.env
-
-        env_copy = os.environ.copy()
-        for key in self.env:
-            env_copy[key] = self.env[key]
-
-        return env_copy
+        if hasattr(self, "env") and not self.inherit_env:
+            env = {}
+        else:
+            env = os.environ.copy()
+        env.update(BT.library_path_env())
+        env.update(getattr(self, "env", {}))
+        return env
 
     def _encode(self, data_in, encode_action, get_err):
         """
