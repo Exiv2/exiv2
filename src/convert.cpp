@@ -10,6 +10,7 @@
 // included header files
 #include "convert.hpp"
 #include "config.h"
+#include "devicesettings_int.hpp"
 #include "error.hpp"
 #include "exif.hpp"
 #include "image_int.hpp"
@@ -18,10 +19,12 @@
 #include "tags.hpp"
 #include "types.hpp"
 #include "value.hpp"
+#include "value_int.hpp"
 #include "xmp_exiv2.hpp"
 
 // + standard includes
 #include <algorithm>
+#include <charconv>
 #include <functional>
 
 #ifdef EXV_HAVE_ICONV
@@ -63,6 +66,150 @@ bool convertStringCharsetWindows(std::string& str, std::string_view from, std::s
   The return code indicates if the operation was successful.
  */
 bool getTextValue(std::string& value, Exiv2::XmpData::iterator pos);
+
+// Match one property family without capturing similarly named unrelated keys.
+bool inXmpFamily(const std::string& key, const std::string& parent) {
+  return key == parent || (key.starts_with(parent) && key.size() > parent.size() &&
+                           (key[parent.size()] == '/' || key[parent.size()] == '['));
+}
+
+// Include descendants-only structures when applying synchronization precedence.
+bool hasXmpFamily(const Exiv2::XmpData& xmp, const std::string& parent) {
+  return std::any_of(xmp.begin(), xmp.end(), [&](const auto& md) { return inXmpFamily(md.key(), parent); });
+}
+
+// Detect children even when an explicit parent record is absent.
+bool hasXmpChildren(const Exiv2::XmpData& xmp, const std::string& parent) {
+  return std::any_of(xmp.begin(), xmp.end(),
+                     [&](const auto& md) { return md.key() != parent && inXmpFamily(md.key(), parent); });
+}
+
+// Duplicate fields cannot be represented unambiguously by one native value.
+const Exiv2::Xmpdatum* uniqueXmpField(const Exiv2::XmpData& xmp, const std::string& key, bool& valid) {
+  const Exiv2::Xmpdatum* result = nullptr;
+  for (const auto& md : xmp) {
+    if (md.key() == key) {
+      if (result)
+        valid = false;
+      result = &md;
+    }
+  }
+  return result;
+}
+
+// Qualifiers and non-flat arrays need richer preservation than native UCS-2 text.
+bool complexDeviceFields(const Exiv2::XmpData& xmp, const std::string& parent) {
+  for (const auto& md : xmp) {
+    if (md.key().starts_with(parent + "["))
+      return true;
+    for (const auto suffix : {"/exif:Columns", "/exif:Rows", "/exif:Values", "/exif:Settings"}) {
+      const auto field = parent + suffix;
+      if (md.key() != field && inXmpFamily(md.key(), field))
+        return true;
+    }
+  }
+  return false;
+}
+
+// Parse a complete decimal SHORT, allowing XML integer whitespace and a leading plus.
+bool deviceDimension(const Exiv2::Xmpdatum* datum, uint16_t& dimension) {
+  if (!datum || datum->typeId() != Exiv2::xmpText)
+    return false;
+  const auto text = datum->toString();
+  std::string_view value(text);
+  const auto first = value.find_first_not_of(" \t\r\n");
+  if (first == std::string_view::npos)
+    return false;
+  value.remove_prefix(first);
+  value = value.substr(0, value.find_last_not_of(" \t\r\n") + 1);
+  if (value.front() == '+')
+    value.remove_prefix(1);
+  int64_t number = 0;
+  const auto [end, error] = std::from_chars(value.data(), value.data() + value.size(), number);
+  if (error != std::errc{} || end != value.data() + value.size() || number < 0 || number > 65535)
+    return false;
+  dimension = static_cast<uint16_t>(number);
+  return true;
+}
+
+// Accept only ordered simple-text arrays; absent arrays represent an empty list.
+bool deviceTextArray(const Exiv2::Xmpdatum* datum, std::vector<std::string>& values) {
+  if (!datum)
+    return true;
+  if (datum->typeId() != Exiv2::xmpSeq)
+    return false;
+  for (size_t i = 0; i < datum->count(); ++i) {
+    auto text = datum->toString(i);
+    if (!datum->value().ok())
+      return false;
+    values.push_back(std::move(text));
+  }
+  return true;
+}
+
+// Decode both the published Values spelling and Adobe's deployed Settings alias.
+bool deviceSettingsFromXmp(const Exiv2::XmpData& xmp, const std::string& parent,
+                           Exiv2::Internal::DeviceSettings& settings) {
+  bool valid = !complexDeviceFields(xmp, parent);
+  const auto root = uniqueXmpField(xmp, parent, valid);
+  if (root) {
+    const auto value =
+        root->typeId() == Exiv2::xmpText ? dynamic_cast<const Exiv2::XmpTextValue*>(&root->value()) : nullptr;
+    if (!value || value->xmpStruct() != Exiv2::XmpValue::xsStruct || !value->value_.empty())
+      return false;
+  }
+
+  Exiv2::Internal::DeviceSettings decoded;
+  const auto columns = uniqueXmpField(xmp, parent + "/exif:Columns", valid);
+  const auto rows = uniqueXmpField(xmp, parent + "/exif:Rows", valid);
+  const auto values = uniqueXmpField(xmp, parent + "/exif:Values", valid);
+  const auto legacy = uniqueXmpField(xmp, parent + "/exif:Settings", valid);
+  std::vector<std::string> legacyValues;
+  if (!valid || !deviceDimension(columns, decoded.columns) || !deviceDimension(rows, decoded.rows) ||
+      !deviceTextArray(values, decoded.settings) || !deviceTextArray(legacy, legacyValues))
+    return false;
+  if (values && legacy && decoded.settings != legacyValues)
+    return false;
+  if (!values)
+    decoded.settings = std::move(legacyValues);
+  settings = std::move(decoded);
+  return true;
+}
+
+// Remove only mapped fields; extension properties continue to own their parent.
+void eraseDeviceFields(Exiv2::XmpData& xmp, const std::string& parent) {
+  for (auto pos = xmp.begin(); pos != xmp.end();) {
+    const auto key = pos->key();
+    if (key == parent || key == parent + "/exif:Columns" || key == parent + "/exif:Rows" ||
+        key == parent + "/exif:Values" || key == parent + "/exif:Settings")
+      pos = xmp.erase(pos);
+    else
+      ++pos;
+  }
+  if (hasXmpFamily(xmp, parent)) {
+    Exiv2::XmpTextValue root;
+    root.setXmpStruct();
+    xmp[parent].setValue(&root);
+  }
+}
+
+// Parse the old decimal-byte representation without wrapping invalid byte values.
+bool legacyDeviceBytes(std::string_view text, Exiv2::Blob& bytes) {
+  while (true) {
+    const auto begin = text.find_first_not_of(" \t\r\n");
+    if (begin == std::string_view::npos)
+      return bytes.size() >= 4;
+    text.remove_prefix(begin);
+    const auto end = text.find_first_of(" \t\r\n");
+    const auto token = text.substr(0, end);
+    unsigned number = 0;
+    const auto [last, error] = std::from_chars(token.data(), token.data() + token.size(), number);
+    if (error != std::errc{} || last != token.data() + token.size() || number > 255)
+      return false;
+    bytes.push_back(static_cast<Exiv2::byte>(number));
+    text.remove_prefix(token.size());
+  }
+}
 }  // namespace
 
 // *****************************************************************************
@@ -134,6 +281,8 @@ class Converter {
     Sets the XMP property to an XmpText value containing the Exif value string.
    */
   void cnvExifValue(const char* from, const char* to);
+  //! @brief Convert native DeviceSettings to a structured XMP subtree after full validation.
+  void cnvExifDeviceSettings(const char* from, const char* to);
   /*!
     @brief Convert the tag Exif.Photo.UserComment to XMP.
 
@@ -189,6 +338,8 @@ class Converter {
     Todo: Escape non-ASCII characters in XMP text values
    */
   void cnvXmpValue(const char* from, const char* to);
+  //! @brief Reconstruct native DeviceSettings from structured XMP without partial updates.
+  void cnvXmpDeviceSettings(const char* from, const char* to);
   /*!
     @brief Convert the tag Xmp.exif.UserComment to Exif.
    */
@@ -400,8 +551,8 @@ const Converter::Conversion Converter::conversion_[] = {
     {mdExif, "Exif.Photo.Contrast", "Xmp.exif.Contrast", &Converter::cnvExifValue, &Converter::cnvXmpValue},
     {mdExif, "Exif.Photo.Saturation", "Xmp.exif.Saturation", &Converter::cnvExifValue, &Converter::cnvXmpValue},
     {mdExif, "Exif.Photo.Sharpness", "Xmp.exif.Sharpness", &Converter::cnvExifValue, &Converter::cnvXmpValue},
-    {mdExif, "Exif.Photo.DeviceSettingDescription", "Xmp.exif.DeviceSettingDescription", &Converter::cnvExifValue,
-     &Converter::cnvXmpValue},  // FIXME ?
+    {mdExif, "Exif.Photo.DeviceSettingDescription", "Xmp.exif.DeviceSettingDescription",
+     &Converter::cnvExifDeviceSettings, &Converter::cnvXmpDeviceSettings},
     {mdExif, "Exif.Photo.SubjectDistanceRange", "Xmp.exif.SubjectDistanceRange", &Converter::cnvExifValue,
      &Converter::cnvXmpValue},
     {mdExif, "Exif.Photo.ImageUniqueID", "Xmp.exif.ImageUniqueID", &Converter::cnvExifValue, &Converter::cnvXmpValue},
@@ -564,6 +715,44 @@ void Converter::cnvExifValue(const char* from, const char* to) {
   if (!prepareXmpTarget(to))
     return;
   (*xmpData_)[to] = value;
+  if (erase_)
+    exifData_->erase(pos);
+}
+
+void Converter::cnvExifDeviceSettings(const char* from, const char* to) {
+  const auto pos = exifData_->findKey(ExifKey(from));
+  if (pos == exifData_->end() || (!overwrite_ && hasXmpFamily(*xmpData_, to)))
+    return;
+
+  // Decode completely before replacing the parent or any of its mapped fields.
+  Internal::DeviceSettings settings;
+  if (!Internal::decodeDeviceSettings(pos->value(), settings) || complexDeviceFields(*xmpData_, to)) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
+#endif
+    return;
+  }
+  const std::string parent(to);
+  const auto array = xmpData_->findKey(XmpKey(parent + "/exif:Values")) == xmpData_->end() &&
+                             xmpData_->findKey(XmpKey(parent + "/exif:Settings")) != xmpData_->end()
+                         ? "/exif:Settings"
+                         : "/exif:Values";
+
+  // Stage the replacement so validation and value construction cannot discard old XMP.
+  auto updated = *xmpData_;
+  eraseDeviceFields(updated, parent);
+  XmpTextValue root;
+  root.setXmpStruct();
+  updated[parent].setValue(&root);
+  updated[parent + "/exif:Columns"] = std::to_string(settings.columns);
+  updated[parent + "/exif:Rows"] = std::to_string(settings.rows);
+  if (!settings.settings.empty()) {
+    XmpArrayValue values(xmpSeq);
+    for (const auto& text : settings.settings)
+      Internal::XmpArrayValueAccess::append(values, text);
+    updated[parent + array].setValue(&values);
+  }
+  *xmpData_ = std::move(updated);
   if (erase_)
     exifData_->erase(pos);
 }
@@ -868,6 +1057,62 @@ void Converter::cnvXmpValue(const char* from, const char* to) {
   }
   if (erase_)
     xmpData_->erase(pos);
+}
+
+void Converter::cnvXmpDeviceSettings(const char* from, const char* to) {
+  if (!hasXmpFamily(*xmpData_, from))
+    return;
+  const auto destination = exifData_->findKey(ExifKey(to));
+  if (!overwrite_ && destination != exifData_->end())
+    return;
+
+  // A retained native value supplies the byte order; fresh values use signed little-endian text.
+  auto sourceOrder = invalidByteOrder;
+  if (destination != exifData_->end()) {
+    if (const auto native = dynamic_cast<const Internal::DeviceSettingsValue*>(&destination->value());
+        native && native->byteOrder() != invalidByteOrder)
+      sourceOrder = native->byteOrder();
+  }
+  const auto order = sourceOrder == invalidByteOrder ? littleEndian : sourceOrder;
+  Internal::DeviceSettings settings;
+  Internal::DeviceSettingsValue value;
+  bool converted = deviceSettingsFromXmp(*xmpData_, from, settings);
+  if (converted) {
+    converted = Internal::encodeDeviceSettings(settings, order, value);
+  } else {
+    // Older Exiv2 sidecars stored a raw decimal byte list instead of a structure.
+    bool unique = true;
+    const auto root = uniqueXmpField(*xmpData_, from, unique);
+    Blob bytes;
+    const auto text = root && root->typeId() == xmpText ? dynamic_cast<const XmpTextValue*>(&root->value()) : nullptr;
+    if (unique && text && text->xmpStruct() == XmpValue::xsNone && text->xmpArrayType() == XmpValue::xaNone &&
+        !hasXmpChildren(*xmpData_, from) && legacyDeviceBytes(root->toString(), bytes)) {
+      value.read(bytes.data(), bytes.size(), sourceOrder);
+      converted = Internal::decodeDeviceSettings(value, settings);
+    }
+  }
+  if (!converted) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
+#endif
+    return;
+  }
+
+  // Keep an equivalent original value, including its signatures and exact byte representation.
+  Internal::DeviceSettings original;
+  const bool unchanged =
+      destination != exifData_->end() && Internal::decodeDeviceSettings(destination->value(), original) &&
+      original.columns == settings.columns && original.rows == settings.rows && original.settings == settings.settings;
+  if (!unchanged) {
+    auto updated = *exifData_;
+    const ExifKey key(to);
+    for (auto pos = updated.findKey(key); pos != updated.end(); pos = updated.findKey(key))
+      updated.erase(pos);
+    updated.add(key, &value);
+    *exifData_ = std::move(updated);
+  }
+  if (erase_)
+    eraseDeviceFields(*xmpData_, from);
 }
 
 void Converter::cnvXmpComment(const char* from, const char* to) {

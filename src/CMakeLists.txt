@@ -12,6 +12,8 @@ add_library(
   cr2header_int.hpp
   crwimage_int.cpp
   crwimage_int.hpp
+  devicesettings_int.cpp
+  devicesettings_int.hpp
   fujimn_int.cpp
   fujimn_int.hpp
   helper_functions.cpp
@@ -54,6 +56,7 @@ add_library(
   tifffwd_int.hpp
   utils.hpp
   utils.cpp
+  value_int.hpp
 )
 
 set(PUBLIC_HEADERS
