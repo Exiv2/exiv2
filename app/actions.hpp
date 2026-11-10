@@ -60,9 +60,9 @@ class Task {
   //! Virtual destructor.
   virtual ~Task() = default;
 
-  Task() = default;
-  Task(const Task&) = default;
-  Task& operator=(const Task&) = default;
+  Task();
+  Task(const Task&) = delete;
+  Task& operator=(const Task&) = delete;
 
   /// @brief Application interface to perform a task.
   /// @param path Path of the file to process.
@@ -90,6 +90,9 @@ class Task {
             an exception) if it is 0.
    */
   static Task::UniquePtr create(TaskType type);
+
+ protected:
+  const Exiv2::ImageCtorParams imageCtorParams_;
 
  private:
   //! copy binary_ from command-line params to task
@@ -226,19 +229,19 @@ class Insert : public Task {
            The filename of the thumbnail is expected to be the image
            filename (\em path) minus its suffix plus "-thumb.jpg".
    */
-  static int insertThumbnail(const std::string& path);
+  int insertThumbnail(const std::string& path) const;
 
   /// @brief Insert an XMP packet from a xmpPath into file \em path.
-  static int insertXmpPacket(const std::string& path, const std::string& xmpPath);
+  int insertXmpPacket(const std::string& path, const std::string& xmpPath) const;
 
   /// @brief Insert xmp from a DataBuf into file \em path.
-  static int insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false);
+  int insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false) const;
 
   /// @brief Insert an ICC profile from iccPath into file \em path.
-  static int insertIccProfile(const std::string& path, const std::string& iccPath);
+  int insertIccProfile(const std::string& path, const std::string& iccPath) const;
 
   /// @brief Insert an ICC profile from binary DataBuf into file \em path.
-  static int insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfileBlob);
+  int insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfileBlob) const;
 };
 
 /// @brief %Modify the Exif data according to the commands in the modification table.

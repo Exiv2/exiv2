@@ -660,7 +660,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
 
       if (pos != std::string::npos) {
         XmpData xmpData;
-        const DecodeParams dp(max_recursion_depth_);
+        const DecodeParams dp(recursion_limit());
         ByteOrder bo = ExifParser::decode(exifData_, payload.c_data(pos), payload.size() - pos, dp);
         setByteOrder(bo);
       } else {
@@ -672,7 +672,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP)) {
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
       xmpPacket_.assign(payload.c_str(), payload.size());
-      const DecodeParams dp(max_recursion_depth_);
+      const DecodeParams dp(recursion_limit());
       if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_, dp)) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Failed to decode XMP metadata." << '\n';

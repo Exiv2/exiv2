@@ -71,7 +71,7 @@ class EXIV2API QuickTimeVideo : public Image {
     @brief Check for a valid tag and decode the block at the current IO
     position. Calls tagDecoder() or skips to next tag, if required.
    */
-  void decodeBlock(size_t recursion_depth, std::string const& entered_from = "");
+  void decodeBlock(std::string const& entered_from = "");
   /*!
     @brief Interpret tag information, and call the respective function
         to save it in the respective XMP container. Decodes a Tag
@@ -80,7 +80,7 @@ class EXIV2API QuickTimeVideo : public Image {
     @param buf Data buffer which contains tag ID.
     @param size Size of the data block used to store Tag Information.
    */
-  void tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursion_depth);
+  void tagDecoder(Exiv2::DataBuf& buf, size_t size);
 
  private:
   /*!
@@ -123,7 +123,7 @@ class EXIV2API QuickTimeVideo : public Image {
     @brief Interpret Tag which contain other sub-tags,
         and save it in the respective XMP container.
    */
-  void multipleEntriesDecoder(size_t recursion_depth);
+  void multipleEntriesDecoder();
   /*!
     @brief Interpret Sample Description Tag, and save it
         in the respective XMP container.
@@ -140,7 +140,7 @@ class EXIV2API QuickTimeVideo : public Image {
         in the respective XMP container.
     @param outer_size Size of the data block used to store Tag Information.
    */
-  void userDataDecoder(size_t outer_size, size_t recursion_depth);
+  void userDataDecoder(size_t outer_size);
   /*!
     @brief Interpret Preview Tag, and save it
         in the respective XMP container.

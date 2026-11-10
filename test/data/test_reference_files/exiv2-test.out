@@ -56,6 +56,7 @@ Options:
    -v      Be verbose during the program run
    -q      Silence warnings and error messages (quiet)
    -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute)
+   -R num  Set maximum recursion depth limit. 0 means no limit.
    -b      Obsolete, reserved for use with the test suit
    -u      Show unknown tags (e.g., Exif.SonyMisc3c.0x022b)
    -g str  Only output where 'str' matches in output text (grep)
