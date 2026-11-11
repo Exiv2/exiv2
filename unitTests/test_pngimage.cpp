@@ -46,6 +46,29 @@ TEST(PngChunk, keyTxtChunkThrowsIfSizeIsNotEnough) {
   ASSERT_THROW(Internal::PngChunk::keyTXTChunk(emptyChunk, false), Exiv2::Error);
 }
 
+TEST(PngChunk, makeMetadataChunkXmpUsesOnlyTheViewedBytes) {
+  // The view covers only the packet; the backing storage continues with more bytes before its NUL.
+  const std::string backing = "<x:xmpmeta/>TRAILING-BYTES-NOT-IN-VIEW";
+  const std::string_view packet(backing.data(), 12);
+  const std::string expected = Internal::PngChunk::makeMetadataChunk(std::string(packet), mdXmp);
+  const std::string chunk = Internal::PngChunk::makeMetadataChunk(packet, mdXmp);
+  // 4 (length) + "iTXt" + "XML:com.adobe.xmp" + 5 flag bytes + packet + 4 (CRC)
+  ASSERT_EQ(4u + 4u + 17u + 5u + packet.size() + 4u, chunk.size());
+  ASSERT_EQ(expected, chunk);
+  ASSERT_EQ(std::string::npos, chunk.find("TRAILING"));
+}
+
+TEST(PngChunk, makeMetadataChunkXmpAcceptsViewWithoutNulTerminator) {
+  std::array<char, 80> packet;
+  packet.fill('x');  // no NUL anywhere in the storage
+  // The old strlen()-based append over-read here; AddressSanitizer reports it. Without a sanitizer the result
+  // depends on adjacent memory, so makeMetadataChunkXmpUsesOnlyTheViewedBytes is the deterministic check.
+  const std::string_view view(packet.data(), packet.size());
+  const std::string chunk = Internal::PngChunk::makeMetadataChunk(view, mdXmp);
+  ASSERT_EQ(4u + 4u + 17u + 5u + packet.size() + 4u, chunk.size());
+  ASSERT_EQ(std::string(view), chunk.substr(4 + 4 + 17 + 5, packet.size()));
+}
+
 TEST(PngImage, canBeCreatedFromScratch) {
   auto memIo = std::make_unique<MemIo>();
   ASSERT_NO_THROW(PngImage png(std::move(memIo), defaultImageCtorParams(true)));
