@@ -50,6 +50,7 @@
 #include <bit>
 #include <cstdio>
 #include <cstring>
+#include <functional>
 #include <set>
 
 #ifdef _WIN32
@@ -664,8 +665,13 @@ void Image::appendIccProfile(const uint8_t* bytes, size_t size, bool bTestValid)
     return;
   }
   const size_t start = iccProfile_.size();
+  // bytes may point into iccProfile_ itself, which the resize below can reallocate (#9562)
+  const byte* old = iccProfile_.c_data();
+  const bool aliased =
+      start != 0 && std::less_equal<const byte*>()(old, bytes) && std::less<const byte*>()(bytes, old + start);
+  const size_t offset = aliased ? static_cast<size_t>(bytes - old) : 0;
   iccProfile_.resize(Safe::add(start, size));
-  memcpy(iccProfile_.data(start), bytes, size);
+  memcpy(iccProfile_.data(start), aliased ? iccProfile_.c_data(offset) : bytes, size);
   if (bTestValid) {
     checkIccProfile();
   }

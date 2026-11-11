@@ -20,6 +20,7 @@ test_sources = files(
   'test_enforce.cpp',
   'test_futils.cpp',
   'test_helper_functions.cpp',
+  'test_image.cpp',
   'test_image_int.cpp',
   'test_jp2image.cpp',
   'test_jp2image_int.cpp',
