@@ -5,6 +5,7 @@
 #include <exiv2/exiv2.hpp>
 // File under test
 #include <exiv2/futils.hpp>
+#include <exiv2/http.hpp>
 
 // Auxiliary headers
 #include <cerrno>
@@ -18,6 +19,22 @@
 namespace fs = std::filesystem;
 
 using namespace Exiv2;
+
+#ifdef EXV_ENABLE_WEBREADY
+TEST(http, reportsAddressResolutionError) {
+  Dictionary request{{"server", "127.0.0.1"}, {"page", "/"}, {"port", "exiv2-invalid-service"}};
+  Dictionary response;
+  std::string errors;
+
+  testing::internal::CaptureStderr();
+  const auto result = http(request, response, errors);
+  const auto diagnostic = testing::internal::GetCapturedStderr();
+
+  EXPECT_EQ(-1, result);
+  EXPECT_EQ("no such host: %s\n", errors);
+  EXPECT_NE(std::string::npos, diagnostic.find("no such host: "));
+}
+#endif
 
 TEST(strError, returnSuccessAfterClosingFile) {
   // previous system calls can fail, but errno is not guaranteed to be reset

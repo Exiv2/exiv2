@@ -34,9 +34,26 @@
 static int WSAGetLastError() {
   return errno;
 }
+
+static std::string portable_gai_strerror(int errcode) {
+  return gai_strerror(errcode);
+}
 #else
 #include <winsock2.h>
 #include <ws2tcpip.h>
+
+// With UNICODE defined, gai_strerror is gai_strerrorW, which returns WCHAR*
+static std::string portable_gai_strerror(int errcode) {
+  WCHAR* wideStr = gai_strerrorW(errcode);
+  int size = WideCharToMultiByte(CP_UTF8, 0, wideStr, -1, nullptr, 0, nullptr, nullptr);
+  if (size <= 0)
+    return {};
+  std::string result(size, 0);
+  if (WideCharToMultiByte(CP_UTF8, 0, wideStr, -1, result.data(), size, nullptr, nullptr) == 0)
+    return {};
+  result.resize(size - 1);
+  return result;
+}
 #endif
 
 ////////////////////////////////////////
@@ -194,7 +211,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     int res = getaddrinfo(servername_p, port_p, &hints, &r);
     if (res != 0) {
       closesocket(sockfd);
-      return error(errors, "no such host: %s", gai_strerror(res));
+      return error(errors, "no such host: %s", portable_gai_strerror(res).c_str());
     }
 
     std::memcpy(&serv_addr, r->ai_addr, serv_len);
