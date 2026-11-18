@@ -15,6 +15,7 @@ test_sources = files(
   'test_XmpKey.cpp',
   'test_basicio.cpp',
   'test_bmpimage.cpp',
+  'test_convert_datetime.cpp',
   'test_cr2header_int.cpp',
   'test_datasets.cpp',
   'test_enforce.cpp',
