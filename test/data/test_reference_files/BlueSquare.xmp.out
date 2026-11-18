@@ -4,13 +4,15 @@ Exif.Image.Orientation                       Short       1  1  top, left
 Exif.Image.XResolution                       Rational    1  720000/10000  72
 Exif.Image.YResolution                       Rational    1  720000/10000  72
 Exif.Image.ResolutionUnit                    Short       1  2  inch
-Exif.Image.DateTime                          Ascii      20  2005:09:08 06:09:51  2005:09:08 06:09:51
+Exif.Image.DateTime                          Ascii      20  2005:09:07 15:09:51  2005:09:07 15:09:51
+Exif.Photo.OffsetTime                        Ascii       7  -07:00  -07:00
 Exif.Image.ImageDescription                  Ascii      88  XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.  XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.
 Exif.Image.Make                              Ascii       6  Nikon  Nikon
 Exif.Photo.ColorSpace                        Short       1  1  sRGB
 Exif.Photo.PixelXDimension                   Long        1  360  360
 Exif.Photo.PixelYDimension                   Long        1  216  216
-Exif.Photo.DateTimeDigitized                 Ascii      20  2005:09:08 06:07:40  2005:09:08 06:07:40
+Exif.Photo.DateTimeDigitized                 Ascii      20  2005:09:07 15:07:40  2005:09:07 15:07:40
+Exif.Photo.OffsetTimeDigitized               Ascii       7  -07:00  -07:00
 Iptc.Application2.ObjectName                 String     28  Blue Square Test File - .jpg  Blue Square Test File - .jpg
 Iptc.Envelope.CharacterSet                   String      3  %G  %G
 Iptc.Application2.Keywords                   String      3  XMP  XMP

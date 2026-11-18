@@ -98,3 +98,71 @@ TEST(ConvertExifDate, moveErasesTheOffsetWithTheDate) {
   // Not converted (there's no Exif.Image.DateTime), so not moved
   EXPECT_NE(exifData.findKey(ExifKey("Exif.Photo.OffsetTime")), exifData.end());
 }
+
+// XMP -> Exif: a date with a time zone keeps its own local time, and the zone goes into the Exif offset
+
+namespace {
+std::string exifValue(const ExifData& exifData, const std::string& key) {
+  auto pos = exifData.findKey(ExifKey(key));
+  return pos == exifData.end() ? std::string("<missing>") : pos->toString();
+}
+}  // namespace
+
+TEST(ConvertXmpDate, zoneGoesIntoTheOffsetOfEachDate) {
+  XmpData xmpData;
+  xmpData["Xmp.xmp.ModifyDate"] = "2026-10-19T18:52:04-05:00";
+  xmpData["Xmp.photoshop.DateCreated"] = "2025-06-21T11:19:25.365-04:00";
+  xmpData["Xmp.xmp.CreateDate"] = "2026-10-16T08:56:59+05:30";
+
+  ExifData exifData;
+  copyXmpToExif(xmpData, exifData);
+
+  // Independent of the time zone of the machine
+  EXPECT_EQ(exifValue(exifData, "Exif.Image.DateTime"), "2026:10:19 18:52:04");
+  EXPECT_EQ(exifValue(exifData, "Exif.Photo.OffsetTime"), "-05:00");
+  EXPECT_EQ(exifValue(exifData, "Exif.Photo.DateTimeOriginal"), "2025:06:21 11:19:25");
+  EXPECT_EQ(exifValue(exifData, "Exif.Photo.OffsetTimeOriginal"), "-04:00");
+  EXPECT_EQ(exifValue(exifData, "Exif.Photo.DateTimeDigitized"), "2026:10:16 08:56:59");
+  EXPECT_EQ(exifValue(exifData, "Exif.Photo.OffsetTimeDigitized"), "+05:30");
+}
+
+TEST(ConvertXmpDate, utcIsOffsetZero) {
+  XmpData xmpData;
+  xmpData["Xmp.photoshop.DateCreated"] = "2026-10-16T14:56:59Z";
+
+  ExifData exifData;
+  copyXmpToExif(xmpData, exifData);
+
+  EXPECT_EQ(exifValue(exifData, "Exif.Photo.DateTimeOriginal"), "2026:10:16 14:56:59");
+  EXPECT_EQ(exifValue(exifData, "Exif.Photo.OffsetTimeOriginal"), "+00:00");
+}
+
+TEST(ConvertXmpDate, withoutZoneTheOffsetIsLeftAlone) {
+  XmpData xmpData;
+  xmpData["Xmp.photoshop.DateCreated"] = "2026-10-16T08:56:59";
+
+  ExifData exifData;
+  copyXmpToExif(xmpData, exifData);
+  EXPECT_EQ(exifValue(exifData, "Exif.Photo.DateTimeOriginal"), "2026:10:16 08:56:59");
+  EXPECT_EQ(exifValue(exifData, "Exif.Photo.OffsetTimeOriginal"), "<missing>");
+
+  ExifData withOffset;
+  withOffset["Exif.Photo.OffsetTimeOriginal"] = "-06:00";
+  copyXmpToExif(xmpData, withOffset);
+  EXPECT_EQ(exifValue(withOffset, "Exif.Photo.DateTimeOriginal"), "2026:10:16 08:56:59");
+  EXPECT_EQ(exifValue(withOffset, "Exif.Photo.OffsetTimeOriginal"), "-06:00");
+}
+
+TEST(ConvertXmpDate, roundTripKeepsTimeAndOffset) {
+  ExifData exifData;
+  exifData["Exif.Photo.DateTimeOriginal"] = "2025:06:21 11:19:25";
+  exifData["Exif.Photo.OffsetTimeOriginal"] = "-04:00";
+
+  XmpData xmpData;
+  copyExifToXmp(exifData, xmpData);
+  ExifData back;
+  copyXmpToExif(xmpData, back);
+
+  EXPECT_EQ(exifValue(back, "Exif.Photo.DateTimeOriginal"), "2025:06:21 11:19:25");
+  EXPECT_EQ(exifValue(back, "Exif.Photo.OffsetTimeOriginal"), "-04:00");
+}

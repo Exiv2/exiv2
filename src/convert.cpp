@@ -68,6 +68,11 @@ bool getTextValue(std::string& value, Exiv2::XmpData::iterator pos);
          as in Exif.Photo.OffsetTime). A blank (unknown) offset fails.
  */
 bool isExifOffset(const std::string& offset);
+/*!
+  @brief Check whether the XMP date \em value ("YYYY-MM-DDThh:mm..." ) has a
+         time zone designator ("Z", "+hh:mm" or "-hh:mm").
+ */
+bool xmpDateHasZone(const std::string& value);
 }  // namespace
 
 // *****************************************************************************
@@ -955,10 +960,31 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
   try {
     SXMPUtils::ConvertToDate(value, &datetime);
     if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
-      SXMPUtils::ConvertToLocalTime(&datetime);
+      // A date with a time zone keeps its own local time, and the zone goes
+      // into the Exif offset of the date (converting it to the time zone of
+      // the machine would make the Exif date depend on where it's converted).
+      // ConvertToDate() gives a date without one the machine's time zone, so
+      // look at the text.
+      const char* offsetTag = nullptr;
+      if (std::string(to) == "Exif.Image.DateTime") {
+        offsetTag = "Exif.Photo.OffsetTime";
+      } else if (std::string(to) == "Exif.Photo.DateTimeOriginal") {
+        offsetTag = "Exif.Photo.OffsetTimeOriginal";
+      } else if (std::string(to) == "Exif.Photo.DateTimeDigitized") {
+        offsetTag = "Exif.Photo.OffsetTimeDigitized";
+      }
+      const bool hasZone = offsetTag && xmpDateHasZone(value);
+      if (!hasZone)
+        SXMPUtils::ConvertToLocalTime(&datetime);
 
       (*exifData_)[to] = stringFormat("{:4}:{:02}:{:02} {:02}:{:02}:{:02}", datetime.year, datetime.month, datetime.day,
                                       datetime.hour, datetime.minute, datetime.second);
+
+      if (hasZone) {
+        prepareExifTarget(offsetTag, true);
+        (*exifData_)[offsetTag] =
+            stringFormat("{}{:02}:{:02}", datetime.tzSign < 0 ? '-' : '+', datetime.tzHour, datetime.tzMinute);
+      }
 
       if (datetime.nanoSecond) {
         const char* subsecTag = nullptr;
@@ -1652,6 +1678,11 @@ bool isExifOffset(const std::string& offset) {
       return false;
   }
   return offset.compare(1, 2, "24") < 0 && offset[4] < '6';
+}
+
+bool xmpDateHasZone(const std::string& value) {
+  auto t = value.find('T');
+  return t != std::string::npos && value.find_first_of("Z+-", t) != std::string::npos;
 }
 
 }  // namespace
