@@ -82,6 +82,7 @@ enum TypeId {
   unsignedLongLong = 16,    //!< Exif LONG LONG type, 64-bit (8-byte) unsigned integer.
   signedLongLong = 17,      //!< Exif LONG LONG type, 64-bit (8-byte) signed integer.
   tiffIfd8 = 18,            //!< TIFF IFD type, 64-bit (8-byte) unsigned integer.
+  utf8String = 129,         //!< Exif UTF-8 type, 8-bit byte.
   string = 0x10000,         //!< IPTC string type.
   date = 0x10001,           //!< IPTC date type.
   time = 0x10002,           //!< IPTC time type.
