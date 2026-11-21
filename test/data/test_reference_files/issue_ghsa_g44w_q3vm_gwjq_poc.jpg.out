@@ -5,7 +5,7 @@ Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 0; setting t
 Warning: Directory Image, entry 0x0100 has unknown Exif (TIFF) type 0; setting type size 1.
 Error: Directory Image, entry 0x0100 has invalid size 2818677659*1; skipping entry.
 Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 5376; setting type size 1.
-Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x3b000200; truncating the entry
+Error: Directory Image, entry 0x0000 has invalid size 50177*1; skipping entry.
 Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 55938; setting type size 1.
 Error: Directory Image, entry 0x0000 has invalid size 2550137344*1; skipping entry.
 Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 135; setting type size 1.

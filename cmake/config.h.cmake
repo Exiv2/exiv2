@@ -30,9 +30,6 @@
 // Define if you have the strerror_r function.
 #cmakedefine EXV_HAVE_STRERROR_R
 
-// Define if the strerror_r function returns char*.
-#cmakedefine EXV_STRERROR_R_CHAR_P
-
 #if defined(__NetBSD__)
 #include <sys/param.h>
 #if __NetBSD_Prereq__(9,99,17)

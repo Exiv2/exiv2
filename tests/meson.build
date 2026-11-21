@@ -25,7 +25,7 @@ foreach n, t : tests
   test(
     n,
     runner,
-    env: bindir,
+    env: ['MSYSTEM=', bindir],
     args: ['--verbose', t],
     timeout: 1200,
     workdir: meson.current_source_dir(),

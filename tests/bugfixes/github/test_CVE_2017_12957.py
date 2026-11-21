@@ -13,34 +13,15 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
 File size       : 60 Bytes
 MIME type       : image/x-olympus-orf
 Image size      : 0 x 0
-Thumbnail       : None
-Camera make     : 
-Camera model    : 
-Image timestamp : 
-File number     : 
-Exposure time   : 
-Aperture        : 
-Exposure bias   : 
-Flash           : 
-Flash bias      : 
-Focal length    : 
-Subject distance: 
-ISO speed       : 
-Exposure mode   : 
-Metering mode   : 
-Macro mode      : 
-Image quality   : 
-White balance   : 
-Copyright       : 
-Exif comment    : 
-
 """
     ]
     stderr = [
-        """Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x7e000000; truncating the entry
-Error: Offset of directory Image, entry 0x0117 is out of bounds: Offset = 0x4f524900; truncating the entry
+        """Error: Directory Image, entry 0x0000 has invalid size 65536*1; skipping entry.
+Error: Directory Image, entry 0x0117 has invalid size 65536*1; skipping entry.
 Error: Directory Image, entry 0x0004 has invalid size 4294967289*2; skipping entry.
-Error: Offset of directory Image, entry 0x0100 is out of bounds: Offset = 0x0012ff00; truncating the entry
+Error: Directory Image, entry 0x0100 has invalid size 65536*1; skipping entry.
+$filename: No Exif data found in the file
 """
     ]
-    retval = [0]
+    # Every Exif value has an impossible count; report that no Exif remains.
+    retval = [253]

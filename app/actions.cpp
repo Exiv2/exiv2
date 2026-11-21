@@ -1803,8 +1803,21 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
       std::cout << _("Writing IPTC data from") << " " << source << " " << _("to") << " " << target << '\n';
     }
     if (preserve) {
-      for (const auto& iptc : sourceImage->iptcData()) {
-        targetImage->iptcData()[iptc.key()] = iptc.value();
+      // IPTC datasets such as Iptc.Application2.Keywords may occur more than once. Assigning through
+      // IptcData::operator[] would collapse every source value of such a dataset onto the target's first
+      // matching entry, so instead drop the target's entries for the datasets the source provides and
+      // append all source entries in their original order.
+      const auto& sourceIptc = sourceImage->iptcData();
+      auto& targetIptc = targetImage->iptcData();
+      for (auto pos = targetIptc.begin(); pos != targetIptc.end();) {
+        if (sourceIptc.findId(pos->tag(), pos->record()) != sourceIptc.end()) {
+          pos = targetIptc.erase(pos);
+        } else {
+          ++pos;
+        }
+      }
+      for (const auto& iptc : sourceIptc) {
+        targetIptc.add(iptc);
       }
     } else {
       targetImage->setIptcData(sourceImage->iptcData());
@@ -1970,6 +1983,8 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
           std::cout << Params::instance().progname() << ": " << _("File") << " `" << newPath << "' "
                     << _("exists. [O]verwrite, [r]ename or [s]kip?") << " ";
           std::cin >> s;
+          if (s.empty())
+            return -1;
           switch (s.front()) {
             case 'o':
             case 'O':
@@ -2019,7 +2034,7 @@ int dontOverwrite(const std::string& path) {
     std::cout << Params::instance().progname() << ": " << _("Overwrite") << " `" << path << "'? ";
     std::string s;
     std::cin >> s;
-    if (s.front() != 'y' && s.front() != 'Y')
+    if (s.empty() || (s.front() != 'y' && s.front() != 'Y'))
       return 1;
   }
   return 0;

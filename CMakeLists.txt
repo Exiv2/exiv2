@@ -133,10 +133,11 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
   endif()
 
   if(BUILD_TESTING AND Python3_Interpreter_FOUND)
+    # Unsetting the MSYSTEM variable forces MSYS2 Python to use the native Windows '\\' separator (like the exiv2 app)
     add_test(
       NAME bugfixTests
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-      COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bugfixes
+      COMMAND cmake -E env --unset=MSYSTEM EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bugfixes
     )
     add_test(
       NAME lensTests

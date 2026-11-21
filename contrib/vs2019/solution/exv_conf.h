@@ -24,9 +24,6 @@
 // Define if you have the strerror_r function.
 /* #undef EXV_HAVE_STRERROR_R */
 
-// Define if the strerror_r function returns char*.
-/* #undef EXV_STRERROR_R_CHAR_P */
-
 // Define to enable the Windows unicode path support.
 #define EXV_UNICODE_PATH
 

@@ -346,8 +346,9 @@ constexpr TagDetails olympusMacroMode[] = {
 
 //! FocusMode, tag 0x0301
 [[maybe_unused]] constexpr TagDetails olympusCsFocusMode[] = {
-    {0, N_("Single AF")}, {1, N_("Sequential shooting AF")}, {2, N_("Continuous AF")}, {3, N_("Multi AF")},
-    {10, N_("MF")},
+    {0, N_("Single AF")},     {1, N_("Sequential shooting AF")},
+    {2, N_("Continuous AF")}, {3, N_("Multi AF")},
+    {4, N_("Face Detect")},   {10, N_("MF")},
 };
 
 //! FocusProcess, tag 0x0302
@@ -459,6 +460,8 @@ constexpr TagDetails olympusPictureMode[] = {
     {12, N_("Monochrome Profile 1")},
     {13, N_("Monochrome Profile 2")},
     {14, N_("Monochrome Profile 3")},
+    {17, N_("Art Mode")},
+    {18, N_("Monochrome Profile 4")},
     {256, N_("Monotone")},
     {512, N_("Sepia")},
 };
@@ -481,6 +484,7 @@ constexpr TagDetails artFilters[] = {
     {4, N_("Light Tone")},
     {5, N_("Pin Hole")},
     {6, N_("Grainy Film")},
+    {8, N_("Underwater")},
     {9, N_("Diorama")},
     {10, N_("Cross Process")},
     {12, N_("Fish Eye")},
@@ -512,19 +516,33 @@ constexpr TagDetails artFilters[] = {
     {39, N_("Partial Color")},
     {40, N_("Partial Color II")},
     {41, N_("Partial Color III")},
+    {42, N_("Bleach Bypass")},
+    {43, N_("Bleach Bypass II")},
+    {44, N_("Instant Film")},
 };
 
 //! OlympusCs Quality, tag 0x0603
 constexpr TagDetails olympusCsQuality[] = {
-    {1, N_("SQ")},
-    {2, N_("HQ")},
-    {3, N_("SHQ")},
-    {4, N_("RAW")},
+    {1, N_("SQ")}, {2, N_("HQ")}, {3, N_("SHQ")}, {4, N_("RAW")}, {5, N_("SQ (5)")},
 };
 
 //! Olympus ImageStabilization, tag 0x0604
 static constexpr TagDetails olympusImageStabilization[] = {
-    {0, N_("Off")}, {1, N_("S-IS 1")}, {2, N_("S-IS 2")}, {3, N_("S-IS 3")}, {4, N_("S-IS AUTO")},
+    {0, N_("Off")}, {1, N_("S-IS 1")}, {2, N_("S-IS 2")}, {3, N_("S-IS 3")}, {4, N_("S-IS Auto")},
+};
+
+//! Olympus ImageStabilization, tag 0x0804
+static constexpr TagDetails olympusStackedImage[] = {
+    {0, N_("No")},
+    {1, N_("Live Composite")},
+    {3, N_("ND")},
+    {4, N_("Live Time/Bulb")},
+    {5, N_("HDR1")},
+    {6, N_("HDR2")},
+    {8, N_("Tripod high resolution")},
+    {9, N_("Focus-stacked")},
+    {11, N_("Hand-held high resolution")},
+    {13, N_("GND")},
 };
 
 constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
@@ -626,6 +644,8 @@ constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
      unsignedShort, -1, EXV_PRINT_TAG(olympusCsQuality)},
     {0x0604, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), IfdId::olympusCsId,
      SectionId::makerTags, unsignedLong, -1, EXV_PRINT_TAG(olympusImageStabilization)},
+    {0x0804, "StackedImage", N_("Stacked Image"), N_("Stacked image"), IfdId::olympusCsId, SectionId::makerTags,
+     unsignedLong, -1, EXV_PRINT_TAG(olympusStackedImage)},
     {0x0900, "ManometerPressure", N_("Manometer Pressure"), N_("Manometer pressure"), IfdId::olympusCsId,
      SectionId::makerTags, unsignedShort, -1, printValue},
     {0x0901, "ManometerReading", N_("Manometer Reading"), N_("Manometer reading"), IfdId::olympusCsId,
@@ -636,6 +656,8 @@ constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
      unsignedShort, -1, EXV_PRINT_TAG(olympusOffOn)},
     {0x0904, "LevelGaugePitch", N_("Level Gauge Pitch"), N_("Level gauge pitch"), IfdId::olympusCsId,
      SectionId::makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusOffOn)},
+    {0x0908, "DateTimeUTC", N_("Date Time UTC"), N_("Date and time in UTC"), IfdId::olympusId, SectionId::makerTags,
+     asciiString, -1, printValue},
     // End of list marker
     {0xffff, "(UnknownOlympusCsTag)", "(UnknownOlympusCsTag)", N_("Unknown OlympusCs tag"), IfdId::olympusCsId,
      SectionId::makerTags, asciiString, -1, printValue},

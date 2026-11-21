@@ -818,6 +818,13 @@ void Converter::cnvExifGPSCoord(const char* from, const char* to) {
 #endif
     return;
   }
+  const auto ref = refPos->toString();
+  if (ref.empty()) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
+#endif
+    return;
+  }
   double deg[3];
   for (int i = 0; i < 3; ++i) {
     const auto [z, d] = pos->toRational(i);
@@ -833,7 +840,7 @@ void Converter::cnvExifGPSCoord(const char* from, const char* to) {
   double min = (deg[0] * 60.0) + deg[1] + (deg[2] / 60.0);
   auto ideg = static_cast<int>(min / 60.0);
   min -= ideg * 60;
-  (*xmpData_)[to] = stringFormat("{},{:.7f}{}", ideg, min, refPos->toString().front());
+  (*xmpData_)[to] = stringFormat("{},{:.7f}{}", ideg, min, ref.front());
 
   if (erase_)
     exifData_->erase(pos);

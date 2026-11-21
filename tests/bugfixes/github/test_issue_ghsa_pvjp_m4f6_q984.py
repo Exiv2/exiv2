@@ -14,16 +14,16 @@ class MinoltaDivZero(metaclass=CaseMeta):
     filename = path("$data_path/issue_ghsa_pvjp_m4f6_q984_poc.exv")
     commands = ["$exiv2 -p t $filename"]
     stderr = [
-        """Error: Upper boundary of data for directory Image, entry 0x011a is out of bounds: Offset = 0x000000f2, size = 14155784, exceeds buffer size by 14110766 Bytes; truncating the entry
+        """Error: Directory Image, entry 0x011a has invalid size 1769473*8; skipping entry.
 Error: Offset of directory Photo, entry 0x829a is out of bounds: Offset = 0x6d00035e; truncating the entry
-Error: Upper boundary of data for directory Photo, entry 0x8822 is out of bounds: Offset = 0x00000003, size = 56834, exceeds buffer size by 11577 Bytes; truncating the entry
-Error: Upper boundary of data for directory Photo, entry 0x8827 is out of bounds: Offset = 0x00000640, size = 1179650, exceeds buffer size by 1135990 Bytes; truncating the entry
+Error: Directory Photo, entry 0x8822 has invalid size 28417*2; skipping entry.
+Error: Directory Photo, entry 0x8827 has invalid size 589825*2; skipping entry.
 Warning: Directory Photo, entry 0x8832 has unknown Exif (TIFF) type 49; setting type size 1.
-Error: Upper boundary of data for directory Sony2, entry 0x2006 is out of bounds: Offset = 0x00000000, size = 46661636, exceeds buffer size by 46616376 Bytes; truncating the entry
+Error: Directory Sony2, entry 0x2006 has invalid size 11665409*4; skipping entry.
 Warning: Directory Sony2, entry 0x20c1 has unknown Exif (TIFF) type 181; setting type size 1.
 Error: Offset of directory Sony2, entry 0x3000 is out of bounds: Offset = 0x0057097c; truncating the entry
-Error: Upper boundary of data for directory Sony2, entry 0x0115 is out of bounds: Offset = 0x00000000, size = 59768836, exceeds buffer size by 59723576 Bytes; truncating the entry
-Error: Upper boundary of data for directory Sony2, entry 0x2013 is out of bounds: Offset = 0x00000002, size = 37486596, exceeds buffer size by 37441338 Bytes; truncating the entry
+Error: Directory Sony2, entry 0x0115 has invalid size 14942209*4; skipping entry.
+Error: Directory Sony2, entry 0x2013 has invalid size 9371649*4; skipping entry.
 Warning: Directory Photo, entry 0xa003 has unknown Exif (TIFF) type 242; setting type size 1.
 Warning: Directory Iop has an unexpected next pointer; ignored.
 Warning: Directory Photo, entry 0xa402 has unknown Exif (TIFF) type 89; setting type size 1.
