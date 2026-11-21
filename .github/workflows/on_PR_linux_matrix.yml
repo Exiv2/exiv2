@@ -67,7 +67,7 @@ jobs:
           arch: ${{matrix.arch}}
           branch: edge
           packages: >
-            build-base cmake samurai brotli-dev curl-dev expat-dev inih-inireader-dev gtest-dev python3-dev zlib-dev
+            build-base cmake samurai brotli-dev curl-dev expat-dev inih-inireader-dev gtest-dev python3-dev zlib-dev nlohmann-json
       - name: Build
         run: |
           cmake --preset base_linux -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}

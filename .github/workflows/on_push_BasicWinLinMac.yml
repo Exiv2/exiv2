@@ -65,7 +65,7 @@ jobs:
       - name: Install dependencies
         run: |
           brew update --quiet
-          brew install inih googletest
+          brew install inih googletest nlohmann-json
 
       - name: Build
         run: |
