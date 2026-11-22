@@ -1277,10 +1277,12 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
   size_t startPos = p_->idx_ - startBlock * p_->blockSize_;
   size_t totalRead = 0;
   do {
-    auto data = p_->blocksMap_.at(iBlock++).getData();
+    auto& b = p_->blocksMap_.at(iBlock++);
+    auto data = b.getData();
     if (!data)
       data = fakeData;
     auto blockR = std::min<size_t>(allow, p_->blockSize_ - startPos);
+    Internal::enforce(startPos + blockR <= b.getSize(), ErrorCode::kerInputDataReadFailed);
     std::memcpy(&buf[totalRead], &data[startPos], blockR);
     totalRead += blockR;
     startPos = 0;
@@ -1306,8 +1308,10 @@ int RemoteIo::getb() {
   // connect to the remote machine & populate the blocks just in time.
   p_->populateBlocks(expectedBlock, expectedBlock + 1);
 
-  auto data = p_->blocksMap_.at(expectedBlock).getData();
-  return data[p_->idx_++ - expectedBlock * p_->blockSize_];
+  auto& b = p_->blocksMap_.at(expectedBlock);
+  auto i = p_->idx_++ - expectedBlock * p_->blockSize_;
+  Internal::enforce(i < b.getSize(), ErrorCode::kerInputDataReadFailed);
+  return b.getData()[i];
 }
 
 void RemoteIo::transfer(BasicIo& src) {
