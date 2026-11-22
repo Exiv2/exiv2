@@ -1387,10 +1387,12 @@ const std::string& RemoteIo::path() const noexcept {
 }
 
 void RemoteIo::populateFakeData() {
-  size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
-  for (size_t i = 0; i < nBlocks; i++) {
+  size_t remain = p_->size_;
+  for (size_t i = 0; remain > 0; i++) {
+    const size_t n = std::min(remain, p_->blockSize_);
     if (p_->blocksMap_.at(i).isNone())
-      p_->blocksMap_.at(i).markKnown(p_->blockSize_);
+      p_->blocksMap_.at(i).markKnown(n);
+    remain -= n;
   }
 }
 
