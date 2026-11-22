@@ -300,7 +300,7 @@ def diff_bytes(file1, file2, return_str=False):
 def md5sum(filename):
     """ Calculate the MD5 value of the file """
     with open(filename, "rb") as f:
-        return hashlib.md5(f.read()).hexdigest()
+        return hashlib.md5(f.read(), usedforsecurity=False).hexdigest()
 
 
 def pretty_xml(text, encoding=None):
