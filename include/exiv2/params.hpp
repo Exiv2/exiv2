@@ -5,6 +5,7 @@
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
+#include "recursion_guard.hpp"
 
 // *****************************************************************************
 // namespace extensions
@@ -20,14 +21,14 @@ namespace Exiv2 {
  */
 class EXIV2API DecodeParams {
  public:
-  explicit DecodeParams(size_t max_recursion_depth);
+  explicit DecodeParams(RecursionLimit max_recursion_depth);
 
-  size_t max_recursion_depth() const {
+  RecursionLimit max_recursion_depth() const {
     return max_recursion_depth_;
   }
 
  private:
-  const size_t max_recursion_depth_;
+  const RecursionLimit max_recursion_depth_;
 };
 
 }  // namespace Exiv2

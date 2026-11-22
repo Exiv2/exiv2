@@ -8,64 +8,66 @@
 
 #include <gtest/gtest.h>
 
+#include "unittest_utils.hpp"
+
 namespace fs = std::filesystem;
 
 using namespace Exiv2;
 
 TEST(TheImageFactory, createsInstancesForFewSupportedTypesInMemory) {
   // Note that the constructor of these Image classes take an 'create' argument
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::jp2));
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg));
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::exv));
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::jp2, defaultImageCtorParams(false)));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg, defaultImageCtorParams(false)));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::exv, defaultImageCtorParams(false)));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf, defaultImageCtorParams(false)));
 #ifdef EXV_HAVE_LIBZ
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::png));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::png, defaultImageCtorParams(false)));
 #endif
 }
 
 TEST(TheImageFactory, cannotCreateInstancesForMostTypesInMemory) {
   // Note that the constructor of these Image classes does not take an 'create' argument
 
-  EXPECT_THROW(ImageFactory::create(ImageType::bmp), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::cr2), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::crw), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::gif), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::mrw), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::orf), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::psd), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::raf), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::rw2), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::tga), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::webp), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::bmp, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::cr2, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::crw, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::gif, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::mrw, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::orf, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::psd, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::raf, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::rw2, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::tga, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::webp, defaultImageCtorParams(false)), Error);
 
   // TIFF
-  EXPECT_THROW(ImageFactory::create(ImageType::tiff), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::dng), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::nef), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::pef), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::arw), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::sr2), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::srw), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::tiff, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::dng, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::nef, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::pef, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::arw, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::sr2, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::srw, defaultImageCtorParams(false)), Error);
 }
 
 TEST(TheImageFactory, throwsWithImageTypeNone) {
-  EXPECT_THROW(ImageFactory::create(ImageType::none), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::none, defaultImageCtorParams(false)), Error);
 }
 
 TEST(TheImageFactory, throwsWithNonExistingImageTypes) {
-  EXPECT_THROW(ImageFactory::create(static_cast<ImageType>(666)), Error);
+  EXPECT_THROW(ImageFactory::create(static_cast<ImageType>(666), defaultImageCtorParams(false)), Error);
 }
 
 TEST(TheImageFactory, createsInstancesForFewSupportedTypesInFiles) {
   const std::string filePath("./here");
 
   // Note that the constructor of these Image classes take an 'create' argument
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::jp2, filePath));
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg, filePath));
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::exv, filePath));
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf, filePath));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::jp2, filePath, defaultImageCtorParams(false)));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg, filePath, defaultImageCtorParams(false)));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::exv, filePath, defaultImageCtorParams(false)));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf, filePath, defaultImageCtorParams(false)));
 #ifdef EXV_HAVE_LIBZ
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::png, filePath));
+  EXPECT_NO_THROW(ImageFactory::create(ImageType::png, filePath, defaultImageCtorParams(false)));
 #endif
 
   EXPECT_TRUE(fs::remove(filePath));
@@ -75,26 +77,26 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInFiles) {
   const std::string filePath("./here");
 
   // Note that the constructor of these Image classes does not take an 'create' argument
-  EXPECT_THROW(ImageFactory::create(ImageType::bmp, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::cr2, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::crw, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::gif, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::mrw, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::orf, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::psd, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::raf, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::rw2, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::tga, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::webp, filePath), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::bmp, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::cr2, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::crw, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::gif, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::mrw, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::orf, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::psd, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::raf, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::rw2, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::tga, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::webp, filePath, defaultImageCtorParams(false)), Error);
 
   // TIFF
-  EXPECT_THROW(ImageFactory::create(ImageType::tiff, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::dng, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::nef, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::pef, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::arw, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::sr2, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::srw, filePath), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::tiff, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::dng, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::nef, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::pef, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::arw, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::sr2, filePath, defaultImageCtorParams(false)), Error);
+  EXPECT_THROW(ImageFactory::create(ImageType::srw, filePath, defaultImageCtorParams(false)), Error);
 }
 
 TEST(TheImageFactory, loadInstancesDifferentImageTypes) {
@@ -102,45 +104,45 @@ TEST(TheImageFactory, loadInstancesDifferentImageTypes) {
 
   std::string imagePath = (testData / "DSC_3079.jpg").string();
   EXPECT_EQ(ImageType::jpeg, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 
   imagePath = (testData / "exiv2-bug1108.exv").string();
   EXPECT_EQ(ImageType::exv, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 
   imagePath = (testData / "exiv2-canon-powershot-s40.crw").string();
   EXPECT_EQ(ImageType::crw, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 
   imagePath = (testData / "exiv2-bug1044.tif").string();
   EXPECT_EQ(ImageType::tiff, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 
 #ifdef EXV_HAVE_LIBZ
   imagePath = (testData / "exiv2-bug1074.png").string();
   EXPECT_EQ(ImageType::png, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 #endif
 
   imagePath = (testData / "BlueSquare.xmp").string();
   EXPECT_EQ(ImageType::xmp, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 
   imagePath = (testData / "exiv2-photoshop.psd").string();
   EXPECT_EQ(ImageType::psd, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 
   imagePath = (testData / "cve_2017_1000126_stack-oob-read.webp").string();
   EXPECT_EQ(ImageType::webp, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 
   imagePath = (testData / "imagemagick.pgf").string();
   EXPECT_EQ(ImageType::pgf, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 
   imagePath = (testData / "Reagan.jp2").string();
   EXPECT_EQ(ImageType::jp2, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, defaultImageCtorParams(false)));
 }
 
 TEST(TheImageFactory, getsExpectedModesForJp2Images) {

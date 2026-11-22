@@ -119,15 +119,13 @@ class EXIV2API AsfVideo : public Image {
   /*!
     @brief Check for a valid tag and decode the block at the current IO
     position. Calls tagDecoder() or skips to next tag, if required.
-    @param depth Current recursion depth, to detect files with excessive nesting.
    */
-  void decodeBlock(size_t depth);
+  void decodeBlock();
 
   /*!
     @brief Parse the header
-    @param depth Current recursion depth, to detect files with excessive nesting.
    */
-  void decodeHeader(size_t depth);
+  void decodeHeader();
   /*!
     @brief Interpret File_Properties tag information, and save it in
         the respective XMP container.

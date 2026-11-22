@@ -448,7 +448,8 @@ bool LoaderNative::readDimensions() {
     return false;
 
   try {
-    auto image = ImageFactory::open(data.c_data(), data.size());
+    ImageCtorParams params(false, false, image_.recursion_limit());
+    auto image = ImageFactory::open(data.c_data(), data.size(), params);
     if (!image)
       return false;
     image->readMetadata();
@@ -534,7 +535,8 @@ bool LoaderExifJpeg::readDimensions() {
   const Exiv2::byte* base = io.mmap();
 
   try {
-    auto image = ImageFactory::open(base + offset_, size_);
+    ImageCtorParams params(false, false, image_.recursion_limit());
+    auto image = ImageFactory::open(base + offset_, size_, params);
     if (!image)
       return false;
     image->readMetadata();
@@ -606,7 +608,8 @@ bool LoaderExifDataJpeg::readDimensions() {
     return false;
 
   try {
-    auto image = ImageFactory::open(buf.c_data(), buf.size());
+    ImageCtorParams params(false, false, image_.recursion_limit());
+    auto image = ImageFactory::open(buf.c_data(), buf.size(), params);
     if (!image)
       return false;
     image->readMetadata();

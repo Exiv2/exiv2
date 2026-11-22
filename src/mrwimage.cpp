@@ -112,7 +112,7 @@ void MrwImage::readMetadata() {
   io_->read(buf.data(), buf.size());
   Internal::enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
 
-  const DecodeParams dp(max_recursion_depth_);
+  const DecodeParams dp(recursion_limit());
   ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size(), dp);
   setByteOrder(bo);
 }  // MrwImage::readMetadata

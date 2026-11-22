@@ -137,13 +137,21 @@ std::string pathOfFileUrl(const std::string& url) {
 // class member definitions
 namespace Exiv2 {
 
-ImageCtorParams::ImageCtorParams(bool create, size_t max_recursion_depth) :
-    create_(create), max_recursion_depth_(max_recursion_depth) {
+ImageCtorParams::ImageCtorParams(bool create, bool useCurl, RecursionLimit max_recursion_depth) :
+    create_(create), useCurl_(useCurl), max_recursion_depth_(max_recursion_depth) {
+}
+
+ImageCtorParams ImageCtorParams::withCreate(bool create) const {
+  return ImageCtorParams(create, useCurl_, max_recursion_depth_);
+}
+
+ImageCtorParams ImageCtorParams::defaultSettings() {
+  return Exiv2::ImageCtorParams(false, true, Exiv2::RecursionLimit(1000));
 }
 
 Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io, const ImageCtorParams& params) :
     io_(std::move(io)),
-    max_recursion_depth_(params.max_recursion_depth()),
+    recursion_limit_(params.max_recursion_depth()),
     imageType_(type),
     supportedMetadata_(supportedMetadata) {
 }
@@ -618,7 +626,7 @@ void Image::clearXmpPacket() {
 }
 
 void Image::setXmpPacket(const std::string& xmpPacket) {
-  const DecodeParams dp(max_recursion_depth_);
+  const DecodeParams dp(recursion_limit());
   if (XmpParser::decode(xmpData_, xmpPacket, dp)) {
     throw Error(ErrorCode::kerInvalidXMP);
   }
@@ -855,16 +863,16 @@ BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& path) {
 }
 #endif
 
-Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl) {
-  auto image = open(ImageFactory::createIo(path, useCurl));  // may throw
+Image::UniquePtr ImageFactory::open(const std::string& path, const ImageCtorParams& params) {
+  auto image = open(ImageFactory::createIo(path, params.useCurl()), params);  // may throw
   if (!image)
     throw Error(ErrorCode::kerFileContainsUnknownImageType, path);
   return image;
 }
 
 #ifdef _WIN32
-Image::UniquePtr ImageFactory::open(const std::wstring& path) {
-  auto image = open(ImageFactory::createIo(path));  // may throw
+Image::UniquePtr ImageFactory::open(const std::wstring& path, const ImageCtorParams& params) {
+  auto image = open(ImageFactory::createIo(path), params);  // may throw
   if (!image) {
     char t[1024];
     WideCharToMultiByte(CP_UTF8, 0, path.c_str(), -1, t, 1024, nullptr, nullptr);
@@ -874,27 +882,27 @@ Image::UniquePtr ImageFactory::open(const std::wstring& path) {
 }
 #endif
 
-Image::UniquePtr ImageFactory::open(const byte* data, size_t size) {
-  auto image = open(std::make_unique<MemIo>(data, size));  // may throw
+Image::UniquePtr ImageFactory::open(const byte* data, size_t size, const ImageCtorParams& params) {
+  auto image = open(std::make_unique<MemIo>(data, size), params);  // may throw
   if (!image)
     throw Error(ErrorCode::kerMemoryContainsUnknownImageType);
   return image;
 }
 
-Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io) {
+Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io, const ImageCtorParams& params) {
   if (io->open() != 0) {
     throw Error(ErrorCode::kerDataSourceOpenFailed, io->path(), strError());
   }
   for (const auto& r : registry) {
     if (r.isThisType_(*io, false)) {
-      return r.newInstance_(std::move(io), ImageCtorParams(false, 1000));
+      return r.newInstance_(std::move(io), params.withCreate(false));
     }
   }
   return nullptr;
 }
 
 #ifdef EXV_ENABLE_FILESYSTEM
-Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path) {
+Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path, const ImageCtorParams& params) {
   auto fileIo = std::make_unique<FileIo>(path);
   // Create or overwrite the file, then close it
   if (fileIo->open("w+b") != 0) {
@@ -903,26 +911,26 @@ Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path) {
   fileIo->close();
 
   BasicIo::UniquePtr io(std::move(fileIo));
-  auto image = create(type, std::move(io));
+  auto image = create(type, std::move(io), params);
   if (!image)
     throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
   return image;
 }
 #endif
 
-Image::UniquePtr ImageFactory::create(ImageType type) {
-  auto image = create(type, std::make_unique<MemIo>());
+Image::UniquePtr ImageFactory::create(ImageType type, const ImageCtorParams& params) {
+  auto image = create(type, std::make_unique<MemIo>(), params);
   if (!image)
     throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
   return image;
 }
 
-Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io) {
+Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io, const ImageCtorParams& params) {
   // BasicIo instance does not need to be open
   if (type == ImageType::none)
     return {};
   if (auto r = Exiv2::find(registry, type))
-    return r->newInstance_(std::move(io), ImageCtorParams(true, 1000));
+    return r->newInstance_(std::move(io), params.withCreate(true));
   return {};
 }
 

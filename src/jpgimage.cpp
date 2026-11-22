@@ -191,7 +191,7 @@ void JpegBase::readMetadata() {
 
     if (!foundExifData && marker == app1_ && size >= 8  // prevent out-of-bounds read in memcmp on next line
         && buf.cmpBytes(2, exifId_.data(), 6) == 0) {
-      const DecodeParams dp(max_recursion_depth_);
+      const DecodeParams dp(recursion_limit());
       ByteOrder bo = ExifParser::decode(exifData_, buf.c_data(8), size - 8, dp);
       setByteOrder(bo);
       if (size > 8 && byteOrder() == invalidByteOrder) {
@@ -205,7 +205,7 @@ void JpegBase::readMetadata() {
     } else if (!foundXmpData && marker == app1_ && size >= 31  // prevent out-of-bounds read in memcmp on next line
                && buf.cmpBytes(2, xmpId_.data(), 29) == 0) {
       xmpPacket_.assign(buf.c_str(31), size - 31);
-      const DecodeParams dp(max_recursion_depth_);
+      const DecodeParams dp(recursion_limit());
       if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_, dp)) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Failed to decode XMP metadata.\n";
