@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml nlohmann-json3-dev
 
       - name: Build
         run: |
@@ -65,7 +65,7 @@ jobs:
       - name: Install dependencies
         run: |
           brew update --quiet
-          brew install inih googletest
+          brew install inih googletest nlohmann-json
 
       - name: Build
         run: |
