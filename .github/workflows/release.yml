@@ -33,7 +33,7 @@ jobs:
         run: |
           sudo eatmydata apt-get update
           sudo eatmydata apt-get dist-upgrade
-          sudo eatmydata apt-get -y install doxygen gettext graphviz libbrotli-dev libinih-dev
+          sudo eatmydata apt-get -y install doxygen gettext graphviz libbrotli-dev libinih-dev nlohmann-json3-dev
 
       - name: Build packaged release
         run: |

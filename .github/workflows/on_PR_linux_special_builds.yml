@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml gcovr
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml nlohmann-json3-dev gcovr
 
       - name: Build
         run: |
@@ -61,7 +61,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml valgrind
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml nlohmann-json3-dev valgrind
 
       - name: Build
         run: |
@@ -86,7 +86,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml nlohmann-json3-dev
 
       - name: Build
         run: |
@@ -109,7 +109,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml nlohmann-json3-dev
 
       - name: Build
         run: |
@@ -128,7 +128,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get update
-          sudo eatmydata apt-get -y install doxygen graphviz gettext libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
+          sudo eatmydata apt-get -y install doxygen graphviz gettext libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml nlohmann-json3-dev
 
       - name: Build
         env:
