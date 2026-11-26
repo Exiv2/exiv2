@@ -9,10 +9,13 @@ set(PO_SOURCES
     fi.po
     fr.po
     gl.po
+    it.po
+    ka.po
     ms.po
     nl.po
     pl.po
     pt.po
+    pt_BR.po
     ru.po
     sk.po
     sv.po
