@@ -675,6 +675,12 @@ void Converter::cnvExifDate(const char* from, const char* to) {
 
     dsec += dhour * 3600.0;
     dsec += dmin * 60.0;
+    if (!(dsec >= 0.0 && dsec < 86400.0)) {
+#ifndef SUPPRESS_WARNINGS
+      EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
+#endif
+      return;
+    }
 
     hour = static_cast<int>(dsec / 3600.0);
     dsec -= hour * 3600;
@@ -831,6 +837,12 @@ void Converter::cnvExifGPSCoord(const char* from, const char* to) {
     deg[i] = static_cast<double>(z) / d;
   }
   double min = (deg[0] * 60.0) + deg[1] + (deg[2] / 60.0);
+  if (!(min >= 0.0 && min <= 180.0 * 60.0)) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
+#endif
+    return;
+  }
   auto ideg = static_cast<int>(min / 60.0);
   min -= ideg * 60;
   (*xmpData_)[to] = stringFormat("{},{:.7f}{}", ideg, min, refPos->toString().front());
@@ -1131,6 +1143,13 @@ void Converter::cnvXmpGPSCoord(const char* from, const char* to) {
   std::istringstream in(value);
 
   in >> deg >> sep1 >> min >> sep2;
+
+  if (!(min >= 0.0 && min <= 180.0 * 60.0)) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
+#endif
+    return;
+  }
 
   if (sep2 == ',') {
     in >> sec;
