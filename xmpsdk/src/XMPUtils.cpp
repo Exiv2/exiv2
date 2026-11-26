@@ -1215,7 +1215,7 @@ XMPUtils::ConvertToInt64 ( XMP_StringPtr strValue )
 
 	int count;
 	char nextCh;
-	XMP_Int64 result;
+	long long result;
 
 	if ( ! XMP_LitNMatch ( strValue, "0x", 2 ) ) {
 		count = sscanf ( strValue, "%lld%c", &result, &nextCh );
