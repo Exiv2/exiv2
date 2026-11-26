@@ -59,10 +59,11 @@ jobs:
           ctest --output-on-failure
   Alpine:
     name: 'Alpine Edge - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}} ARCH:${{matrix.arch}}'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         arch: ['loongarch64', 'riscv64', 's390x']
         build_type: [Release, Debug]
