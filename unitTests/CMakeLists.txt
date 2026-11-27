@@ -24,6 +24,7 @@ add_executable(
   test_image_int.cpp
   test_ImageFactory.cpp
   test_jp2image.cpp
+  test_jxrimage.cpp
   test_jp2image_int.cpp
   test_IptcKey.cpp
   test_LangAltValueRead.cpp

@@ -222,6 +222,29 @@ ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xm
 
 WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
                                const IptcData& iptcData, const XmpData& xmpData) {
+  // JPEG XR must use its dedicated adapter, including direct TiffImage callers.
+  const auto jxrHeader = [](const byte* data, size_t length) {
+    return data && length >= 4 &&
+           ((data[0] == 'I' && data[1] == 'I' && data[2] == 0xbc && data[3] == 1) ||
+            (data[0] == 'M' && data[1] == 'M' && data[2] == 1 && data[3] == 0xbc));
+  };
+  bool jxr = jxrHeader(pData, size);
+  const bool opened = !io.isopen() && io.open() == 0;
+  if (io.isopen()) {
+    const auto position = io.tell();
+    std::array<byte, 4> signature{};
+    if (io.size() >= signature.size()) {
+      io.seekOrThrow(0, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+      io.readOrThrow(signature.data(), signature.size(), ErrorCode::kerFailedToReadImageData);
+      jxr = jxr || jxrHeader(signature.data(), signature.size());
+      io.seekOrThrow(position, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+    }
+  }
+  if (opened)
+    io.close();
+  if (jxr)
+    throw Error(ErrorCode::kerWritingImageFormatUnsupported, "JPEG XR through TIFF");
+
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
       IfdId::panaRawId,
