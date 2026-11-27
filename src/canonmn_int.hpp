@@ -275,6 +275,9 @@ class CanonMakerNote {
  */
 float canonEv(int64_t val);
 
+//! Print all Canon lenses with LensType \em lensType whose focal length range and max aperture match the given values.
+std::ostream& printCanonLensType(std::ostream& os, int64_t lensType, int exifFlMin, int exifFlMax, float exifAperMax);
+
 }  // namespace Internal
 }  // namespace Exiv2
 
