@@ -4,6 +4,18 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(
   exiv2lib_int OBJECT
+  bmffbox_int.cpp
+  bmffbox_int.hpp
+  bmffitem_int.cpp
+  bmffitem_int.hpp
+  bmffitemwrite_int.cpp
+  bmffitemwrite_int.hpp
+  bmfflayout_int.cpp
+  bmfflayout_int.hpp
+  heifstructure_int.cpp
+  heifstructure_int.hpp
+  heifwrite_int.cpp
+  heifwrite_int.hpp
   canonmn_int.cpp
   canonmn_int.hpp
   casiomn_int.cpp
@@ -105,6 +117,8 @@ add_library(
   asfvideo.cpp
   basicio.cpp
   bmffimage.cpp
+  heifimage_int.cpp
+  heifimage_int.hpp
   bmpimage.cpp
   convert.cpp
   cr2image.cpp
