@@ -1563,7 +1563,7 @@ File 11/16: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Panasonic.FlashBias                     Short       1  0
 20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 20050218_212016.jpg   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
-20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
+20050218_212016.jpg   Exif.Panasonic.VideoFrameRate                Short       1  0
 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
 20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
@@ -3204,7 +3204,7 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.FlashBias                     Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 < 20050218_212016.jpg   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
-< 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
+< 20050218_212016.jpg   Exif.Panasonic.VideoFrameRate                Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 < 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
@@ -4767,7 +4767,7 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Panasonic.FlashBias                     Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 > 20050218_212016.exv   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
-> 20050218_212016.exv   Exif.Panasonic.0x0027                        Short       1  0
+> 20050218_212016.exv   Exif.Panasonic.VideoFrameRate                Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.ColorEffect                   Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 > 20050218_212016.exv   Exif.Panasonic.BurstMode                     Short       1  Off
@@ -6568,7 +6568,7 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Panasonic.FlashBias                     Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 < 20050218_212016.jpg   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
-< 20050218_212016.jpg   Exif.Panasonic.0x0027                        Short       1  0
+< 20050218_212016.jpg   Exif.Panasonic.VideoFrameRate                Short       1  0
 < 20050218_212016.jpg   Exif.Panasonic.ColorEffect                   Short       1  Off
 < 20050218_212016.jpg   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 < 20050218_212016.jpg   Exif.Panasonic.BurstMode                     Short       1  Off
@@ -8131,7 +8131,7 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Panasonic.FlashBias                     Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.InternalSerialNumber          Undefined  16  S000501110223
 > 20050218_212016.exv   Exif.Panasonic.ExifVersion                   Undefined   4  1.00
-> 20050218_212016.exv   Exif.Panasonic.0x0027                        Short       1  0
+> 20050218_212016.exv   Exif.Panasonic.VideoFrameRate                Short       1  0
 > 20050218_212016.exv   Exif.Panasonic.ColorEffect                   Short       1  Off
 > 20050218_212016.exv   Exif.Panasonic.TimeSincePowerOn              Long        1  00:00:14.50
 > 20050218_212016.exv   Exif.Panasonic.BurstMode                     Short       1  Off
