@@ -9,7 +9,8 @@ Exif.Photo.ExifVersion                       Undefined   4  48 50 51 50  2.32
 Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
 Exif.Photo.ColorSpace                        Short       1  65535  Uncalibrated
 Exif.Photo.ComponentsConfiguration           Undefined   1  1  Y
-Exif.Photo.DateTimeOriginal                  Ascii      20  2022:01:04 17:41:01  2022:01:04 17:41:01
+Exif.Photo.DateTimeOriginal                  Ascii      20  2022:01:04 09:41:01  2022:01:04 09:41:01
+Exif.Photo.OffsetTimeOriginal                Ascii       7  +00:00  +00:00
 Iptc.Application2.ObjectName                 String     18  Test IPTC XMP file  Test IPTC XMP file
 Iptc.Envelope.CharacterSet                   String      3  %G  %G
 Iptc.Application2.Keywords                   String      4  Test  Test

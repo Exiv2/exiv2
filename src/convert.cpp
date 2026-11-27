@@ -63,6 +63,16 @@ bool convertStringCharsetWindows(std::string& str, std::string_view from, std::s
   The return code indicates if the operation was successful.
  */
 bool getTextValue(std::string& value, Exiv2::XmpData::iterator pos);
+/*!
+  @brief Check that \em offset is an Exif UTC offset ("+HH:MM" or "-HH:MM",
+         as in Exif.Photo.OffsetTime). A blank (unknown) offset fails.
+ */
+bool isExifOffset(const std::string& offset);
+/*!
+  @brief Check whether the XMP date \em value ("YYYY-MM-DDThh:mm..." ) has a
+         time zone designator ("Z", "+hh:mm" or "-hh:mm").
+ */
+bool xmpDateHasZone(const std::string& value);
 }  // namespace
 
 // *****************************************************************************
@@ -708,12 +718,16 @@ void Converter::cnvExifDate(const char* from, const char* to) {
   }
 
   const char* subsecTag = nullptr;
+  const char* offsetTag = nullptr;
   if (std::string(from) == "Exif.Image.DateTime") {
     subsecTag = "Exif.Photo.SubSecTime";
+    offsetTag = "Exif.Photo.OffsetTime";
   } else if (std::string(from) == "Exif.Photo.DateTimeOriginal") {
     subsecTag = "Exif.Photo.SubSecTimeOriginal";
+    offsetTag = "Exif.Photo.OffsetTimeOriginal";
   } else if (std::string(from) == "Exif.Photo.DateTimeDigitized") {
     subsecTag = "Exif.Photo.SubSecTimeDigitized";
+    offsetTag = "Exif.Photo.OffsetTimeDigitized";
   }
 
   if (subsecTag) {
@@ -736,7 +750,22 @@ void Converter::cnvExifDate(const char* from, const char* to) {
   if (subsec.size() > 10)
     subsec.resize(10);
 
-  (*xmpData_)[to] = stringFormat("{:4}-{:02}-{:02}T{:02}:{:02}:{:02}{}", year, month, day, hour, min, sec, subsec);
+  // The UTC offset of the time (Exif 2.31), part of the XMP date
+  std::string offset;
+  if (offsetTag) {
+    auto offset_pos = exifData_->findKey(ExifKey(offsetTag));
+    if (offset_pos != exifData_->end() && offset_pos->typeId() == asciiString) {
+      std::string os = offset_pos->toString();
+      if (isExifOffset(os)) {
+        offset = std::move(os);
+        if (erase_)
+          exifData_->erase(offset_pos);
+      }
+    }
+  }
+
+  (*xmpData_)[to] =
+      stringFormat("{:4}-{:02}-{:02}T{:02}:{:02}:{:02}{}{}", year, month, day, hour, min, sec, subsec, offset);
   if (erase_)
     exifData_->erase(pos);
 }
@@ -931,10 +960,31 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
   try {
     SXMPUtils::ConvertToDate(value, &datetime);
     if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
-      SXMPUtils::ConvertToLocalTime(&datetime);
+      // A date with a time zone keeps its own local time, and the zone goes
+      // into the Exif offset of the date (converting it to the time zone of
+      // the machine would make the Exif date depend on where it's converted).
+      // ConvertToDate() gives a date without one the machine's time zone, so
+      // look at the text.
+      const char* offsetTag = nullptr;
+      if (std::string(to) == "Exif.Image.DateTime") {
+        offsetTag = "Exif.Photo.OffsetTime";
+      } else if (std::string(to) == "Exif.Photo.DateTimeOriginal") {
+        offsetTag = "Exif.Photo.OffsetTimeOriginal";
+      } else if (std::string(to) == "Exif.Photo.DateTimeDigitized") {
+        offsetTag = "Exif.Photo.OffsetTimeDigitized";
+      }
+      const bool hasZone = offsetTag && xmpDateHasZone(value);
+      if (!hasZone)
+        SXMPUtils::ConvertToLocalTime(&datetime);
 
       (*exifData_)[to] = stringFormat("{:4}:{:02}:{:02} {:02}:{:02}:{:02}", datetime.year, datetime.month, datetime.day,
                                       datetime.hour, datetime.minute, datetime.second);
+
+      if (hasZone) {
+        prepareExifTarget(offsetTag, true);
+        (*exifData_)[offsetTag] =
+            stringFormat("{}{:02}:{:02}", datetime.tzSign < 0 ? '-' : '+', datetime.tzHour, datetime.tzMinute);
+      }
 
       if (datetime.nanoSecond) {
         const char* subsecTag = nullptr;
@@ -1617,6 +1667,22 @@ bool getTextValue(std::string& value, XmpData::iterator pos) {
     value = pos->toString();
   }
   return pos->value().ok();
+}
+
+bool isExifOffset(const std::string& offset) {
+  // "+HH:MM" or "-HH:MM"
+  if (offset.size() != 6 || (offset[0] != '+' && offset[0] != '-') || offset[3] != ':')
+    return false;
+  for (size_t i : {1, 2, 4, 5}) {
+    if (offset[i] < '0' || offset[i] > '9')
+      return false;
+  }
+  return offset.compare(1, 2, "24") < 0 && offset[4] < '6';
+}
+
+bool xmpDateHasZone(const std::string& value) {
+  auto t = value.find('T');
+  return t != std::string::npos && value.find_first_of("Z+-", t) != std::string::npos;
 }
 
 }  // namespace

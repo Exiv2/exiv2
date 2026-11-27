@@ -164,14 +164,15 @@ Xmp.exif.Flash/exif:RedEyeMode               XmpText     4  True
 Xmp.exif.ComponentsConfiguration             XmpSeq      4  YCbCr
 Xmp.xmp.ModifyDate                           XmpText    20  2015-04-17T18:10:22Z
 Xmp.photoshop.DateCreated                    XmpText    29  2003-12-14T12:01:44.999999999
-Exif.Image.DateTime                          Ascii      20  2015:04:18 02:10:22
+Exif.Image.DateTime                          Ascii      20  2015:04:17 18:10:22
 Exif.Image.ExifTag                           Long        1  70
 Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49
 Exif.Photo.DateTimeOriginal                  Ascii      20  2003:12:14 12:01:44
+Exif.Photo.OffsetTime                        Ascii       7  +00:00
 Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0
 Exif.Photo.Flash                             Short       1  73
 Exif.Photo.SubSecTimeOriginal                Ascii      10  999999999
-Exif.Image.GPSTag                            Long        1  166
+Exif.Image.GPSTag                            Long        1  186
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 1
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N
 Exif.GPSInfo.GPSLatitude                     Rational    3  3/1 8/1 1858407/62500

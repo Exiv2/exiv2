@@ -4,7 +4,8 @@ Exif.Image.Orientation                       Short       1  1  top, left
 Exif.Image.XResolution                       Rational    1  72/1  72
 Exif.Image.YResolution                       Rational    1  72/1  72
 Exif.Image.ResolutionUnit                    Short       1  2  inch
-Exif.Image.DateTime                          Ascii      20  2005:03:13 16:01:44  2005:03:13 16:01:44
+Exif.Image.DateTime                          Ascii      20  2005:03:13 02:01:44  2005:03:13 02:01:44
+Exif.Photo.OffsetTime                        Ascii       7  -06:00  -06:00
 Exif.Image.ImageDescription                  Ascii     116  After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.  After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.
 Exif.Image.Artist                            Ascii       9  John Doe  John Doe
 Exif.Image.Copyright                         Ascii      42  ©2003 Big Newspaper, all rights reserved  ©2003 Big Newspaper, all rights reserved
@@ -12,7 +13,8 @@ Exif.Photo.ColorSpace                        Short       1  1  sRGB
 Exif.Photo.PixelXDimension                   Long        1  432  432
 Exif.Photo.PixelYDimension                   Long        1  293  293
 Exif.Photo.DateTimeOriginal                  Ascii      20  2003:04:03 08:00:00  2003:04:03 08:00:00
-Exif.Photo.DateTimeDigitized                 Ascii      20  2005:03:13 16:01:44  2005:03:13 16:01:44
+Exif.Photo.DateTimeDigitized                 Ascii      20  2005:03:13 02:01:44  2005:03:13 02:01:44
+Exif.Photo.OffsetTimeDigitized               Ascii       7  -06:00  -06:00
 Iptc.Application2.ObjectName                 String      8  01661gdx  01661gdx
 Iptc.Envelope.CharacterSet                   String      3  %G  %G
 Iptc.Application2.Keywords                   String     11  agriculture  agriculture

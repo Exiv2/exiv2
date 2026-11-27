@@ -217,9 +217,9 @@ class TestCases(unittest.TestCase):
         BT.copyTestFile(jpg, 'v.jpg')
         BT.cp('u.xmp', 'v.xmp')
         out     += BT.Executer("exiv2 -M'set Xmp.xmp.ModifyDate 2015-04-17T18:10:22Z' v.xmp")
-        out     += BT.Executer('exiv2 -iX v.jpg')  # need TZ=GMT-8
+        out     += BT.Executer('exiv2 -iX v.jpg')
         out     += BT.Executer('exiv2 -px v.jpg')
-        out     += BT.Executer('exiv2 -PEkycv v.jpg').stdout.replace('17 19:10:22', '18 02:10:22') # evade this test on MSVC builds (Issue #485)
+        out     += BT.Executer('exiv2 -PEkycv v.jpg')
         out     += BT.Executer('exiv2 -pi v.jpg')
 
         BT.log.info('#16 https://github.com/Exiv2/exiv2/issues/521')
