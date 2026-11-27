@@ -3,12 +3,13 @@
 import system_tests
 
 
+@system_tests.requires("iconv")
 @system_tests.CopyFiles("$data_path/exiv2-empty.jpg")
 class UnicodeEncodingOfExifUserCommentTag(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/662"
 
-    filename = "$data_path/exiv2-empty_copy.jpg"
+    filename = "$tmp_path/exiv2-empty_copy.jpg"
     commands = [
         """$exiv2 -u -M"set Exif.Photo.UserComment charset=Ascii An ascii comment" $filename""",
         "$exiv2 -u -PEnh $filename",

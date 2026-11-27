@@ -25,11 +25,12 @@ for lens_tc in test_cases:
 
     testname = f"{lens_tc['id']}_{lens_tc['desc']}"
 
-    globals()[testname] = system_tests.CaseMeta(
+    # work on a copy, the commands modify the file
+    globals()[testname] = system_tests.CopyTmpFiles("$data_path/template.exv")(system_tests.CaseMeta(
         f"canon_lenses.{testname}",
         tuple(),
         {
-            "filename": "$data_path/template.exv",
+            "filename": "$tmp_path/template.exv",
             "commands": [
                 '$exiv2 -M"set Exif.CanonCs.LensType $lens_id" -M"set Exif.CanonCs.Lens $focal_length_max $focal_length_min 1" -M"set Exif.CanonCs.MaxAperture $aperture_max" $filename && $exiv2 -pa -K Exif.CanonCs.LensType $filename'
             ],
@@ -42,4 +43,4 @@ for lens_tc in test_cases:
             "focal_length_min": int(lens_tc["focal_length_min"] * lens_tc["tc"]),
             "focal_length_max": int(lens_tc["focal_length_max"] * lens_tc["tc"]),
         },
-    )
+    ))

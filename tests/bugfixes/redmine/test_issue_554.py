@@ -9,7 +9,7 @@ class SettingExifImageDateTimeDateGivesValueTooLarge(
 
     url = "http://dev.exiv2.org/issues/554"
 
-    filename = "$data_path/exiv2-empty_copy.jpg"
+    filename = "$tmp_path/exiv2-empty_copy.jpg"
     commands = [
         """$exiv2 -u -v -M"set Exif.Image.DateTime Date 2007-05-27" $filename""",
         "$exiv2 -u -pt $filename"

@@ -9,8 +9,8 @@ class AdobeXmpNamespace(metaclass=CaseMeta):
 
     url = "http://dev.exiv2.org/issues/751"
 
-    filename = path("$data_path/exiv2-empty_copy.jpg")
-    xmpname = path("$data_path/exiv2-empty_copy.xmp")
+    filename = path("$tmp_path/exiv2-empty_copy.jpg")
+    xmpname = path("$tmp_path/exiv2-empty_copy.xmp")
 
     commands = [
         """$exiv2 -v -M"reg imageapp orig/" -M "set Xmp.imageapp.uuid abcd" $filename""",

@@ -2,7 +2,7 @@
 
 import os.path
 
-from system_tests import CaseMeta, path
+from system_tests import CaseMeta, path, requires
 
 
 def read_file(filename):
@@ -10,6 +10,7 @@ def read_file(filename):
         return f.read()
 
 
+@requires("have_libz")
 class AddMinusPSOption(metaclass=CaseMeta):
 
     cls_location = os.path.dirname(__file__)

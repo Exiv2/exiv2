@@ -12,7 +12,7 @@ class WrongXmpTypeForNestedXmpKeys(metaclass=CaseMeta):
     num = 799
     cmdfile = path("$data_path/bug$num.cmd")
 
-    filename_common = path("$data_path/exiv2-empty_copy")
+    filename_common = path("$tmp_path/exiv2-empty_copy")
     filename = "$filename_common.jpg"
     xmpfile = "$filename_common.xmp"
 

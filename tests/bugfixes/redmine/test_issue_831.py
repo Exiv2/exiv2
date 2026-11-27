@@ -8,7 +8,7 @@ class UseNonIntrusiveWriting(metaclass=CaseMeta):
 
     url = "http://dev.exiv2.org/issues/831"
 
-    filename = path("$data_path/mini9_copy.tif")
+    filename = path("$tmp_path/mini9_copy.tif")
 
     commands = [
         """$exiv2 -v -Qd -M"set Exif.Image.ImageDescription Just GIMP" $filename""",

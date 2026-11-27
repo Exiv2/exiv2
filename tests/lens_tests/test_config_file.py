@@ -12,6 +12,7 @@ class TmpConfigFile(system_tests.FileDecoratorBase):
         return shutil.copyfile(expanded_file_name, os.path.join(config_file_path, fname))
 
 
+@system_tests.requires("enable_inih")
 @TmpConfigFile("$data_path/example_exiv2_config_file_for_lens_test")
 class TestLensConfigFile(metaclass=system_tests.CaseMeta):
     """

@@ -20,7 +20,7 @@ class WriteMetadataDestroysResourceForkOnMacOSXForBigFiles(
 
     url = "http://dev.exiv2.org/issues/836"
 
-    filename = "$data_path/exiv2-bug836_copy.eps"
+    filename = "$tmp_path/exiv2-bug836_copy.eps"
     filename_orig = "$data_path/exiv2-bug836.eps"
 
     commands = [

@@ -3,6 +3,7 @@
 import system_tests
 
 
+@system_tests.requires("iconv")
 class EncodingTest(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/460"

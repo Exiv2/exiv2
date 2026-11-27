@@ -308,6 +308,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
   int have_unistd = 0;
 
   int enable_bmff = 0;
+  int enable_inih = 0;
   int enable_webready = 0;
   int enable_nls = 0;
   int enable_video = 0;
@@ -397,6 +398,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
   enable_bmff = 1;
 #endif
 
+#ifdef EXV_ENABLE_INIH
+  enable_inih = 1;
+#endif
+
 #ifdef EXV_ENABLE_WEBREADY
   enable_webready = 1;
 #endif
@@ -473,6 +478,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
   output(os, keys, "have_sys_types", have_sys_types);
   output(os, keys, "have_unistd", have_unistd);
   output(os, keys, "enable_bmff", enable_bmff);
+  output(os, keys, "enable_inih", enable_inih);
   output(os, keys, "enable_webready", enable_webready);
   output(os, keys, "enable_nls", enable_nls);
   output(os, keys, "enable_video", enable_video);

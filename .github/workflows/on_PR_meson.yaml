@@ -25,7 +25,7 @@ jobs:
         with:
           version: ${{matrix.cxx}}
       - name: Install meson
-        run: python3 -m pip install lxml meson ninja
+        run: python3 -m pip install lxml meson ninja pytest
       - name: Install dependencies
         run: sudo apt install -y cmake libcurl4-openssl-dev libbrotli-dev libexpat-dev libfmt-dev libinih-dev libz-dev gettext
       - name: Compile and Test
@@ -49,7 +49,7 @@ jobs:
           version: ${{matrix.cxx}}
       - name: Install meson
         run: |
-          python3 -m pip install lxml meson ninja
+          python3 -m pip install lxml meson ninja pytest
       - name: Install dependencies
         run: |
           sudo apt install -y libcurl4-openssl-dev libbrotli-dev libz-dev gettext
@@ -82,7 +82,7 @@ jobs:
 
       - name: Install packages
         run: |
-          python -m pip install lxml meson ninja
+          python -m pip install lxml meson ninja pytest
 
       - uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -112,7 +112,7 @@ jobs:
 
       - name: Install packages
         run: |
-          python -m pip install lxml meson ninja
+          python -m pip install lxml meson ninja pytest
 
       - uses: ilammy/msvc-dev-cmd@v1
         with:
@@ -160,6 +160,7 @@ jobs:
             ninja:p
             pkgconf:p
             python-lxml:p
+            python-pytest:p
 
       - name: Compile and Test
         run: |
@@ -203,7 +204,7 @@ jobs:
 
       - name: Install packages
         run: |
-          brew install inih meson
+          brew install inih meson pytest
           python -m pip install lxml
 
       - name: Compile and Test
@@ -220,7 +221,7 @@ jobs:
       - uses: vmactions/freebsd-vm@v1
         with:
           prepare: |
-            pkg install -y cmake curl ninja meson gettext python pkgconf googletest expat inih brotli
+            pkg install -y cmake curl ninja meson gettext python pkgconf googletest expat inih brotli devel/py-pytest
           run: |
             meson setup "${{github.workspace}}/build" -Dwarning_level=3
             meson compile -C "${{github.workspace}}/build" --verbose
@@ -235,6 +236,7 @@ jobs:
         with:
           prepare: |
             pkg install brotli cmake curl expat gcc14 meson-313 ninja pkg-config python-313
+            python3 -m pip install pytest
           run: |
             /usr/lib/python3.13/bin/meson setup "${{github.workspace}}/build" -Dwarning_level=3 -DunitTests=enabled -Dinih=enabled
             /usr/lib/python3.13/bin/meson compile -C "${{github.workspace}}/build" --verbose

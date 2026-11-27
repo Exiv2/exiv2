@@ -9,8 +9,8 @@ class SetCommentOnImageWithEmptyComment(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/445"
 
-    bug_repr = "$data_path/exiv2-bug445_copy.jpg"
-    empty_jpg = "$data_path/exiv2-empty_copy.jpg"
+    bug_repr = "$tmp_path/exiv2-bug445_copy.jpg"
+    empty_jpg = "$tmp_path/exiv2-empty_copy.jpg"
 
     commands = [
         """$exiv2 -u -v -M"set Exif.Photo.UserComment A comment" $bug_repr""",

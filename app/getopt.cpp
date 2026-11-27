@@ -32,6 +32,10 @@ int getopt(int argc, char* const argv[], const char* optstring) {
   const char* arg;
   (void)argc;
 
+  // Don't leave a pointer into a previous (possibly freed) argv behind for
+  // options without an argument
+  optarg = nullptr;
+
   /* Reset? */
   if (optind == 0) {
     optind = 1;

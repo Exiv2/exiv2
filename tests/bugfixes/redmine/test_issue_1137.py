@@ -8,7 +8,7 @@ class MetadataPiping(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1137"
 
-    filename = system_tests.path("$data_path/exiv2-empty_copy.jpg")
+    filename = system_tests.path("$tmp_path/exiv2-empty_copy.jpg")
     Stonehenge = system_tests.path("$data_path/Stonehenge.exv")
 
     commands = [

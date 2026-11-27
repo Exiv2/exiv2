@@ -11,8 +11,8 @@ class PercentABrokenInRename(metaclass=system_tests.CaseMeta):
     url = "http://dev.exiv2.org/issues/683"
 
     original_file = "$data_path/exiv2-nikon-d70.jpg"
-    filename = "$data_path/exiv2-nikon-d70_copy.jpg"
-    new_file = "$data_path/2004-03-30-Tue-090.jpg"
+    filename = "$tmp_path/exiv2-nikon-d70_copy.jpg"
+    new_file = "$tmp_path/2004-03-30-Tue-090.jpg"
 
     commands = ["$exiv2 -u -f -r %Y-%m-%d-%a-%j $filename"]
     stdout = [""]
