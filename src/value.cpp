@@ -13,6 +13,66 @@
 #include <ctime>
 #include <iterator>
 #include <sstream>
+#include <string_view>
+
+namespace {
+//! Return true if \em s is well-formed UTF-8 (RFC 3629: no overlongs, surrogates or code points above U+10FFFF)
+bool isUtf8(std::string_view s) {
+  size_t i = 0;
+  while (i < s.size()) {
+    const auto c = static_cast<unsigned char>(s[i]);
+    size_t n = 0;  // number of continuation bytes
+    unsigned char lo = 0x80;
+    unsigned char hi = 0xbf;
+    if (c < 0x80) {
+      ++i;
+      continue;
+    }
+    if (c >= 0xc2 && c <= 0xdf) {
+      n = 1;
+    } else if (c == 0xe0) {
+      n = 2;
+      lo = 0xa0;
+    } else if (c == 0xed) {
+      n = 2;
+      hi = 0x9f;
+    } else if (c >= 0xe1 && c <= 0xef) {
+      n = 2;
+    } else if (c == 0xf0) {
+      n = 3;
+      lo = 0x90;
+    } else if (c >= 0xf1 && c <= 0xf3) {
+      n = 3;
+    } else if (c == 0xf4) {
+      n = 3;
+      hi = 0x8f;
+    } else {
+      return false;
+    }
+    if (s.size() - i <= n)
+      return false;
+    for (size_t k = 1; k <= n; ++k) {
+      const auto b = static_cast<unsigned char>(s[i + k]);
+      if (b < lo || b > hi)
+        return false;
+      lo = 0x80;
+      hi = 0xbf;
+    }
+    i += n + 1;
+  }
+  return true;
+}
+
+//! Return true if \em s contains C0 control characters other than tab, line feed and carriage return
+bool hasControlChars(std::string_view s) {
+  for (const char ch : s) {
+    const auto c = static_cast<unsigned char>(ch);
+    if ((c < 0x20 && c != '\t' && c != '\n' && c != '\r') || c == 0x7f)
+      return true;
+  }
+  return false;
+}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -403,7 +463,12 @@ const char* CommentValue::detectCharset(std::string& c) const {
     return "UCS-2BE";
   }
 
-  // Todo: Add logic to guess if the comment is encoded in UTF-8
+  // Exif 3.0 specifies UTF-8 for "UNICODE", older writers use UCS-2 (#3414). UCS-2 text contains
+  // a NUL byte for every character in U+0000-U+00FF, so NUL-free, valid UTF-8 is taken as UTF-8.
+  // Reject C0 control characters: UCS-2 text in U+0100-U+1FFF (e.g. Cyrillic or Arabic) has a high
+  // byte of 0x01-0x1f, which is otherwise a valid single-byte UTF-8 sequence.
+  if (c.find('\0') == std::string::npos && !hasControlChars(c) && isUtf8(c))
+    return "UTF-8";
 
   return byteOrder_ == littleEndian ? "UCS-2LE" : "UCS-2BE";
 }
