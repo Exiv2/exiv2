@@ -737,23 +737,33 @@ size_t MemIo::write(const byte* data, size_t wcount) {
 void MemIo::transfer(BasicIo& src) {
   if (auto memIo = dynamic_cast<MemIo*>(&src)) {
     // Optimization if src is another instance of MemIo
+    if (memIo == this) {
+      p_->idx_ = 0;
+      p_->eof_ = false;
+      return;
+    }
     if (p_->isMalloced_) {
       std::free(p_->data_);
     }
     p_->idx_ = 0;
     p_->data_ = memIo->p_->data_;
     p_->size_ = memIo->p_->size_;
+    p_->sizeAlloced_ = memIo->p_->sizeAlloced_;
     p_->isMalloced_ = memIo->p_->isMalloced_;
+    p_->eof_ = false;
     memIo->p_->idx_ = 0;
     memIo->p_->data_ = nullptr;
     memIo->p_->size_ = 0;
+    memIo->p_->sizeAlloced_ = 0;
     memIo->p_->isMalloced_ = false;
+    memIo->p_->eof_ = false;
   } else {
     // Generic reopen to reset position to start
     if (src.open() != 0) {
       throw Error(ErrorCode::kerDataSourceOpenFailed, src.path(), strError());
     }
     p_->idx_ = 0;
+    p_->eof_ = false;
     write(src);
     src.close();
   }
