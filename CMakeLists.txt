@@ -67,6 +67,7 @@ option(EXIV2_TEAM_OSS_FUZZ "Build config for OSS-Fuzz" OFF)
 
 option(EXIV2_TEAM_PACKAGING "Additional stuff for generating packages" OFF)
 set(EXTRA_COMPILE_FLAGS " ")
+add_compile_options( "-fPIC" )
 
 mark_as_advanced(EXIV2_TEAM_EXTRA_WARNINGS EXIV2_TEAM_WARNINGS_AS_ERRORS EXIV2_ENABLE_EXTERNAL_XMP EXTRA_COMPILE_FLAGS EXIV2_TEAM_USE_SANITIZERS)
 
